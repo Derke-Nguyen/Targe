@@ -19,31 +19,52 @@ public class ThirdPersonCamera : MonoBehaviour
     private const float PITCH_MAX = 45;
     private const float PITCH_MIN = -25;
 
-    public float sensitivity = 0.8f;
+    public float sensitivity = 1.5f;
 
-    private Transform target;
+    private Transform m_Target;
+    private Transform m_PlayerPosition;
+    private Transform m_Combat;
     private float m_DistanceFromTarget = 2;
+
+    private bool m_LockOn = false;
 
     private void Start()
     {
         input = GameObject.Find("InputController").GetComponent<InputController>();
-        target = GameObject.Find("CameraTarget").GetComponent<Transform>();
+        m_Target = GameObject.Find("player").GetComponent<Transform>();
+        m_Combat = GameObject.Find("CameraTarget").GetComponent<Transform>();
+        m_PlayerPosition = GameObject.Find("player").GetComponent<Transform>();
     }
 
     private void LateUpdate()
     {
-        if (target == null)
+        if (m_Target == null)
             return;
 
-        m_Yaw += input.CamVert() * sensitivity;
-        m_Yaw = Mathf.Clamp(m_Yaw, YAW_MIN, YAW_MAX);
-        m_Pitch += input.CamHori() * sensitivity;
+        m_Yaw += input.CamHori() * sensitivity;
+        if (m_LockOn)
+        {
+            m_Yaw = Mathf.Clamp(m_Yaw, YAW_MIN, YAW_MAX);
+        }
+        m_Pitch += input.CamVert() * sensitivity;
         m_Pitch = Mathf.Clamp(m_Pitch, PITCH_MIN, PITCH_MAX);
 
-        Vector3 targetRotation = new Vector3(m_Yaw, m_Pitch);
+        Vector3 targetRotation = new Vector3(m_Pitch, m_Yaw);
         transform.eulerAngles = targetRotation;
 
-        transform.position = target.position - transform.forward * m_DistanceFromTarget;
+        transform.position = m_Target.position - transform.forward * m_DistanceFromTarget;
 
+    }
+
+    public void LockOn()
+    {
+        m_LockOn = true;
+        m_Target = m_Combat;
+    }
+
+    public void LockOff()
+    {
+        m_LockOn = false;
+        m_Target = m_PlayerPosition;
     }
 }

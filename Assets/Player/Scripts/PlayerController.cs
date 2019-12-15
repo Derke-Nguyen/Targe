@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Possible States the player can be in
-    public enum State { idle, walking, running };
+    public enum State { idle, walking };
 
     // Player's current state
     [SerializeField]
@@ -17,8 +17,15 @@ public class PlayerController : MonoBehaviour
     // Input Controller
     private InputController input;
 
-    // Camera's position
-    private Transform CameraT;
+    // Camera
+    private Camera m_Camera;
+
+    // Movement
+    private float WALK_SPEED = 2;
+    private float RUN_SPEED = 6;
+    private bool m_Run = false;
+    private const float TURN_TIME = 0.2f;
+    private float m_TurnVel;
 
     /*
      * What happens on start frame
@@ -27,7 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         anim = this.GetComponentInChildren<Animator>();
         input = GameObject.Find("InputController").GetComponent<InputController>();
-        CameraT = Camera.main.transform;
+        m_Camera = Camera.main;
     }
 
     /*
@@ -46,22 +53,28 @@ public class PlayerController : MonoBehaviour
         ExecuteState();
     }
 
+    /*
+     * Sets the player's state
+     * t_state : the state that they player will be set as
+     */
     private void SetState(State t_state)
     {
         m_State = t_state;
+        m_Run = false;
     }
 
+    /*
+     * Executes player instructions based on what state the player is in
+     */
     private void ExecuteState()
     {
         switch(m_State)
         {
             case State.idle:
-                anim.SetBool("IsWalking", false);
                 Idle();
                 break;
 
             case State.walking:
-                anim.SetBool("IsWalking", true);
                 Walking();
                 break;
 
@@ -70,6 +83,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
+     * Player actions for when they are idle
+     */ 
     private void Idle()
     {
         if (input.Vert() != 0 || input.Hori() != 0)
@@ -78,9 +94,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
+     * Player actions for when they are walking/idle
+     */
     private void Walking()
     {
-        if(input.Vert() == 0 && input.Hori() == 0)
+        Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
+
+        if( inputDir != Vector2.zero)
+        {
+            float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
+            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
+
+        }
+
+        if (input.Run())
+        {
+            m_Run = true;
+        }
+
+
+        float speed = (m_Run ? RUN_SPEED : WALK_SPEED) * inputDir.magnitude;
+        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        anim.SetFloat("MovementSpeed", speed / 6);
+
+        if (input.Vert() == 0 && input.Hori() == 0)
         {
             SetState(State.idle);
         }
