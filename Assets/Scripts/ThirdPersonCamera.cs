@@ -12,8 +12,8 @@ public class ThirdPersonCamera : MonoBehaviour
     private float m_Pitch;
 
     // max and min that the yaw can be
-    private const float YAW_MAX = 30;
-    private const float YAW_MIN = -30;
+    private const float YAW_MAX = 20;
+    private const float YAW_MIN = -20;
 
     // max and min that the pitch can be
     private const float PITCH_MAX = 45;
@@ -21,11 +21,19 @@ public class ThirdPersonCamera : MonoBehaviour
 
     public float sensitivity = 1.5f;
 
+    [SerializeField]
+    // Location of the Camera
     private Transform m_Target;
+    // The center of the player
     private Transform m_PlayerPosition;
+    // Over the shoulder camera position
     private Transform m_Combat;
+    // Enemy target locked on to
+    [SerializeField]
+    private Transform m_Focus;
     private float m_DistanceFromTarget = 2;
 
+    [SerializeField]
     private bool m_LockOn = false;
 
     private void Start()
@@ -41,30 +49,58 @@ public class ThirdPersonCamera : MonoBehaviour
         if (m_Target == null)
             return;
 
-        m_Yaw += input.CamHori() * sensitivity;
+        if(m_Focus == null && m_LockOn)
+        {
+            m_LockOn = false;
+            m_Target = m_PlayerPosition;
+        }
+
+        // If camera is locked on
         if (m_LockOn)
         {
-            m_Yaw = Mathf.Clamp(m_Yaw, YAW_MIN, YAW_MAX);
+            transform.LookAt(m_Focus);
+            transform.position = m_Target.position;
         }
-        m_Pitch += input.CamVert() * sensitivity;
-        m_Pitch = Mathf.Clamp(m_Pitch, PITCH_MIN, PITCH_MAX);
+        else
+        {
+            m_Yaw += input.CamHori() * sensitivity;
+            m_Pitch += input.CamVert() * sensitivity;
+            m_Pitch = Mathf.Clamp(m_Pitch, PITCH_MIN, PITCH_MAX);
+            Vector3 targetRotation = new Vector3(m_Pitch, m_Yaw);
 
-        Vector3 targetRotation = new Vector3(m_Pitch, m_Yaw);
-        transform.eulerAngles = targetRotation;
+            transform.eulerAngles = targetRotation;
 
-        transform.position = m_Target.position - transform.forward * m_DistanceFromTarget;
-
+            transform.position = m_Target.position - transform.forward * m_DistanceFromTarget;
+        }
     }
 
-    public void LockOn()
+    public bool LockOn()
     {
+        if(m_Focus == null)
+        {
+            return false;
+        }
         m_LockOn = true;
         m_Target = m_Combat;
+        return true;
+    }
+
+    public Transform GetLockedOnTarget()
+    {
+        return m_Focus;
     }
 
     public void LockOff()
     {
         m_LockOn = false;
         m_Target = m_PlayerPosition;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Enemy")
+        {
+            m_Focus = other.gameObject.transform;
+        }
     }
 }

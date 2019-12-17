@@ -26,7 +26,8 @@ public class PlayerController : MonoBehaviour
     private bool m_Run = false;
     private const float TURN_TIME = 0.2f;
     private float m_TurnVel;
-
+    [SerializeField]
+    private bool m_LockedOn;
     /*
      * What happens on start frame
      */
@@ -42,7 +43,11 @@ public class PlayerController : MonoBehaviour
      */
     private void Update()
     {
-
+        if(input.LockOn() && m_Camera.GetComponent<ThirdPersonCamera>().LockOn())
+        {
+            m_LockedOn = true;
+            anim.SetBool("LockedOn", m_LockedOn);
+        }
     }
 
     /*
@@ -88,6 +93,10 @@ public class PlayerController : MonoBehaviour
      */ 
     private void Idle()
     {
+        if (m_LockedOn)
+        {
+            LockedOn();
+        }
         if (input.Vert() != 0 || input.Hori() != 0)
         {
             SetState(State.walking);
@@ -99,24 +108,44 @@ public class PlayerController : MonoBehaviour
      */
     private void Walking()
     {
-        Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
-
-        if( inputDir != Vector2.zero)
+        if(m_LockedOn)
         {
-            float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
-            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
+            LockedOn();
 
+            Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
+
+            if (inputDir != Vector2.zero)
+            {
+                float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
+                //transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
+            }
+
+            float speed = WALK_SPEED * inputDir.magnitude;
+            //transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+            anim.SetFloat("MovementSpeed", speed / 6);
+            anim.SetFloat("LockedOnHori", input.Hori());
+            anim.SetFloat("LockedOnVert", input.Vert());
         }
 
-        if (input.Run())
+        else
         {
-            m_Run = true;
+            Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
+
+            if (inputDir != Vector2.zero)
+            {
+                float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
+                transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
+
+            }
+
+            if (input.Run())
+            {
+                m_Run = true;
+            }
+            float speed = (m_Run ? RUN_SPEED : WALK_SPEED) * inputDir.magnitude;
+            transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+            anim.SetFloat("MovementSpeed", speed / 6);
         }
-
-
-        float speed = (m_Run ? RUN_SPEED : WALK_SPEED) * inputDir.magnitude;
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
-        anim.SetFloat("MovementSpeed", speed / 6);
 
         if (input.Vert() == 0 && input.Hori() == 0)
         {
@@ -124,4 +153,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void LockedOn()
+    {
+        Transform thing = m_Camera.GetComponent<ThirdPersonCamera>().GetLockedOnTarget();
+        Vector3 thingDir = new Vector3(thing.position.x, transform.position.y, thing.position.z);
+        transform.LookAt(thingDir);
+        anim.SetBool("LockedOn", m_LockedOn);
+    }
 }

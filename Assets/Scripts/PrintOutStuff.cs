@@ -34,6 +34,9 @@ public class PrintOutStuff : MonoBehaviour
     [SerializeField]
     bool recall;
 
+    [SerializeField]
+    bool lockon;
+
     // Update is called once per frame
     void Update()
     {
@@ -50,5 +53,6 @@ public class PrintOutStuff : MonoBehaviour
         dodge = Input.GetButton("Dodge");
         block = Input.GetButton("Block");
         recall = Input.GetButton("Recall");
+        lockon = Input.GetButton("LockOn");
     }
 }
