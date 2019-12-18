@@ -60,13 +60,13 @@ public class InputController : MonoBehaviour
 
         m_Aim = Input.GetAxis("Aim") == 0 ? false : true;
 
-        m_Melee = Input.GetButton("Melee");
-        m_Dodge = Input.GetButton("Dodge");
-        m_Block = Input.GetButton("Block");
-        m_Recall = Input.GetButton("Recall");
-        m_LockOn = Input.GetButton("LockOn");
-        m_Run = Input.GetButton("Run");
-        m_Menu = Input.GetButton("Menu");
+        m_Melee = Input.GetButtonDown("Melee");
+        m_Dodge = Input.GetButtonDown("Dodge");
+        m_Block = Input.GetButtonDown("Block");
+        m_Recall = Input.GetButtonDown("Recall");
+        m_LockOn = Input.GetButtonDown("LockOn");
+        m_Run = Input.GetButtonDown("Run");
+        m_Menu = Input.GetButtonDown("Menu");
     }
 
     /*

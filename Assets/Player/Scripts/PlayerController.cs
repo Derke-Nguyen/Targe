@@ -44,10 +44,16 @@ public class PlayerController : MonoBehaviour
      */
     private void Update()
     {
-        if(input.LockOn() && m_Camera.GetComponent<ThirdPersonCamera>().LockOn())
+        if(input.LockOn() && m_Camera.GetComponent<ThirdPersonCamera>().LockOn() && !m_LockedOn)
         {
             m_LockedOn = true;
             anim.SetBool("LockedOn", m_LockedOn);
+        }
+        else if(input.LockOn() && m_LockedOn)
+        {
+            m_LockedOn = false;
+            anim.SetBool("LockedOn", m_LockedOn);
+            m_Camera.GetComponent<ThirdPersonCamera>().LockOff();
         }
     }
 
@@ -158,6 +164,12 @@ public class PlayerController : MonoBehaviour
     private void LockedOn()
     {
         Transform thing = m_Camera.GetComponent<ThirdPersonCamera>().GetLockedOnTarget();
+        if(thing == null)
+        {
+            m_LockedOn = false;
+            anim.SetBool("LockedOn", m_LockedOn);
+            m_Camera.GetComponent<ThirdPersonCamera>().LockOff();
+        }
         Vector3 thingDir = new Vector3(thing.position.x, transform.position.y, thing.position.z);
         transform.LookAt(thingDir);
         anim.SetBool("LockedOn", m_LockedOn);
