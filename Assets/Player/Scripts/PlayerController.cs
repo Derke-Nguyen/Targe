@@ -113,17 +113,18 @@ public class PlayerController : MonoBehaviour
         {
             LockedOn();
 
-            Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
+            //Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
 
-            if (inputDir != Vector2.zero)
-            {
-                float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
-                //transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
-            }
+            //Forward and backward movement
+            float fbspeed = LOCK_SPEED * input.Vert();
+            transform.Translate(transform.forward * fbspeed * Time.deltaTime, Space.World);
 
-            float speed = LOCK_SPEED * input.Vert();
-            transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
-            anim.SetFloat("MovementSpeed", speed / 6);
+            //Left and right movement
+            float lrspeed = LOCK_SPEED * input.Hori();
+            transform.Translate(transform.right * lrspeed * Time.deltaTime, Space.World);
+
+
+
             anim.SetFloat("LockedOnHori", input.Hori());
             anim.SetFloat("LockedOnVert", input.Vert());
         }
