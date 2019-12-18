@@ -21,8 +21,9 @@ public class PlayerController : MonoBehaviour
     private Camera m_Camera;
 
     // Movement
-    private float WALK_SPEED = 2;
-    private float RUN_SPEED = 6;
+    private const float WALK_SPEED = 2;
+    private const float RUN_SPEED = 6;
+    private const float LOCK_SPEED = 1f;
     private bool m_Run = false;
     private const float TURN_TIME = 0.2f;
     private float m_TurnVel;
@@ -120,8 +121,8 @@ public class PlayerController : MonoBehaviour
                 //transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
             }
 
-            float speed = WALK_SPEED * inputDir.magnitude;
-            //transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+            float speed = LOCK_SPEED * input.Vert();
+            transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
             anim.SetFloat("MovementSpeed", speed / 6);
             anim.SetFloat("LockedOnHori", input.Hori());
             anim.SetFloat("LockedOnVert", input.Vert());
