@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Possible States the player can be in
-    public enum State { idle, walking };
+    public enum State { idle, walking, dash };
 
     // Player's current state
     [SerializeField]
@@ -73,6 +73,21 @@ public class PlayerController : MonoBehaviour
     {
         m_State = t_state;
         m_Run = false;
+
+        switch (m_State)
+        {
+            case State.idle:
+                break;
+
+            case State.walking:
+                break;
+
+            case State.dash:
+                break;
+
+            default:
+                break;
+        }
     }
 
     /*
@@ -89,7 +104,9 @@ public class PlayerController : MonoBehaviour
             case State.walking:
                 Walking();
                 break;
-
+            case State.dash:
+                Dash();
+                break;
             default:
                 break;
         }
@@ -161,6 +178,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /* What the player does when the player is in the dash state
+     */ 
+    private void Dash()
+    {
+
+    }
+
+    /* When the lockon button is pressed, how it affects the player
+     */ 
     private void LockedOn()
     {
         Transform thing = m_Camera.GetComponent<ThirdPersonCamera>().GetLockedOnTarget();

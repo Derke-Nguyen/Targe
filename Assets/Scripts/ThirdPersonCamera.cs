@@ -98,9 +98,23 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Enemy")
+        if(other.gameObject.tag == "Enemy" && !m_LockOn)
         {
-            m_Focus = other.gameObject.transform;
+            if(m_Focus == null)
+            {
+                m_Focus = other.gameObject.transform;
+                return;
+            }
+            if (other.gameObject.transform == m_Focus)
+                return;
+
+            float DtoOg = Vector3.Distance(gameObject.transform.position, m_Focus.position);
+            float DtoNew = Vector3.Distance(gameObject.transform.position, other.gameObject.transform.position);
+
+            if(DtoOg > DtoNew)
+            {
+                m_Focus = other.gameObject.transform;
+            }
         }
     }
 }

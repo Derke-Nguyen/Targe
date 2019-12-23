@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Input Controller
+ * Takes in Input and sets variables to their current active or inactive states
+ * Every Scene Should have this */
 public class InputController : MonoBehaviour
 {
     [SerializeField]
