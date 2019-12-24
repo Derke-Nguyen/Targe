@@ -7,47 +7,35 @@ using UnityEngine;
  * Every Scene Should have this */
 public class InputController : MonoBehaviour
 {
-    [SerializeField]
     // Direction left joystick tilted horizontally
     private float m_Horizontal = 0f;
-    [SerializeField]
     // Direction Left Joystick tilted vertically 
     private float m_Vertical = 0f;
 
-    [SerializeField]
     // Direction right joystick tilted horizontal
     private float m_CameraHorizontal = 0f;
-    [SerializeField]
     // Direction right joystick tilted vertically
     private float m_CameraVertical = 0f;
 
-    [SerializeField]
     // Melee button is pressed
     private bool m_Melee = false;
 
-    [SerializeField]
     // Block button is pressed
     private bool m_Block = false;
 
-    [SerializeField]
     // Dodge button is pressed
     private bool m_Dodge = false;
 
-    [SerializeField]
     // Aim button is pressed
     private bool m_Aim = false;
 
-    [SerializeField]
     // Recall button is pressed
     private bool m_Recall = false;
 
-    [SerializeField]
     private bool m_LockOn = false;
 
-    [SerializeField]
     private bool m_Run = false;
 
-    [SerializeField]
     private bool m_Menu = false;
 
     /*

@@ -21,7 +21,6 @@ public class ThirdPersonCamera : MonoBehaviour
 
     public float sensitivity = 1.5f;
 
-    [SerializeField]
     // Location of the Camera
     private Transform m_Target;
     // The center of the player
@@ -29,11 +28,9 @@ public class ThirdPersonCamera : MonoBehaviour
     // Over the shoulder camera position
     private Transform m_Combat;
     // Enemy target locked on to
-    [SerializeField]
     private Transform m_Focus;
     private float m_DistanceFromTarget = 2;
 
-    [SerializeField]
     private bool m_LockOn = false;
 
     private void Start()

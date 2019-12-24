@@ -5,14 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Possible States the player can be in
-    public enum State { idle, walking, dash };
+    public enum State { idle, walking, dash, hit };
 
     // Player's current state
-    [SerializeField]
     private State m_State = State.idle;
 
     // Player's animator
-    private Animator anim;
+    private Animator m_anim;
 
     // Input Controller
     private InputController input;
@@ -20,23 +19,27 @@ public class PlayerController : MonoBehaviour
     // Camera
     private Camera m_Camera;
 
+    // Stats
+    private Stats m_stats;
+
     // Movement
     private const float WALK_SPEED = 2;
     private const float RUN_SPEED = 6;
     private const float LOCK_SPEED = 1f;
-    private bool m_Run = false;
     private const float TURN_TIME = 0.2f;
+    private bool m_Run = false;
     private float m_TurnVel;
-    [SerializeField]
     private bool m_LockedOn;
     /*
      * What happens on start frame
      */
     private void Start()
     {
-        anim = this.GetComponentInChildren<Animator>();
         input = GameObject.Find("InputController").GetComponent<InputController>();
+
+        m_anim = gameObject.GetComponentInChildren<Animator>();
         m_Camera = Camera.main;
+        m_stats = GetComponent<Stats>();
     }
 
     /*
@@ -47,12 +50,12 @@ public class PlayerController : MonoBehaviour
         if(input.LockOn() && m_Camera.GetComponent<ThirdPersonCamera>().LockOn() && !m_LockedOn)
         {
             m_LockedOn = true;
-            anim.SetBool("LockedOn", m_LockedOn);
+            m_anim.SetBool("LockedOn", m_LockedOn);
         }
         else if(input.LockOn() && m_LockedOn)
         {
             m_LockedOn = false;
-            anim.SetBool("LockedOn", m_LockedOn);
+            m_anim.SetBool("LockedOn", m_LockedOn);
             m_Camera.GetComponent<ThirdPersonCamera>().LockOff();
         }
     }
@@ -148,8 +151,8 @@ public class PlayerController : MonoBehaviour
 
 
 
-            anim.SetFloat("LockedOnHori", input.Hori());
-            anim.SetFloat("LockedOnVert", input.Vert());
+            m_anim.SetFloat("LockedOnHori", input.Hori());
+            m_anim.SetFloat("LockedOnVert", input.Vert());
         }
 
         else
@@ -169,7 +172,7 @@ public class PlayerController : MonoBehaviour
             }
             float speed = (m_Run ? RUN_SPEED : WALK_SPEED) * inputDir.magnitude;
             transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
-            anim.SetFloat("MovementSpeed", speed / 6);
+            m_anim.SetFloat("MovementSpeed", speed / 6);
         }
 
         if (input.Vert() == 0 && input.Hori() == 0)
@@ -193,11 +196,11 @@ public class PlayerController : MonoBehaviour
         if(thing == null)
         {
             m_LockedOn = false;
-            anim.SetBool("LockedOn", m_LockedOn);
+            m_anim.SetBool("LockedOn", m_LockedOn);
             m_Camera.GetComponent<ThirdPersonCamera>().LockOff();
         }
         Vector3 thingDir = new Vector3(thing.position.x, transform.position.y, thing.position.z);
         transform.LookAt(thingDir);
-        anim.SetBool("LockedOn", m_LockedOn);
+        m_anim.SetBool("LockedOn", m_LockedOn);
     }
 }
