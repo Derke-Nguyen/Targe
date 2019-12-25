@@ -1029,6 +1029,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: DirectionalLight
       objectReference: {fileID: 0}
+    - target: {fileID: 886629625415478263, guid: faca8a8f738148f4b9dbffeb0915666c,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 886629625415478263, guid: faca8a8f738148f4b9dbffeb0915666c,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: 9.404242e-38
+      objectReference: {fileID: 0}
+    - target: {fileID: 886629625415478263, guid: faca8a8f738148f4b9dbffeb0915666c,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 2.92008e-40
+      objectReference: {fileID: 0}
+    - target: {fileID: 886629625415478263, guid: faca8a8f738148f4b9dbffeb0915666c,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 1.704e-41
+      objectReference: {fileID: 0}
+    - target: {fileID: 886629625415478263, guid: faca8a8f738148f4b9dbffeb0915666c,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 886629625415478263, guid: faca8a8f738148f4b9dbffeb0915666c,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 886629625415478263, guid: faca8a8f738148f4b9dbffeb0915666c,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 886629625415478262, guid: faca8a8f738148f4b9dbffeb0915666c,
         type: 3}
       propertyPath: m_LocalPosition.x
