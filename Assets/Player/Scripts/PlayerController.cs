@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Possible States the player can be in
-    public enum State { idle, walking, dash, hit };
+    public enum State { idle, walking, dodge, hit };
 
     // Player's current state
     private State m_State = State.idle;
@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
     // Stats
     private Stats m_stats;
 
+    // Animation FLags
+    [SerializeField]
+    private PlayerAnimationFlags animflags;
+
     // Movement
     private const float WALK_SPEED = 2;
     private const float RUN_SPEED = 6;
@@ -30,12 +34,18 @@ public class PlayerController : MonoBehaviour
     private bool m_Run = false;
     private float m_TurnVel;
     private bool m_LockedOn;
+
+    // Dodge
+    private Vector3 m_DodgeDirection = Vector3.zero;
+    private const float ROLL_SPEED = 4;
+
     /*
      * What happens on start frame
      */
     private void Start()
     {
         input = GameObject.Find("InputController").GetComponent<InputController>();
+        animflags = gameObject.GetComponentInChildren<PlayerAnimationFlags>();
 
         m_anim = gameObject.GetComponentInChildren<Animator>();
         m_Camera = Camera.main;
@@ -85,7 +95,14 @@ public class PlayerController : MonoBehaviour
             case State.walking:
                 break;
 
-            case State.dash:
+            case State.dodge:
+                Vector3 direction = new Vector3(input.Hori(), 0, input.Vert());
+                if(direction == Vector3.zero)
+                {
+                    direction = Vector3.forward;
+                }
+                m_DodgeDirection = direction;
+                animflags.RollStart();
                 break;
 
             default:
@@ -103,13 +120,15 @@ public class PlayerController : MonoBehaviour
             case State.idle:
                 Idle();
                 break;
-
+          
             case State.walking:
                 Walking();
                 break;
-            case State.dash:
-                Dash();
+
+            case State.dodge:
+                Dodge();
                 break;
+
             default:
                 break;
         }
@@ -128,6 +147,10 @@ public class PlayerController : MonoBehaviour
         {
             SetState(State.walking);
         }
+        if (input.Dodge())
+        {
+            SetState(State.dodge);
+        }
     }
 
     /*
@@ -135,11 +158,18 @@ public class PlayerController : MonoBehaviour
      */
     private void Walking()
     {
-        if(m_LockedOn)
+        if (input.Vert() == 0 && input.Hori() == 0)
+        {
+            SetState(State.idle);
+        }
+        if (input.Dodge())
+        {
+            SetState(State.dodge);
+        }
+
+        if (m_LockedOn)
         {
             LockedOn();
-
-            //Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
 
             //Forward and backward movement
             float fbspeed = LOCK_SPEED * input.Vert();
@@ -149,8 +179,6 @@ public class PlayerController : MonoBehaviour
             float lrspeed = LOCK_SPEED * input.Hori();
             transform.Translate(transform.right * lrspeed * Time.deltaTime, Space.World);
 
-
-
             m_anim.SetFloat("LockedOnHori", input.Hori());
             m_anim.SetFloat("LockedOnVert", input.Vert());
         }
@@ -159,33 +187,43 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
 
-            if (inputDir != Vector2.zero)
-            {
-                float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
-                transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
-
-            }
+            float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
+            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
 
             if (input.Run())
             {
-                m_Run = true;
+                m_Run = !m_Run;
             }
             float speed = (m_Run ? RUN_SPEED : WALK_SPEED) * inputDir.magnitude;
             transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
             m_anim.SetFloat("MovementSpeed", speed / 6);
         }
 
-        if (input.Vert() == 0 && input.Hori() == 0)
-        {
-            SetState(State.idle);
-        }
+
     }
 
     /* What the player does when the player is in the dash state
      */ 
-    private void Dash()
+    private void Dodge()
     {
+        if(m_LockedOn)
+        {
 
+        }
+        else
+        {
+            float targetRot = Mathf.Atan2(m_DodgeDirection.x, m_DodgeDirection.z) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
+            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
+            float speed = ROLL_SPEED * m_DodgeDirection.magnitude;
+            transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+            m_anim.SetBool("Dodge", true);
+        }
+
+        if(animflags.RollStatus())
+        {
+            m_anim.SetBool("Dodge", false);
+            SetState(State.idle);
+        }
     }
 
     /* When the lockon button is pressed, how it affects the player
