@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     // Player's current state
     private State m_State = State.idle;
+    private State m_PrevState = State.idle;
 
     // Player's animator
     private Animator m_anim;
@@ -23,7 +24,6 @@ public class PlayerController : MonoBehaviour
     private Stats m_stats;
 
     // Animation FLags
-    [SerializeField]
     private PlayerAnimationFlags animflags;
 
     // Movement
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     // Dodge
     private Vector3 m_DodgeDirection = Vector3.zero;
-    private const float ROLL_SPEED = 4;
+    private const float ROLL_SPEED = 8;
 
     /*
      * What happens on start frame
@@ -84,12 +84,14 @@ public class PlayerController : MonoBehaviour
      */
     private void SetState(State t_state)
     {
+        m_PrevState = m_State;
         m_State = t_state;
-        m_Run = false;
-
+        
         switch (m_State)
         {
             case State.idle:
+                m_Run = false;
+                m_anim.SetFloat("MovementSpeed", 0);
                 break;
 
             case State.walking:
@@ -222,7 +224,7 @@ public class PlayerController : MonoBehaviour
         if(animflags.RollStatus())
         {
             m_anim.SetBool("Dodge", false);
-            SetState(State.idle);
+            SetState(m_PrevState);
         }
     }
 
