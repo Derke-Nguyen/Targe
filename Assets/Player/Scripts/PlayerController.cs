@@ -37,7 +37,8 @@ public class PlayerController : MonoBehaviour
 
     // Dodge
     private Vector3 m_DodgeDirection = Vector3.zero;
-    private const float ROLL_SPEED = 8;
+    private const float ROLL_SPEED = 8f;
+    private const float JUKE_SPEED = 4f;
 
     /*
      * What happens on start frame
@@ -101,7 +102,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 direction = new Vector3(input.Hori(), 0, input.Vert());
                 if(direction == Vector3.zero)
                 {
-                    direction = Vector3.forward;
+                    direction = gameObject.transform.forward;
                 }
                 m_DodgeDirection = direction;
                 animflags.RollStart();
@@ -210,7 +211,19 @@ public class PlayerController : MonoBehaviour
     {
         if(m_LockedOn)
         {
+            LockedOn();
 
+            //Left and right movement
+            float lrspeed = JUKE_SPEED * m_DodgeDirection.x;
+            transform.Translate(transform.right * lrspeed * Time.deltaTime, Space.World);
+
+            //Forward and backward movement
+            float fbspeed = JUKE_SPEED * m_DodgeDirection.z;
+            transform.Translate(transform.forward * fbspeed * Time.deltaTime, Space.World);
+
+            m_anim.SetBool("Dodge", true);
+            m_anim.SetFloat("LockedOnHori", m_DodgeDirection.x);
+            m_anim.SetFloat("LockedOnVert", m_DodgeDirection.z);
         }
         else
         {
