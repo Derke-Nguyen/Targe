@@ -6,21 +6,21 @@ public class PlayerAnimationFlags : MonoBehaviour
 {
     // Animation Flags
     [SerializeField]
-    private bool m_Rolled = false;
+    private bool m_Dodge = false;
 
-    public bool RollStatus()
+    public bool DodgeStatus()
     {
-        return m_Rolled;
+        return m_Dodge;
     }
 
-    public void RollStart()
+    public void DodgeStart()
     {
-        m_Rolled = false;
+        m_Dodge = false;
     }
 
-    public void RollEnded()
+    public void DodgeEnded()
     {
-        m_Rolled = true;
+        m_Dodge = true;
     }
     
 }

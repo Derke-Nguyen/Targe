@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
                     direction = gameObject.transform.forward;
                 }
                 m_DodgeDirection = direction;
-                animflags.RollStart();
+                animflags.DodgeStart();
                 break;
 
             default:
@@ -234,7 +234,7 @@ public class PlayerController : MonoBehaviour
             m_anim.SetBool("Dodge", true);
         }
 
-        if(animflags.RollStatus())
+        if(animflags.DodgeStatus())
         {
             m_anim.SetBool("Dodge", false);
             SetState(m_PrevState);
