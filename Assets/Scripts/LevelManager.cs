@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
         }
         if(enemies.Count == 0)
         {
+            m_Completed = true;
             m_Gate.SetActive(true);
         }
     }
