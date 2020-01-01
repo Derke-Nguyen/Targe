@@ -246,7 +246,7 @@ public class PlayerController : MonoBehaviour
     private void LockedOn()
     {
         Transform thing = m_Camera.GetComponent<ThirdPersonCamera>().GetLockedOnTarget();
-        if(thing == null)
+        if(thing == null || thing.gameObject.GetComponent<Stats>().IsDead())
         {
             m_LockedOn = false;
             m_anim.SetBool("LockedOn", m_LockedOn);

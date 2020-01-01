@@ -5,7 +5,9 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     private int m_maxhealth = 100;
+    [SerializeField, Range(0.0f, 100.0f)]
     private int m_currhealth = 100;
+    [SerializeField]
     private bool m_dead = false;
     private bool m_invincible = false;
 
