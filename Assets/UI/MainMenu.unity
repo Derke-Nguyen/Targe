@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 166199939}
   - component: {fileID: 166199941}
   - component: {fileID: 166199940}
-  - component: {fileID: 166199942}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -198,18 +197,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 166199938}
   m_CullTransparentMesh: 0
---- !u!114 &166199942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 166199938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccc8f217572939b43b5c3a8f9afd3571, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &263961357
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +209,7 @@ GameObject:
   - component: {fileID: 263961360}
   - component: {fileID: 263961359}
   m_Layer: 5
-  m_Name: Logo
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -570,7 +557,6 @@ GameObject:
   - component: {fileID: 1069323060}
   - component: {fileID: 1069323062}
   - component: {fileID: 1069323061}
-  - component: {fileID: 1069323063}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -637,18 +623,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069323059}
   m_CullTransparentMesh: 0
---- !u!114 &1069323063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069323059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a8d5835622681c46ba60a6f3bcb0733, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1283162398
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +700,6 @@ GameObject:
   - component: {fileID: 1404621785}
   - component: {fileID: 1404621787}
   - component: {fileID: 1404621786}
-  - component: {fileID: 1404621788}
   m_Layer: 5
   m_Name: Start Game
   m_TagString: Untagged
@@ -793,18 +766,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404621784}
   m_CullTransparentMesh: 0
---- !u!114 &1404621788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1404621784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0245a7850137f4d4f81751ed2024456e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2070017859
 GameObject:
   m_ObjectHideFlags: 0
