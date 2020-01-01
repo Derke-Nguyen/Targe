@@ -73,7 +73,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     public bool LockOn()
     {
-        if(m_Focus == null)
+        if(m_Focus == null || m_Focus.gameObject.GetComponent<Stats>().IsDead())
         {
             return false;
         }
@@ -97,14 +97,13 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy" && !m_LockOn)
         {
-            if(m_Focus == null)
+            if (other.gameObject.transform == m_Focus)
+                return;
+            if (m_Focus == null || m_Focus.gameObject.GetComponent<Stats>().IsDead())
             {
                 m_Focus = other.gameObject.transform;
                 return;
             }
-            if (other.gameObject.transform == m_Focus)
-                return;
-
             float DtoOg = Vector3.Distance(gameObject.transform.position, m_Focus.position);
             float DtoNew = Vector3.Distance(gameObject.transform.position, other.gameObject.transform.position);
 
