@@ -6,18 +6,13 @@ using UnityEngine.SceneManagement;
 public class LevelMover : MonoBehaviour
 {
     [SerializeField]
-    private int m_CurrentLevel;
-
-    private void Start()
-    {
-        m_CurrentLevel = SceneManager.GetActiveScene().buildIndex;
-    }
+    private int currentLevel; 
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene(m_CurrentLevel + 1);
+            SceneManager.LoadScene(currentLevel + 1);
         }
     }
 }
