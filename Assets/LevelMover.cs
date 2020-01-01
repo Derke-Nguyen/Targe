@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class LevelMover : MonoBehaviour
 {
     [SerializeField]
-    private int currentLevel; 
+    private int currentLevel;
 
     private void OnTriggerEnter(Collider other)
     {
