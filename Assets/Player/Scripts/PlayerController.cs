@@ -40,6 +40,10 @@ public class PlayerController : MonoBehaviour
     private const float ROLL_SPEED = 8f;
     private const float JUKE_SPEED = 4f;
 
+    // Shield
+    [SerializeField]
+    private bool m_Shield = false;
+
     /*
      * What happens on start frame
      */
@@ -69,6 +73,8 @@ public class PlayerController : MonoBehaviour
             m_anim.SetBool("LockedOn", m_LockedOn);
             m_Camera.GetComponent<ThirdPersonCamera>().LockOff();
         }
+
+        m_anim.SetBool("Shield", m_Shield);
     }
 
     /*
