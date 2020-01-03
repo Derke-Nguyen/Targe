@@ -19,7 +19,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private const float PITCH_MAX = 45;
     private const float PITCH_MIN = -25;
 
-    public float sensitivity = 3.0f;
+    public float sensitivity = 2.0f;
 
     // Location of the Camera
     private Transform m_Target;
