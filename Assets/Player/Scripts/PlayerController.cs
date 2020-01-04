@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Possible States the player can be in
-    public enum State { idle, walking, dodge, hit };
+    public enum State { idle, walking, dodge, hit, dead };
 
     // Player's current state
     private State m_State = State.idle;
@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private bool m_Shield = false;
 
+    private bool m_Dead = false;
+
     /*
      * What happens on start frame
      */
@@ -72,6 +74,12 @@ public class PlayerController : MonoBehaviour
             m_LockedOn = false;
             m_anim.SetBool("LockedOn", m_LockedOn);
             m_Camera.GetComponent<ThirdPersonCamera>().LockOff();
+        }
+
+        if(m_stats.IsDead() && !m_Dead)
+        {
+            SetState(State.dead);
+            m_Dead = true;
         }
 
         m_anim.SetBool("Shield", m_Shield);
@@ -114,6 +122,9 @@ public class PlayerController : MonoBehaviour
                 animflags.DodgeStart();
                 break;
 
+            case State.dead:
+                m_anim.SetTrigger("Dead");
+                break;
             default:
                 break;
         }
@@ -136,6 +147,10 @@ public class PlayerController : MonoBehaviour
 
             case State.dodge:
                 Dodge();
+                break;
+
+            case State.dead:
+                Dead();
                 break;
 
             default:
@@ -261,5 +276,10 @@ public class PlayerController : MonoBehaviour
         Vector3 thingDir = new Vector3(thing.position.x, transform.position.y, thing.position.z);
         transform.LookAt(thingDir);
         m_anim.SetBool("LockedOn", m_LockedOn);
+    }
+
+    private void Dead()
+    {
+
     }
 }
