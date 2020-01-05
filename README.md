@@ -12,8 +12,8 @@ After cloning or downloading the repository, open the root project folder in uni
 
 ## Authors
 * Lead Programmer - Derek Nguyen
- *[Portfolio](https://dereklnguyen.com/)
- *[Github](https://github.com/Derke-Nguyen)
+  * [Portfolio](https://dereklnguyen.com/)
+  * [Github](https://github.com/Derke-Nguyen)
 * Programmer - Richard Xu
- *[Github](https://github.com/RichardCanXu)
+  * [Github](https://github.com/RichardCanXu)
 * Game Designer - Alex Azzam
