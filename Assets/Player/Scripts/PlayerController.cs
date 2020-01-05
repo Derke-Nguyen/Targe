@@ -107,6 +107,8 @@ public class PlayerController : MonoBehaviour
             case State.idle:
                 m_Run = false;
                 m_anim.SetFloat("MovementSpeed", 0);
+                m_anim.SetFloat("LockedOnHori", 0);
+                m_anim.SetFloat("LockedOnVert", 0);
                 break;
 
             case State.walking:
