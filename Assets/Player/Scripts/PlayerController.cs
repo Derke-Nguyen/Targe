@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Possible States the player can be in
-    public enum State { idle, walking, dodge, hit, dead };
+    public enum State { idle, walking, dodge, hit, dead, throwing, recall };
 
     // Player's current state
     private State m_State = State.idle;
@@ -127,6 +127,12 @@ public class PlayerController : MonoBehaviour
             case State.dead:
                 m_anim.SetTrigger("Dead");
                 break;
+
+            case State.throwing:
+                m_anim.SetTrigger("Aim");
+                m_anim.SetBool("Cancel", false);
+                break;
+
             default:
                 break;
         }
@@ -151,8 +157,11 @@ public class PlayerController : MonoBehaviour
                 Dodge();
                 break;
 
+            case State.throwing:
+                Throwing();
+                break;
+
             case State.dead:
-                Dead();
                 break;
 
             default:
@@ -176,6 +185,10 @@ public class PlayerController : MonoBehaviour
         if (input.Dodge())
         {
             SetState(State.dodge);
+        }
+        if(input.Aim() && m_Shield)
+        {
+            SetState(State.throwing);
         }
     }
 
@@ -280,8 +293,28 @@ public class PlayerController : MonoBehaviour
         m_anim.SetBool("LockedOn", m_LockedOn);
     }
 
-    private void Dead()
+    private void Throwing()
     {
+        //cancel
+        if (!input.Aim())
+        {
+            m_anim.SetTrigger("Cancel");
+            SetState(m_PrevState);
+            return;
+        }
 
+        //throw
+        if (input.Melee())
+        {
+            m_anim.SetTrigger("Throw");
+            SetState(m_PrevState);
+            return;
+        }
+
+        // aim stuff
+        Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
+
+        float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
+        transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
     }
 }
