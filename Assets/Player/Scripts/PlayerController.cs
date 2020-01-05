@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
                 {
                     direction = gameObject.transform.forward;
                 }
-                m_DodgeDirection = direction;
+                m_DodgeDirection = direction.normalized / 2;
                 animflags.DodgeStart();
                 break;
 

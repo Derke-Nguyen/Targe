@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.012
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 0.9313214, b: 0.8443396, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 0.99215686, b: 0.99215686, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -857,6 +857,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 1.1825397
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -55.982433
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.39119676
+      objectReference: {fileID: 0}
     - target: {fileID: 2653273169592704103, guid: d0c069e5fb054474aac4ec1b26eeaa52,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1388,21 +1403,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -62.042492
-      objectReference: {fileID: 0}
-    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 1.1825397
-      objectReference: {fileID: 0}
-    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -55.982433
-      objectReference: {fileID: 0}
-    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -0.39119676
       objectReference: {fileID: 0}
     - target: {fileID: 7182663066245792334, guid: d0c069e5fb054474aac4ec1b26eeaa52,
         type: 3}
