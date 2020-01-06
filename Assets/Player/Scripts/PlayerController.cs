@@ -43,7 +43,9 @@ public class PlayerController : MonoBehaviour
     // Shield
     [SerializeField]
     private bool m_Shield = false;
+    private ShieldController m_ShieldController;
 
+    // Dead
     private bool m_Dead = false;
 
     /*
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour
         m_anim = gameObject.GetComponentInChildren<Animator>();
         m_Camera = Camera.main;
         m_stats = GetComponent<Stats>();
+        m_ShieldController = GameObject.Find("shield").GetComponent<ShieldController>();
     }
 
     /*
@@ -129,8 +132,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.throwing:
-                m_anim.SetTrigger("Aim");
-                m_anim.SetBool("Cancel", false);
+                m_anim.SetTrigger("StartAim");
                 break;
 
             default:
@@ -298,23 +300,40 @@ public class PlayerController : MonoBehaviour
         //cancel
         if (!input.Aim())
         {
-            m_anim.SetTrigger("Cancel");
+            m_anim.SetBool("Aim", false);
             SetState(m_PrevState);
+            m_Camera.GetComponent<ThirdPersonCamera>().AimOff();
             return;
         }
 
         //throw
-        if (input.Melee())
+        else if (input.Melee())
         {
+            m_anim.SetBool("Aim", false);
             m_anim.SetTrigger("Throw");
             SetState(m_PrevState);
+            m_Shield = false;
+            //m_Camera.GetComponent<ThirdPersonCamera>().AimOff();
             return;
         }
+        else
+        {
+            m_Camera.GetComponent<ThirdPersonCamera>().AimOn();
+            m_anim.SetBool("Aim", true);
+            // aim stuff
+            float targetRot = m_Camera.transform.eulerAngles.y;
+            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
 
-        // aim stuff
-        Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
+            float fbspeed = LOCK_SPEED * input.Vert();
+            transform.Translate(transform.forward * fbspeed * Time.deltaTime, Space.World);
 
-        float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
-        transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
+            //Left and right movement
+            float lrspeed = LOCK_SPEED * input.Hori();
+            transform.Translate(transform.right * lrspeed * Time.deltaTime, Space.World);
+
+            m_anim.SetFloat("LockedOnHori", input.Hori());
+            m_anim.SetFloat("LockedOnVert", input.Vert());
+        }
+        
     }
 }

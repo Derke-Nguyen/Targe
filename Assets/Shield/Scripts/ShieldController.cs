@@ -9,7 +9,11 @@ public class ShieldController : MonoBehaviour
     [SerializeField]
     private ShieldState m_State = ShieldState.equipped;
 
-    private float m_RotationSpeed = 350;
+    private float ROTATION_SPEED = 350;
+    private float THROW_POWER = 40;
+
+    private Rigidbody m_RigidBody;
+    private BoxCollider m_Collider;
 
     //For Recall
     [SerializeField]
@@ -24,7 +28,8 @@ public class ShieldController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_RigidBody = GetComponent<Rigidbody>();
+        m_Collider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -32,6 +37,7 @@ public class ShieldController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
+
             SetState(ShieldState.equipped);
         }
         if(Input.GetKeyDown(KeyCode.H))
@@ -55,17 +61,20 @@ public class ShieldController : MonoBehaviour
 
             case ShieldState.equipped:
                 gameObject.transform.parent = m_Hand;
+                m_RigidBody.isKinematic = true;
                 transform.localPosition = Vector3.zero;
                 transform.localEulerAngles = Vector3.zero;
                 break;
 
             case ShieldState.sheathed:
                 gameObject.transform.parent = m_Back;
+                m_RigidBody.isKinematic = true;
                 transform.localPosition = Vector3.zero;
                 transform.localRotation = Quaternion.Euler(0,0,0);
                 break;
 
             case ShieldState.stuck:
+                m_RigidBody.isKinematic = true;
                 break;
 
             default:
@@ -100,7 +109,7 @@ public class ShieldController : MonoBehaviour
 
     private void Thrown()
     {
-        transform.localEulerAngles += Vector3.forward * m_RotationSpeed * Time.deltaTime;
+        transform.localEulerAngles += Vector3.forward * ROTATION_SPEED * Time.deltaTime;
     }
 
     private void Recalled()
@@ -119,5 +128,13 @@ public class ShieldController : MonoBehaviour
         {
             SetState(ShieldState.stuck);
         }
+    }
+
+    public void Thrown(Vector3 t_Direction)
+    {
+        SetState(ShieldState.thrown);
+        m_RigidBody.isKinematic = false;
+        transform.eulerAngles = new Vector3(0, 0, 0);
+        m_RigidBody.AddForce(t_Direction * THROW_POWER + transform.up * 2, ForceMode.Impulse);
     }
 }

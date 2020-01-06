@@ -20,6 +20,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private const float PITCH_MIN = -25;
 
     public float sensitivity = 2.0f;
+    public float aim_sensitivity = 1.5f;
 
     // Location of the Camera
     private Transform m_Target;
@@ -29,9 +30,13 @@ public class ThirdPersonCamera : MonoBehaviour
     private Transform m_Combat;
     // Enemy target locked on to
     private Transform m_Focus;
+    private float m_DefaultDistance = 2;
     private float m_DistanceFromTarget = 2;
 
     private bool m_LockOn = false;
+
+    private bool m_Aim = false;
+    private float m_AimDistance = 0.000001f;
 
     private void Start()
     {
@@ -50,6 +55,19 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             m_LockOn = false;
             m_Target = m_PlayerPosition;
+        }
+
+        if(m_Aim)
+        {
+            m_Yaw += input.CamHori() * aim_sensitivity;
+            m_Pitch += input.CamVert() * aim_sensitivity;
+            m_Pitch = Mathf.Clamp(m_Pitch, PITCH_MIN, PITCH_MAX);
+            Vector3 targetRotation = new Vector3(m_Pitch, m_Yaw);
+
+            transform.eulerAngles = targetRotation;
+
+            transform.position = m_Target.position - transform.forward * m_DistanceFromTarget;
+            return;
         }
 
         // If camera is locked on
@@ -112,5 +130,26 @@ public class ThirdPersonCamera : MonoBehaviour
                 m_Focus = other.gameObject.transform;
             }
         }
+    }
+
+    public void AimOn()
+    {
+        m_Aim = true;
+        m_Target = m_Combat;
+        m_DistanceFromTarget = m_AimDistance;
+    }
+
+    public void AimOff()
+    {
+        m_Aim = false;
+        if(m_LockOn)
+        {
+            m_Target = m_Combat;
+        }
+        else
+        {
+            m_Target = m_PlayerPosition;
+        }
+        m_DistanceFromTarget = m_DefaultDistance;
     }
 }
