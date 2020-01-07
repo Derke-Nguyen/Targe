@@ -268,6 +268,10 @@ public class PlayerController : MonoBehaviour
             float targetRot = Mathf.Atan2(m_DodgeDirection.x, m_DodgeDirection.z) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
             float speed = ROLL_SPEED * m_DodgeDirection.magnitude;
+            if(m_Run)
+            {
+                speed *= 1.5f;
+            }
             transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
             m_anim.SetBool("Dodge", true);
         }
