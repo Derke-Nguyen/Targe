@@ -8,6 +8,7 @@ public class MenuButtonController : MonoBehaviour
     [SerializeField] private bool m_KeyDown;
     [SerializeField] int m_MaxIndex;
     public AudioSource audio;
+    public LevelChanger lc;
 
     // Start is called before the first frame update
     void Start()
@@ -33,10 +34,6 @@ public class MenuButtonController : MonoBehaviour
                     {
                         m_Index++;
                     }
-                    //else
-                    //{
-                    //    m_Index = 0;
-                    //}
                 }
                 else if(Input.GetAxis("Vertical") > 0)
                 {
@@ -44,10 +41,6 @@ public class MenuButtonController : MonoBehaviour
                     {
                         m_Index--;
                     }
-                    //else
-                    //{
-                    //    m_Index = m_MaxIndex;
-                    //}
                 }
                 m_KeyDown = true;
             }
@@ -62,4 +55,17 @@ public class MenuButtonController : MonoBehaviour
     {
         return m_Index;
     }
+
+    public void PlayEffect()
+    {
+        if(m_Index == m_MaxIndex)
+        {
+            Application.Quit();
+        }
+        else
+        {
+            lc.OnFadeComplete();
+        }
+    }
+
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class MenuButton : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private AnimatorFunctions animfuncs;
     [SerializeField] private int m_Index;
+
+    private bool m_Selected;
 
     // Start is called before the first frame update
     void Start()
@@ -37,4 +40,10 @@ public class MenuButton : MonoBehaviour
             anim.SetBool("selected", false);
         }
     }
+
+    public virtual void ButtonEffects()
+    {
+        GameObject.Find("LevelChanger").GetComponent<LevelChanger>().FadeToNextLevel();
+    }
+
 }
