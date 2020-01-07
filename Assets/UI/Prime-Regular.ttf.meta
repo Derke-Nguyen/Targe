@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 9fe2e752431a42f44a9aec264e740996
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 150
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Prime
+  fontNames:
+  - Prime
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: a63d50d078746964c8caf0fb195a74b0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
