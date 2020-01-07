@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     // Dodge
     private Vector3 m_DodgeDirection = Vector3.zero;
     private const float ROLL_SPEED = 8f;
-    private const float JUKE_SPEED = 4f;
+    private const float JUKE_SPEED = 6f;
 
     // Shield
     [SerializeField]

@@ -36,7 +36,8 @@ public class ThirdPersonCamera : MonoBehaviour
     private bool m_LockOn = false;
 
     private bool m_Aim = false;
-    private float m_AimDistance = 0.000001f;
+    private float m_AimDistance = 2.5f;
+    private float m_AimDistanceLO = 0.25f;
 
     private void Start()
     {
@@ -135,21 +136,28 @@ public class ThirdPersonCamera : MonoBehaviour
     public void AimOn()
     {
         m_Aim = true;
-        m_Target = m_Combat;
-        m_DistanceFromTarget = m_AimDistance;
+        //m_Target = m_Combat;
+        if(m_LockOn)
+        {
+            m_DistanceFromTarget = m_AimDistanceLO;
+        }
+        else
+        {
+            m_DistanceFromTarget = m_AimDistance;
+        }
     }
 
     public void AimOff()
     {
         m_Aim = false;
-        if(m_LockOn)
-        {
-            m_Target = m_Combat;
-        }
-        else
-        {
-            m_Target = m_PlayerPosition;
-        }
+        //if(m_LockOn)
+        //{
+        //    m_Target = m_Combat;
+        //}
+        //else
+        //{
+        //    m_Target = m_PlayerPosition;
+        //}
         m_DistanceFromTarget = m_DefaultDistance;
     }
 }
