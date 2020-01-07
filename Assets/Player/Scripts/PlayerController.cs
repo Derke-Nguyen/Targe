@@ -67,6 +67,10 @@ public class PlayerController : MonoBehaviour
      */
     private void Update()
     {
+        if(m_Dead)
+        {
+            return;
+        }
         if(input.LockOn() && m_Camera.GetComponent<ThirdPersonCamera>().LockOn() && !m_LockedOn)
         {
             m_LockedOn = true;
@@ -83,6 +87,11 @@ public class PlayerController : MonoBehaviour
         {
             SetState(State.dead);
             m_Dead = true;
+        }
+
+        if(!m_Shield && input.Recall())
+        {
+            SetState(State.recall);
         }
 
         m_anim.SetBool("Shield", m_Shield);
@@ -135,6 +144,11 @@ public class PlayerController : MonoBehaviour
                 m_anim.SetTrigger("StartAim");
                 break;
 
+            case State.recall:
+                m_anim.SetTrigger("Recall");
+                m_ShieldController.StartRecall();
+                break;
+
             default:
                 break;
         }
@@ -164,6 +178,10 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.dead:
+                break;
+
+            case State.recall:
+                Recall();
                 break;
 
             default:
@@ -338,6 +356,16 @@ public class PlayerController : MonoBehaviour
             m_anim.SetFloat("LockedOnHori", input.Hori());
             m_anim.SetFloat("LockedOnVert", input.Vert());
         }
-        
+
+    }
+
+    private void Recall()
+    {
+        if(m_ShieldController.InHand())
+        {
+            m_anim.SetTrigger("Caught");
+            m_Shield = true;
+            SetState(m_PrevState);
+        }
     }
 }

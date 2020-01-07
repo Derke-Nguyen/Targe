@@ -620,6 +620,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3522609276544134401}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1798956931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1798956932}
+  m_Layer: 10
+  m_Name: CurvePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1798956932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798956931}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.56, y: 0, z: 2.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 783256810}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2046707688
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,21 +1030,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
-    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -19.075396
-      objectReference: {fileID: 0}
-    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -81.832726
-      objectReference: {fileID: 0}
-    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 3.085792
-      objectReference: {fileID: 0}
     - target: {fileID: 2653273169592704103, guid: d0c069e5fb054474aac4ec1b26eeaa52,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1069,6 +1084,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -19.075396
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -81.832726
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222725615646062034, guid: d0c069e5fb054474aac4ec1b26eeaa52,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 3.085792
       objectReference: {fileID: 0}
     - target: {fileID: 8242348564429891499, guid: d0c069e5fb054474aac4ec1b26eeaa52,
         type: 3}
@@ -2047,6 +2077,14 @@ PrefabInstance:
       propertyPath: m_Back
       value: 
       objectReference: {fileID: 1339442110}
+    - target: {fileID: 541087382, guid: 2bc582a570153fd4a80beb7397ec8728, type: 3}
+      propertyPath: m_CurvePoint
+      value: 
+      objectReference: {fileID: 1798956932}
+    - target: {fileID: 541087382, guid: 2bc582a570153fd4a80beb7397ec8728, type: 3}
+      propertyPath: m_State
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5219947482766571834, guid: 2bc582a570153fd4a80beb7397ec8728,
         type: 3}
       propertyPath: m_MotionVectors
