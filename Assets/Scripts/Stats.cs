@@ -62,9 +62,13 @@ public class Stats : MonoBehaviour
         }
     }
 
-    public void Heal()
+    public void Heal(int t_health)
     {
-        m_currhealth = m_maxhealth;
+        m_currhealth += t_health;
+        if (m_currhealth > m_maxhealth)
+        {
+            m_currhealth = m_maxhealth;
+        }
     }
 
     public bool IsDead()

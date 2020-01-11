@@ -9,6 +9,7 @@ public class PlayerAnimationFlags : MonoBehaviour
     private bool m_Dodge = false;
     private bool m_Combat = false;
     private bool m_CombatWindup = false;
+    private bool m_CombatHitBox = false;
 
 
     public bool DodgeStatus()
@@ -28,17 +29,17 @@ public class PlayerAnimationFlags : MonoBehaviour
 
     public bool CombatStatus()
     {
-        return m_Dodge;
+        return m_Combat;
     }
 
     public void CombatStart()
     {
-        m_Dodge = false;
+        m_Combat = false;
     }
 
     public void CombatEnded()
     {
-        m_Dodge = true;
+        m_Combat = true;
     }
 
     private void ThrowShield()
@@ -68,5 +69,18 @@ public class PlayerAnimationFlags : MonoBehaviour
     {
         m_CombatWindup = false;
     }
-    
+
+    public bool CombatHit()
+    {   if(m_CombatHitBox)
+        {
+            m_CombatHitBox = false;
+            return true;
+        }
+        return false;
+    }
+
+    public void CombatHitboxStart()
+    {
+        m_CombatHitBox = true;
+    }
 }

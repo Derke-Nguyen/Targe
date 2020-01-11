@@ -58,6 +58,10 @@ public class PlayerController : MonoBehaviour
     private bool m_CombatBuffered = false;
     [SerializeField]
     private bool m_CombatSpecial = false;
+    private Transform m_AttackPoint;
+    private float ATTACK_RANGE = 0.4f;
+    public LayerMask m_EnemyLayer;
+    private int m_AttackDamage = 5;
     #endregion
 
     /* What happesn on start frame
@@ -73,6 +77,7 @@ public class PlayerController : MonoBehaviour
         m_Camera = Camera.main;
         m_Stats = GetComponent<Stats>();
         m_ShieldController = GameObject.Find("shield").GetComponent<ShieldController>();
+        m_AttackPoint = GameObject.Find("AttackPoint").transform;
     }
 
     /* What happens every frame
@@ -518,24 +523,30 @@ public class PlayerController : MonoBehaviour
             transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         }
 
+        if(m_AnimFlags.CombatHit())
+        {
+            // Detect enemies in range
+            Collider[] hitEnemies = Physics.OverlapSphere(m_AttackPoint.position, ATTACK_RANGE, m_EnemyLayer);
 
-        // Detect enemies in range
-
-        //Damage enemies
-
+            //Damage/effects enemies
+            foreach (Collider enemy in hitEnemies)
+            {
+                enemy.GetComponent<Stats>().Damage(m_AttackDamage);
+                Debug.Log("Hit " + enemy.name);
+            }
+        }
+        
 
         //Next states
         if (input.Melee() && !m_CombatBuffered && Time.time - m_TimeBetweenCombo > DELAY_BETWEEN_COMBO )
         {
             m_CombatBuffered = true;
+            m_CombatSpecial = false;
             if (Time.time - m_TimeBetweenCombo >= SPECIAL_COMBO_DELAY && !m_Shield)
             {
                 m_CombatSpecial = true;
             }
-            else
-            {
-                m_CombatSpecial = false;
-            }
+            return;
         }
 
         if (m_AnimFlags.CombatStatus())
@@ -597,5 +608,14 @@ public class PlayerController : MonoBehaviour
         //Vector3 thingDir = new Vector3(thing.position.x, transform.position.y, thing.position.z);
         transform.LookAt(thing.position);
         m_Anim.SetBool("LockedOn", m_LockedOn);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if(m_AttackPoint == null)
+        {
+            return;
+        }
+        Gizmos.DrawWireSphere(m_AttackPoint.position, ATTACK_RANGE);
     }
 }
