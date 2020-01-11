@@ -150,14 +150,6 @@ public class ThirdPersonCamera : MonoBehaviour
     public void AimOff()
     {
         m_Aim = false;
-        //if(m_LockOn)
-        //{
-        //    m_Target = m_Combat;
-        //}
-        //else
-        //{
-        //    m_Target = m_PlayerPosition;
-        //}
         m_DistanceFromTarget = m_DefaultDistance;
     }
 }

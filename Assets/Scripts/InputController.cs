@@ -51,9 +51,10 @@ public class InputController : MonoBehaviour
 
         m_Aim = Input.GetAxis("Aim") == 0 ? false : true;
 
+        m_Block = Input.GetButton("Block");
+
         m_Melee = Input.GetButtonDown("Melee");
         m_Dodge = Input.GetButtonDown("Dodge");
-        m_Block = Input.GetButtonDown("Block");
         m_Recall = Input.GetButtonDown("Recall");
         m_LockOn = Input.GetButtonDown("LockOn");
         m_Run = Input.GetButtonDown("Run");
@@ -154,5 +155,15 @@ public class InputController : MonoBehaviour
     public bool Menu()
     {
         return m_Menu;
+    }
+
+    public bool BlockCancel()
+    {
+        return m_Horizontal != 0f || m_Vertical != 0f || m_Dodge || m_Melee;
+    }
+
+    public bool AimCancel()
+    {
+        return m_Dodge || m_Block;
     }
 }
