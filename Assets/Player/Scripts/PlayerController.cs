@@ -168,9 +168,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.combat:
-                
-                if (m_CombatSpecial)
-                    m_Anim.SetBool("CombatSpecial", true);
+                m_Anim.SetBool("CombatSpecial", m_CombatSpecial);
                 m_Anim.SetBool("Combat", true);
                 m_AnimFlags.CombatStart();
                 m_AnimFlags.CombatWindUpStart();
@@ -544,7 +542,16 @@ public class PlayerController : MonoBehaviour
         {
             m_Anim.SetBool("Combat", false);
             m_Anim.SetBool("CombatSpecial", false);
-            if (m_CombatBuffered)
+
+            if (input.Dodge())
+            {
+                SetState(State.dodge);
+            }
+            else if(input.Block())
+            {
+                SetState(State.block);
+            }
+            else if (m_CombatBuffered)
             {
                 SetState(State.combat);
             }
