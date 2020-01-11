@@ -46,11 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9ce2c8dc08338459e304bf2cc41a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_State: 2
+  m_State: 3
   m_CurvePoint: {fileID: 0}
   m_Position: {fileID: 0}
   m_Hand: {fileID: 0}
   m_Back: {fileID: 0}
+  m_PullPosition: {x: 0, y: 0, z: 0}
 --- !u!54 &809356447
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -131,7 +132,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_MotionVectors: 1
+  m_MotionVectors: 2
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 1

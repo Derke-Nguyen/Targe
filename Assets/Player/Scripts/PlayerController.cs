@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Possible States the player can be in
-    public enum State { idle, walking, dodge, hit, dead, throwing, recall };
+    public enum State { idle, walking, dodge, hit, dead, throwing, recall , combat};
 
     // Player's current state
     private State m_State = State.idle;
@@ -47,6 +47,13 @@ public class PlayerController : MonoBehaviour
 
     // Dead
     private bool m_Dead = false;
+
+    // Combat
+    private float m_TimeBetweenCombo = 0f;
+    private const float DELAY_BETWEEN_COMBO = 0.2f;
+    private const float SPECIAL_COMBO_DELAY = 0.4f;
+    private bool m_CombatBuffered = false;
+    private bool m_CombatSpecial = false;
 
     /*
      * What happens on start frame
@@ -111,9 +118,10 @@ public class PlayerController : MonoBehaviour
      */
     private void SetState(State t_state)
     {
-        m_PrevState = m_State;
+        if(m_State != State.combat)
+            m_PrevState = m_State;
         m_State = t_state;
-        
+
         switch (m_State)
         {
             case State.idle:
@@ -128,7 +136,7 @@ public class PlayerController : MonoBehaviour
 
             case State.dodge:
                 Vector3 direction = new Vector3(input.Hori(), 0, input.Vert());
-                if(direction == Vector3.zero)
+                if (direction == Vector3.zero)
                 {
                     direction = gameObject.transform.forward;
                 }
@@ -149,6 +157,17 @@ public class PlayerController : MonoBehaviour
                 m_ShieldController.StartRecall();
                 break;
 
+            case State.combat:
+                {
+                if (m_CombatSpecial)
+                    m_anim.SetBool("CombatSpecial", true);
+                m_anim.SetBool("Combat", true);
+                animflags.CombatStart();
+                animflags.CombatWindUpStart();
+                m_TimeBetweenCombo = Time.time;
+                m_CombatBuffered = false;
+                break;
+                }
             default:
                 break;
         }
@@ -184,6 +203,10 @@ public class PlayerController : MonoBehaviour
                 Recall();
                 break;
 
+            case State.combat:
+                Combat();
+                break;
+
             default:
                 break;
         }
@@ -210,6 +233,10 @@ public class PlayerController : MonoBehaviour
         {
             SetState(State.throwing);
         }
+        if (input.Melee())
+        {
+            SetState(State.combat);
+        }
     }
 
     /*
@@ -224,6 +251,10 @@ public class PlayerController : MonoBehaviour
         if (input.Dodge())
         {
             SetState(State.dodge);
+        }
+        if (input.Melee())
+        {
+            SetState(State.combat);
         }
 
         if (m_LockedOn)
@@ -366,6 +397,57 @@ public class PlayerController : MonoBehaviour
             m_anim.SetTrigger("Caught");
             m_Shield = true;
             SetState(m_PrevState);
+        }
+    }
+
+    private void Combat()
+    {
+        if (animflags.CombatWindUp())
+        {
+            float speed = 1f;
+            if(m_Run)
+            {
+                speed = 4f;
+            }
+            else if(m_PrevState == State.idle)
+            {
+                speed = 0.1f;
+            }
+            transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        }
+
+
+        // Detect enemies in range
+
+        //Damage enemies
+
+
+        //Next states
+        if (input.Melee() && !m_CombatBuffered && Time.time - m_TimeBetweenCombo > DELAY_BETWEEN_COMBO )
+        {
+            m_CombatBuffered = true;
+            if (Time.time - m_TimeBetweenCombo >= SPECIAL_COMBO_DELAY && !m_Shield)
+            {
+                m_CombatSpecial = true;
+            }
+            else
+            {
+                m_CombatSpecial = false;
+            }
+        }
+
+        if (animflags.CombatStatus())
+        {
+            m_anim.SetBool("Combat", false);
+            m_anim.SetBool("CombatSpecial", false);
+            if (m_CombatBuffered)
+            {
+                SetState(State.combat);
+            }
+            else
+            {
+                SetState(m_PrevState);
+            }
         }
     }
 }
