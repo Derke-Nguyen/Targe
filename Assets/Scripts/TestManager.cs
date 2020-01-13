@@ -5,10 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class TestManager : MonoBehaviour
 {
+    private Stats m_Player;
+    GUIManager m_GUIManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_Player = GameObject.Find("player").GetComponent<Stats>();
+        m_GUIManager = GameObject.Find("GUI").GetComponent<GUIManager>();
     }
 
     // Update is called once per frame
@@ -19,10 +23,19 @@ public class TestManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            m_Player.SetCurrHealth(0);
+        }
+
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
-        
+
+        if (m_Player.IsDead())
+        {
+            m_GUIManager.DeathScreen();
+        }
     }
 }

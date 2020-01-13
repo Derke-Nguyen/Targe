@@ -8,10 +8,12 @@ public class LevelManager : MonoBehaviour
     private GameObject m_Gate;
     [SerializeField]
     private List<Stats> enemies;
+    private Stats m_Player;
 
     private void Start()
     {
         m_Gate = GameObject.Find("Gate");
+        m_Player = GameObject.Find("player").GetComponent<Stats>();
         m_Gate.SetActive(false);
     }
 

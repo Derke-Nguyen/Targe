@@ -32,14 +32,18 @@ public class InputController : MonoBehaviour
     // Recall button is pressed
     private bool m_Recall = false;
 
+    // LockOn button is pressed
     private bool m_LockOn = false;
 
+    // Run button is pressed
     private bool m_Run = false;
 
+    // Menu button is pressed
     private bool m_Menu = false;
 
-    /*
-     * Sets bools of what input is done
+    /* What happens every frame
+     * 
+     * Sets variables based on which buttons are being pressed
      */
     void Update()
     {
@@ -61,7 +65,8 @@ public class InputController : MonoBehaviour
         m_Menu = Input.GetButtonDown("Menu");
     }
 
-    /*
+    /* Returns status of left joystick tilted vertically
+     * 
      * return : true if left joystick tilted vertically, else false
      */
     public float Vert()
@@ -69,7 +74,8 @@ public class InputController : MonoBehaviour
         return m_Vertical;
     }
 
-    /*
+    /* Returns status of left joystick tilted horizontally
+     * 
      * return : true if left joystick tilted horizontally, else false
      */
     public float Hori()
@@ -77,7 +83,8 @@ public class InputController : MonoBehaviour
         return m_Horizontal;
     }
 
-    /*
+    /* Returns status of right joystick tilted vertically
+     * 
      * return : true if right joystick tilted vertically, else false
      */
     public float CamVert()
@@ -85,7 +92,8 @@ public class InputController : MonoBehaviour
         return m_CameraVertical;
     }
 
-    /*
+    /* Returns status of right joystick tilted horizontally
+     * 
      * return : true if right joystick tilted horizontally, else false
      */
     public float CamHori()
@@ -93,7 +101,8 @@ public class InputController : MonoBehaviour
         return m_CameraHorizontal;
     }
 
-    /*
+    /* Returns status of melee button
+     * 
      * return : true if melee button is pressed, else false
      */
     public bool Melee()
@@ -101,67 +110,82 @@ public class InputController : MonoBehaviour
         return m_Melee;
     }
 
-    /*
-      * return : true if block button is pressed, else false
-      */
+    /* Returns status of block button
+     * 
+     * return : true if block button is pressed, else false
+     */
     public bool Block()
     {
         return m_Block;
     }
 
-    /*
-      * return : true if dodge button is pressed, else false
-      */
+    /* Returns status of dodge button
+     * 
+     * return : true if dodge button is pressed, else false
+     */
     public bool Dodge()
     {
         return m_Dodge;
     }
 
-    /*
-      * return : true if aim button is pressed, else false
-      */
+    /* Returns status of aim button
+     *  
+     * return : true if aim button is pressed, else false
+     */
     public bool Aim()
     {
         return m_Aim;
     }
 
-    /*
-      * return : true if recall button is pressed, else false
-      */
+    /* Returns status of recall button
+     * 
+     * return : true if recall button is pressed, else false
+     */
     public bool Recall()
     {
         return m_Recall;
     }
 
-    /*
-      * return : true if lock on button is pressed, else false
-      */
+    /* Returns status of lock on button
+     * 
+     * return : true if lock on button is pressed, else false
+     */
     public bool LockOn()
     {
         return m_LockOn;
     }
 
-    /*
-      * return : true if run button is pressed, else false
-      */
+    /* Returns status of run button
+     * 
+     * return : true if run button is pressed, else false
+     */
     public bool Run()
     {
         return m_Run;
     }
 
-    /*
-      * return : true if menu button is pressed, else false
-      */
+    /* Returns status of menu button
+     * 
+     * return : true if menu button is pressed, else false
+     */
     public bool Menu()
     {
         return m_Menu;
     }
 
+    /* Returns status of buttons that can cancel block
+     * 
+     * return : true if a block cancel button is pressed, else false
+     */
     public bool BlockCancel()
     {
         return m_Horizontal != 0f || m_Vertical != 0f || m_Dodge || m_Melee;
     }
 
+    /* Returns status of buttons that can cancel aim
+     * 
+     * return : true if an aim cancel button is pressed, else false
+     */
     public bool AimCancel()
     {
         return m_Dodge || m_Block;

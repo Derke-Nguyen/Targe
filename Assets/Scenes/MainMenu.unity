@@ -153,10 +153,10 @@ RectTransform:
   m_Father: {fileID: 667797411}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 316.4, y: 138.8}
-  m_SizeDelta: {x: 632.7, y: 277.5}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -316.3501, y: -138.75}
+  m_SizeDelta: {x: 632.7002, y: 277.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &423504075
 MonoBehaviour:
@@ -189,7 +189,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D E M O v1.0
+  m_Text: D E M O v0.2
 --- !u!222 &423504076
 CanvasRenderer:
   m_ObjectHideFlags: 0

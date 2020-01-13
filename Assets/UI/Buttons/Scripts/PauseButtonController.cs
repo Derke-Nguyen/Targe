@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuButtonController : MonoBehaviour
+public class PauseButtonController : MonoBehaviour
 {
-    private int m_Index = 0;
+    private int m_Index;
     [SerializeField] private bool m_KeyDown;
     [SerializeField] int m_MaxIndex;
     public AudioSource audio;
@@ -13,7 +13,7 @@ public class MenuButtonController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audio = GetComponent<AudioSource>();    
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -24,20 +24,20 @@ public class MenuButtonController : MonoBehaviour
 
     private void CheckKeyDown()
     {
-        if(Input.GetAxis("Vertical") != 0)
+        if (Input.GetAxis("Vertical") != 0)
         {
-            if(!m_KeyDown)
+            if (!m_KeyDown)
             {
-                if(Input.GetAxis("Vertical")  < 0)
+                if (Input.GetAxis("Vertical") < 0)
                 {
-                    if(m_Index < m_MaxIndex)
+                    if (m_Index < m_MaxIndex)
                     {
                         m_Index++;
                     }
                 }
-                else if(Input.GetAxis("Vertical") > 0)
+                else if (Input.GetAxis("Vertical") > 0)
                 {
-                    if(m_Index > 0)
+                    if (m_Index > 0)
                     {
                         m_Index--;
                     }
@@ -58,7 +58,7 @@ public class MenuButtonController : MonoBehaviour
 
     public void PlayEffect()
     {
-        if(m_Index == m_MaxIndex)
+        if (m_Index == m_MaxIndex)
         {
             Application.Quit();
         }
@@ -67,5 +67,4 @@ public class MenuButtonController : MonoBehaviour
             lc.OnFadeComplete();
         }
     }
-
 }

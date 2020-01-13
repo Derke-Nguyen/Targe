@@ -43,4 +43,9 @@ public class LevelChanger : MonoBehaviour
         Debug.Log("QUIT");
         Application.Quit();
     }
+
+    public void Reset()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

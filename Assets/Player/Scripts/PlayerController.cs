@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public enum State { idle, walking, dodge, hit, dead, throwing, recall , combat, block};
 
     // Player's current state
+    [SerializeField]
     private State m_State = State.idle;
     private State m_PrevState = State.idle;
 
@@ -53,15 +54,25 @@ public class PlayerController : MonoBehaviour
 
     #region Combat
     private float m_TimeBetweenCombo = 0f;
-    private const float DELAY_BETWEEN_COMBO = 0.2f;
-    private float SPECIAL_COMBO_DELAY = 0.5f;
+    private const float DELAY_BETWEEN_COMBO = 0.5f;
     private bool m_CombatBuffered = false;
     [SerializeField]
     private bool m_CombatSpecial = false;
-    private Transform m_AttackPoint;
-    private float ATTACK_RANGE = 0.4f;
+    private Transform m_LeftFist;
+    private Transform m_RightFist;
+    private Transform m_Foot;
+    private Transform m_ShieldPoint;
+    private float ATTACK_RANGE = 0.3f;
+    private float SHIELD_RANGE = 0.45f;
     public LayerMask m_EnemyLayer;
+
     private int m_AttackDamage = 5;
+    private int FIST_DAMAGE = 10;
+    private float FIST_KNOCKBACK = 3f;
+    private int SHIELD_DAMAGE = 20;
+    private float SHIELD_KNOCKBACK = 6f;
+
+    private Dictionary<string, GameObject> m_AlreadyHit = new Dictionary<string, GameObject>();
     #endregion
 
     /* What happesn on start frame
@@ -77,7 +88,10 @@ public class PlayerController : MonoBehaviour
         m_Camera = Camera.main;
         m_Stats = GetComponent<Stats>();
         m_ShieldController = GameObject.Find("shield").GetComponent<ShieldController>();
-        m_AttackPoint = GameObject.Find("AttackPoint").transform;
+        m_LeftFist = GameObject.Find("LeftFist").transform;
+        m_RightFist = GameObject.Find("RightFist").transform;
+        m_Foot = GameObject.Find("LeftFoot").transform;
+        m_ShieldPoint = GameObject.Find("ShieldPoint").transform;
     }
 
     /* What happens every frame
@@ -152,7 +166,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 direction = new Vector3(input.Hori(), 0, input.Vert());
                 if (direction == Vector3.zero)
                 {
-                    direction = gameObject.transform.forward;
+                    direction = Camera.main.transform.forward;
                 }
                 m_DodgeDirection = direction.normalized / 2;
                 m_AnimFlags.DodgeStart();
@@ -173,12 +187,9 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.combat:
-                m_Anim.SetBool("CombatSpecial", m_CombatSpecial);
-                m_Anim.SetBool("Combat", true);
-                m_AnimFlags.CombatStart();
-                m_AnimFlags.CombatWindUpStart();
                 m_TimeBetweenCombo = Time.time;
                 m_CombatBuffered = false;
+                m_AnimFlags.ResetCombat();
                 break;
                 
             case State.block:
@@ -386,6 +397,13 @@ public class PlayerController : MonoBehaviour
                 SetState(State.recall);
             }
             // Change to Idle/Movement
+            else if (input.Vert() == 0 && input.Hori() == 0)
+            {
+                m_Anim.SetFloat("MovementSpeed", 0);
+                m_Anim.SetFloat("LockedOnHori", 0);
+                m_Anim.SetFloat("LockedOnVert", 0);
+                SetState(State.walking);
+            }
             else
             {
                 SetState(m_PrevState);
@@ -509,30 +527,56 @@ public class PlayerController : MonoBehaviour
     */
     private void Combat()
     {
-        if (m_AnimFlags.CombatWindUp())
+        m_Anim.SetBool("Combat", true);
+        if (m_AnimFlags.CombatMove())
         {
             float speed = 1f;
             if(m_Run)
             {
-                speed = 4f;
+                speed = 2f;
             }
             else if(m_PrevState == State.idle)
             {
-                speed = 0.1f;
+                speed = 0.5f;
             }
             transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         }
 
-        if(m_AnimFlags.CombatHit())
+        if(m_AnimFlags.CombatHitboxActive())
         {
             // Detect enemies in range
-            Collider[] hitEnemies = Physics.OverlapSphere(m_AttackPoint.position, ATTACK_RANGE, m_EnemyLayer);
-
+            List<Collider> hitEnemies = new List<Collider>();
+            if(m_Shield)
+            {
+                hitEnemies.AddRange(Physics.OverlapSphere(m_ShieldPoint.position, SHIELD_RANGE, m_EnemyLayer));
+            }
+            else
+            {
+                hitEnemies.AddRange(Physics.OverlapSphere(m_LeftFist.position, ATTACK_RANGE, m_EnemyLayer));
+                hitEnemies.AddRange(Physics.OverlapSphere(m_RightFist.position, ATTACK_RANGE, m_EnemyLayer));
+                hitEnemies.AddRange(Physics.OverlapSphere(m_Foot.position, ATTACK_RANGE, m_EnemyLayer));
+            }
+            
             //Damage/effects enemies
             foreach (Collider enemy in hitEnemies)
             {
-                enemy.GetComponent<Stats>().Damage(m_AttackDamage);
-                Debug.Log("Hit " + enemy.name);
+                Time.timeScale = 0.7f;
+                if (m_AlreadyHit.ContainsKey(enemy.gameObject.name))
+                {
+                    continue;
+                }
+
+                if(m_Shield)
+                {
+                    enemy.GetComponent<Stats>().Damage(SHIELD_DAMAGE);
+                    enemy.GetComponent<Rigidbody>().AddForce(transform.forward * SHIELD_KNOCKBACK, ForceMode.Impulse);
+                }
+                else
+                {
+                    enemy.GetComponent<Stats>().Damage(FIST_DAMAGE);
+                    enemy.GetComponent<Rigidbody>().AddForce(transform.forward * FIST_KNOCKBACK, ForceMode.Impulse);
+                }
+                m_AlreadyHit.Add(enemy.gameObject.name, enemy.gameObject);
             }
         }
         
@@ -541,18 +585,10 @@ public class PlayerController : MonoBehaviour
         if (input.Melee() && !m_CombatBuffered && Time.time - m_TimeBetweenCombo > DELAY_BETWEEN_COMBO )
         {
             m_CombatBuffered = true;
-            m_CombatSpecial = false;
-            if (Time.time - m_TimeBetweenCombo >= SPECIAL_COMBO_DELAY && !m_Shield)
-            {
-                m_CombatSpecial = true;
-            }
-            return;
         }
 
         if (m_AnimFlags.CombatStatus())
         {
-            m_Anim.SetBool("Combat", false);
-            m_Anim.SetBool("CombatSpecial", false);
 
             if (input.Dodge())
             {
@@ -570,6 +606,11 @@ public class PlayerController : MonoBehaviour
             {
                 SetState(m_PrevState);
             }
+
+            Time.timeScale = 1f;
+            m_AlreadyHit.Clear();
+            m_Anim.SetBool("Combat", false);
+            m_Anim.SetBool("CombatSpecial", false);
         }
     }
 
@@ -605,17 +646,30 @@ public class PlayerController : MonoBehaviour
             m_Camera.GetComponent<ThirdPersonCamera>().LockOff();
             return;
         }
-        //Vector3 thingDir = new Vector3(thing.position.x, transform.position.y, thing.position.z);
-        transform.LookAt(thing.position);
+        Vector3 thingDir = new Vector3(thing.position.x, 1.5f, thing.position.z);
+        transform.LookAt(thingDir);
         m_Anim.SetBool("LockedOn", m_LockedOn);
     }
 
+    /* Draws Gizmos when object is selected 
+     * 
+     * Draw the hit box
+     */
     private void OnDrawGizmosSelected()
     {
-        if(m_AttackPoint == null)
+        if(m_LeftFist == null || m_RightFist == null || m_Foot == null)
         {
             return;
         }
-        Gizmos.DrawWireSphere(m_AttackPoint.position, ATTACK_RANGE);
+        if(m_Shield)
+        {
+            Gizmos.DrawWireSphere(m_ShieldPoint.position, SHIELD_RANGE);
+        }
+        else
+        {
+            Gizmos.DrawWireSphere(m_LeftFist.position, ATTACK_RANGE);
+            Gizmos.DrawWireSphere(m_RightFist.position, ATTACK_RANGE);
+            Gizmos.DrawWireSphere(m_Foot.position, ATTACK_RANGE);
+        }
     }
 }

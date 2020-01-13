@@ -31,7 +31,7 @@ public class ShieldController : MonoBehaviour
     private Vector3 m_PullPosition;
     private Vector3 m_OrigLocPos;
     private Vector3 m_OrigLocRot;
-    private float returnTime;
+    private float m_ReturnTime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -43,15 +43,6 @@ public class ShieldController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.G))
-        //{
-
-        //    SetState(ShieldState.equipped);
-        //}
-        //if(Input.GetKeyDown(KeyCode.H))
-        //{
-        //    SetState(ShieldState.sheathed);
-        //}
         ExecuteState();
     }
 
@@ -60,6 +51,7 @@ public class ShieldController : MonoBehaviour
         m_State = t_State;
         m_InHand = false;
         m_OnBack = false;
+        m_Collider.enabled = true;
 
         switch (t_State)
         {
@@ -78,6 +70,7 @@ public class ShieldController : MonoBehaviour
                 m_RigidBody.isKinematic = true;
                 transform.localPosition = Vector3.zero;
                 transform.localEulerAngles = Vector3.zero;
+                m_Collider.enabled = false;
                 break;
 
             case ShieldState.sheathed:
@@ -130,14 +123,15 @@ public class ShieldController : MonoBehaviour
 
     private void Recalled()
     {
-        if(returnTime < 1)
+        if(m_ReturnTime < 1)
         {
-            transform.position = GetQuadraticCurvePoint(returnTime, m_PullPosition, m_CurvePoint.position, m_Hand.position);
-            returnTime += Time.deltaTime * 1.5f;
+            transform.position = GetQuadraticCurvePoint(m_ReturnTime, m_PullPosition, m_CurvePoint.position, m_Hand.position);
+            m_ReturnTime += Time.deltaTime * 1.5f;
+            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, 0, 0), 1);
         }
         else
         {
-            returnTime = 0;
+            m_ReturnTime = 0;
             SetState(ShieldState.equipped);
         }
 
@@ -174,12 +168,12 @@ public class ShieldController : MonoBehaviour
         return m_OnBack;
     }
 
-    private Vector3 GetQuadraticCurvePoint(float t_ReturnTime, Vector3 t_StartPoint, Vector3 t_CurvePoint, Vector3 t_FinalPoint)
+    private Vector3 GetQuadraticCurvePoint(float t_m_ReturnTime, Vector3 t_StartPoint, Vector3 t_CurvePoint, Vector3 t_FinalPoint)
     {
-        float timeleft = 1 - t_ReturnTime;
-        float time_square = t_ReturnTime * t_ReturnTime;
+        float timeleft = 1 - t_m_ReturnTime;
+        float time_square = t_m_ReturnTime * t_m_ReturnTime;
         float timeleft_square = timeleft * timeleft;
-        return (timeleft_square * t_StartPoint) + (2 * timeleft * t_ReturnTime * t_CurvePoint) + (time_square * t_FinalPoint);
+        return (timeleft_square * t_StartPoint) + (2 * timeleft * t_m_ReturnTime * t_CurvePoint) + (time_square * t_FinalPoint);
     }
 
     private void Stuck()

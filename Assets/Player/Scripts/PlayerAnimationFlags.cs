@@ -8,7 +8,7 @@ public class PlayerAnimationFlags : MonoBehaviour
     [SerializeField]
     private bool m_Dodge = false;
     private bool m_Combat = false;
-    private bool m_CombatWindup = false;
+    private bool m_CombatMove = false;
     private bool m_CombatHitBox = false;
 
 
@@ -50,37 +50,40 @@ public class PlayerAnimationFlags : MonoBehaviour
         shield.Thrown(direction);
     }
 
-    private void PushForward(float t_Speed)
+    public bool CombatMove()
     {
-        transform.parent.transform.Translate(transform.parent.transform.forward * t_Speed * Time.deltaTime, Space.World);
-    }
-
-    public bool CombatWindUp()
-    {
-        return m_CombatWindup;
+        return m_CombatMove;
     }
 
     public void CombatWindUpStart()
     {
-        m_CombatWindup = true;
+        m_CombatMove = true;
     }
 
     public void CombatWindUpEnd()
     {
-        m_CombatWindup = false;
+        m_CombatMove = false;
     }
 
-    public bool CombatHit()
-    {   if(m_CombatHitBox)
-        {
-            m_CombatHitBox = false;
-            return true;
-        }
-        return false;
+    public bool CombatHitboxActive()
+    {
+        return m_CombatHitBox;
     }
 
     public void CombatHitboxStart()
     {
         m_CombatHitBox = true;
+    }
+
+    public void CombatHitboxEnd()
+    {
+        m_CombatHitBox = false;
+    }
+
+    public void ResetCombat()
+    {
+        m_Combat = false;
+        m_CombatMove = false;
+        m_CombatHitBox = false;
     }
 }
