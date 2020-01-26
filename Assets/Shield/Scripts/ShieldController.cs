@@ -38,6 +38,9 @@ public class ShieldController : MonoBehaviour
     {
         m_RigidBody = GetComponent<Rigidbody>();
         m_Collider = GetComponent<BoxCollider>();
+        m_CurvePoint = GameObject.Find("CurvePoint").GetComponent<Transform>();
+        m_Hand = GameObject.Find("ShieldPoint").GetComponent<Transform>();
+        m_Back = GameObject.Find("SheathPoint").GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -144,7 +147,11 @@ public class ShieldController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(m_State == ShieldState.thrown)
+        if (collision.gameObject.tag == "MainCamera")
+        {
+            return;
+        }
+        if (m_State == ShieldState.thrown)
         {
             SetState(ShieldState.stuck);
         }

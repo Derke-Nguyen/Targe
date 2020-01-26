@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour
     #region Movement
     private const float WALK_SPEED = 2;
     private const float RUN_SPEED = 6;
-    private const float LOCK_SPEED = 1f;
+    private const float LOCK_SPEED = 2f;
     private const float TURN_TIME = 0.2f;
     private bool m_Run = false;
     private float m_TurnVel;
@@ -62,15 +63,15 @@ public class PlayerController : MonoBehaviour
     private Transform m_RightFist;
     private Transform m_Foot;
     private Transform m_ShieldPoint;
-    private float ATTACK_RANGE = 0.3f;
+    private float ATTACK_RANGE = 0.2f;
     private float SHIELD_RANGE = 0.45f;
     public LayerMask m_EnemyLayer;
 
     private int m_AttackDamage = 5;
     private int FIST_DAMAGE = 10;
-    private float FIST_KNOCKBACK = 3f;
+    private float FIST_KNOCKBACK = 0.5f;
     private int SHIELD_DAMAGE = 20;
-    private float SHIELD_KNOCKBACK = 6f;
+    private float SHIELD_KNOCKBACK = 0.75f;
 
     private Dictionary<string, GameObject> m_AlreadyHit = new Dictionary<string, GameObject>();
     #endregion
@@ -137,6 +138,11 @@ public class PlayerController : MonoBehaviour
      */
     private void FixedUpdate()
     {
+        if (m_LockedOn)
+        {
+            // Sets the camera in its lockon position
+            LockedOn();
+        }
         ExecuteState();
     }
 
@@ -146,8 +152,7 @@ public class PlayerController : MonoBehaviour
      */
     private void SetState(State t_state)
     {
-        if(m_State == State.idle || m_State == State.walking)
-            m_PrevState = m_State;
+        m_PrevState = m_State;
         m_State = t_state;
 
         switch (m_State)
@@ -187,6 +192,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.combat:
+                m_Anim.SetTrigger("Attack");
                 m_TimeBetweenCombo = Time.time;
                 m_CombatBuffered = false;
                 m_AnimFlags.ResetCombat();
@@ -250,11 +256,6 @@ public class PlayerController : MonoBehaviour
      */
     private void Idle()
     {
-        // Sets the camera in its lockon position
-        if (m_LockedOn)
-        {
-            LockedOn();
-        }
 
         // Change to Dodge
         if (input.Dodge())
@@ -333,8 +334,6 @@ public class PlayerController : MonoBehaviour
 
         if (m_LockedOn)
         {
-            LockedOn();
-
             //Forward and backward movement
             float fbspeed = LOCK_SPEED * input.Vert();
             transform.Translate(transform.forward * fbspeed * Time.deltaTime, Space.World);
@@ -399,22 +398,20 @@ public class PlayerController : MonoBehaviour
             // Change to Idle/Movement
             else if (input.Vert() == 0 && input.Hori() == 0)
             {
-                m_Anim.SetFloat("MovementSpeed", 0);
-                m_Anim.SetFloat("LockedOnHori", 0);
-                m_Anim.SetFloat("LockedOnVert", 0);
-                SetState(State.walking);
+                SetState(State.idle);
             }
             else
             {
-                SetState(m_PrevState);
+                m_Anim.SetFloat("MovementSpeed", 0);
+                m_Anim.SetFloat("LockedOnHori", 0);
+                m_Anim.SetFloat("LockedOnVert", 0);
+                SetState(State.walking); 
             }
             return;
         }
 
         if (m_LockedOn)
         {
-            LockedOn();
-
             //Left and right movement
             float lrspeed = JUKE_SPEED * m_DodgeDirection.x;
             transform.Translate(transform.right * lrspeed * Time.deltaTime, Space.World);
@@ -454,11 +451,21 @@ public class PlayerController : MonoBehaviour
             m_Camera.GetComponent<ThirdPersonCamera>().AimOff();
 
             if (input.Dodge())
+            {
                 SetState(State.dodge);
+            }
             else if (input.Block())
+            {
                 SetState(State.block);
+            }
+            else if (input.Vert() == 0 && input.Hori() == 0)
+            {
+                SetState(State.idle);
+            }
             else
-                SetState(m_PrevState);
+            {
+                SetState(State.walking);
+            }
             return;
         }
 
@@ -516,8 +523,14 @@ public class PlayerController : MonoBehaviour
                 SetState(State.block);
             else if (input.Melee())
                 SetState(State.combat);
+            else if (input.Vert() == 0 && input.Hori() == 0)
+            {
+                SetState(State.idle);
+            }
             else
-                SetState(m_PrevState);
+            {
+                SetState(State.walking);
+            }
         }
     }
 
@@ -556,11 +569,30 @@ public class PlayerController : MonoBehaviour
                 hitEnemies.AddRange(Physics.OverlapSphere(m_RightFist.position, ATTACK_RANGE, m_EnemyLayer));
                 hitEnemies.AddRange(Physics.OverlapSphere(m_Foot.position, ATTACK_RANGE, m_EnemyLayer));
             }
-            
-            //Damage/effects enemies
-            foreach (Collider enemy in hitEnemies)
+
+            List<Collider> distinct = hitEnemies.Distinct().ToList();
+
+            if(distinct.Count == 0)
             {
-                Time.timeScale = 0.7f;
+                Time.timeScale = 1f;
+            }
+            else
+            {
+                //Time.timeScale = 0.55f;
+            }
+            //Damage/effects enemies
+            foreach (Collider enemy in distinct)
+            {
+                
+                if (m_Shield)
+                {
+                    enemy.GetComponent<Rigidbody>().AddForce(transform.forward * SHIELD_KNOCKBACK, ForceMode.Impulse);
+                }
+                else
+                {
+                    enemy.GetComponent<Rigidbody>().AddForce(transform.forward * FIST_KNOCKBACK, ForceMode.Impulse);
+                }
+
                 if (m_AlreadyHit.ContainsKey(enemy.gameObject.name))
                 {
                     continue;
@@ -569,15 +601,17 @@ public class PlayerController : MonoBehaviour
                 if(m_Shield)
                 {
                     enemy.GetComponent<Stats>().Damage(SHIELD_DAMAGE);
-                    enemy.GetComponent<Rigidbody>().AddForce(transform.forward * SHIELD_KNOCKBACK, ForceMode.Impulse);
                 }
                 else
                 {
                     enemy.GetComponent<Stats>().Damage(FIST_DAMAGE);
-                    enemy.GetComponent<Rigidbody>().AddForce(transform.forward * FIST_KNOCKBACK, ForceMode.Impulse);
                 }
                 m_AlreadyHit.Add(enemy.gameObject.name, enemy.gameObject);
             }
+        }
+        else
+        {
+            Time.timeScale = 1f;
         }
         
 
@@ -589,7 +623,8 @@ public class PlayerController : MonoBehaviour
 
         if (m_AnimFlags.CombatStatus())
         {
-
+            m_Anim.SetBool("Combat", false);
+            m_Anim.SetBool("CombatSpecial", false);
             if (input.Dodge())
             {
                 SetState(State.dodge);
@@ -602,15 +637,15 @@ public class PlayerController : MonoBehaviour
             {
                 SetState(State.combat);
             }
+            else if (input.Vert() == 0 && input.Hori() == 0)
+            {
+                SetState(State.idle);
+            }
             else
             {
-                SetState(m_PrevState);
+                SetState(State.walking);
             }
-
-            Time.timeScale = 1f;
             m_AlreadyHit.Clear();
-            m_Anim.SetBool("Combat", false);
-            m_Anim.SetBool("CombatSpecial", false);
         }
     }
 
@@ -627,8 +662,14 @@ public class PlayerController : MonoBehaviour
                 SetState(State.dodge);
             else if (input.Melee())
                 SetState(State.combat);
+            else if (input.Vert() == 0 && input.Hori() == 0)
+            {
+                SetState(State.idle);
+            }
             else
-                SetState(m_PrevState);
+            {
+                SetState(State.walking);
+            }
         }
     }
 
@@ -639,15 +680,17 @@ public class PlayerController : MonoBehaviour
     private void LockedOn()
     {
         Transform thing = m_Camera.GetComponent<ThirdPersonCamera>().GetLockedOnTarget();
-        if (thing == null || thing.gameObject.GetComponent<Stats>().IsDead())
+        if (thing == null || thing.GetComponent<Stats>().IsDead())
         {
             m_LockedOn = false;
             m_Anim.SetBool("LockedOn", m_LockedOn);
             m_Camera.GetComponent<ThirdPersonCamera>().LockOff();
             return;
         }
-        Vector3 thingDir = new Vector3(thing.position.x, 1.5f, thing.position.z);
-        transform.LookAt(thingDir);
+        Vector3 lookdir = thing.position - transform.position;
+        lookdir.Normalize();
+        lookdir.y = 0;
+        transform.rotation = Quaternion.LookRotation(lookdir);
         m_Anim.SetBool("LockedOn", m_LockedOn);
     }
 

@@ -25,14 +25,10 @@ public class MenuButton : MonoBehaviour
         if(controller.GetIndex() == m_Index)
         {
             anim.SetBool("selected", true);
-            if(Input.GetAxis("Submit") == 1)
+
+            if (Input.GetButtonDown("Submit"))
             {
                 anim.SetBool("pressed", true);
-            }
-            else if (anim.GetBool("pressed"))
-            {
-                anim.SetBool("pressed", false);
-                animfuncs.disableOnce = true;
             }
         }
         else

@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 304685527}
   - component: {fileID: 304685526}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Health_Bar_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -467,7 +467,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &2118843048
 BoxCollider:
@@ -494,7 +494,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0cf58529f2618428b9f381b8531923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_currhealth: 100
   m_dead: 0
 --- !u!1001 &4224074224018583443
 PrefabInstance:
