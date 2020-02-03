@@ -1832,16 +1832,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9090929237004439979, guid: 9a63b758dda04fa4ab5da63cf40231d7,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 58380194}
-    - target: {fileID: 9090929237580131474, guid: 9a63b758dda04fa4ab5da63cf40231d7,
-        type: 3}
-      propertyPath: m_Health
-      value: 
-      objectReference: {fileID: 1472776319}
     - target: {fileID: 9090929237716842215, guid: 9a63b758dda04fa4ab5da63cf40231d7,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1852,10 +1842,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9090929237004439979, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 58380194}
     - target: {fileID: 9090929237711772773, guid: 9a63b758dda04fa4ab5da63cf40231d7,
         type: 3}
       propertyPath: lc
       value: 
       objectReference: {fileID: 1511968659}
+    - target: {fileID: 9090929237580131474, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_Health
+      value: 
+      objectReference: {fileID: 1472776319}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a63b758dda04fa4ab5da63cf40231d7, type: 3}

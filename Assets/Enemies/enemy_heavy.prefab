@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4584186777869561046}
   - component: {fileID: 1064233226881139609}
   - component: {fileID: 8886739231690463775}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Health_Bar_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,9 +111,9 @@ GameObject:
   - component: {fileID: 7356911253765387881}
   - component: {fileID: 1990260399584419496}
   - component: {fileID: 9081205258174119046}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: enemy_heavy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5472226119312232609}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4444336813944338137}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 5639594056392126683}
   - component: {fileID: 4620531671057995693}
   - component: {fileID: 3327773169403130854}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 5767405248027404408}
   - component: {fileID: 868391374848318710}
   - component: {fileID: 2362866263805254736}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 8743024479423498839}
   - component: {fileID: 783731258226155589}
   - component: {fileID: 2253120828338980729}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -506,6 +506,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: enemy_model
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131239291109425906, guid: bedff2acbca4ae0419d3793d0b8aa53d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 3309541866414285728, guid: bedff2acbca4ae0419d3793d0b8aa53d,
         type: 3}

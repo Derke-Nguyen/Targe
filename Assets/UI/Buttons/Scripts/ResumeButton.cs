@@ -6,6 +6,6 @@ public class ResumeButton : MenuButton
 {
     public override void ButtonEffects()
     {
-        GameObject.Find("Pause Menu").SetActive(false);
+        GameObject.Find("GUI").GetComponent<GUIManager>().Resume();
     }
 }

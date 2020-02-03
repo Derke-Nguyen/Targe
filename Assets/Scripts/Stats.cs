@@ -5,6 +5,7 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     // Maximum Health of this Entity
+    [SerializeField]
     private int m_maxhealth = 100;
     
     // Current Health of this Entity
@@ -15,6 +16,11 @@ public class Stats : MonoBehaviour
 
     // If this entity is invincible
     private bool m_invincible = false;
+
+    private void Start()
+    {
+        m_currhealth = m_maxhealth;
+    }
 
     /* Sets the current health of the entity
      * 

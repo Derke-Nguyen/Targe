@@ -7,44 +7,37 @@ public class GUIManager : MonoBehaviour
 {
     private bool GameIsPaused = false;
     private bool GameOver = false;
-    private InputController input;
     public GameObject pauseMenuUI;
     public GameObject deathScreen;
 
     // Start is called before the first frame update
     void Start()
     {
-        input = GameObject.Find("InputController").GetComponent<InputController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(input.Menu() && !GameOver)
-        {
-            if(GameIsPaused)
-            {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
-        }
+
     }
 
-    private void Resume()
+    public void Resume()
     {
         pauseMenuUI.SetActive(false);
         //Time.timeScale = 1f;
         GameIsPaused = false;
     }
 
-    private void Pause()
+    public void Pause()
     {
         pauseMenuUI.SetActive(true);
         //Time.timeScale = 0f;
         GameIsPaused = true;
+    }
+
+    public bool PauseStatus()
+    {
+        return GameIsPaused;
     }
 
     public void DeathScreen()

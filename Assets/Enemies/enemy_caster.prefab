@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1494851182065044995}
   - component: {fileID: 86887764140002510}
   - component: {fileID: 7962678049469049338}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 622277838741153260}
   - component: {fileID: 290836193921053334}
   - component: {fileID: 2662412785425246181}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Health_Bar_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1990485361333521625}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 4739674709467082544}
   - component: {fileID: 7880594372369952207}
   - component: {fileID: 7788761403049858599}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 3125053811938043043}
   - component: {fileID: 2389147522128945534}
   - component: {fileID: 313370123692791139}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2138795591990793716}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,9 +430,9 @@ GameObject:
   - component: {fileID: 7743125575362615968}
   - component: {fileID: 7400386316811661456}
   - component: {fileID: 3266154935628060555}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: enemy_caster
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -494,6 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0cf58529f2618428b9f381b8531923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_maxhealth: 100
   m_dead: 0
 --- !u!1001 &777311291725265203
 PrefabInstance:
@@ -506,6 +507,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: enemy_model
+      objectReference: {fileID: 0}
+    - target: {fileID: 9131239291109425906, guid: bedff2acbca4ae0419d3793d0b8aa53d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 3309541866414285728, guid: bedff2acbca4ae0419d3793d0b8aa53d,
         type: 3}

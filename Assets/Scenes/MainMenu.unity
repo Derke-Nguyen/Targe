@@ -189,7 +189,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D E M O v0.3
+  m_Text: D E M O v0.4
 --- !u!222 &423504076
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1078,21 +1078,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-        type: 3}
-      propertyPath: controller
-      value: 
-      objectReference: {fileID: 667797413}
-    - target: {fileID: 4849879828886186048, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-        type: 3}
-      propertyPath: m_Text
-      value: Q U I T
-      objectReference: {fileID: 0}
     - target: {fileID: 4849879828583514343, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 250
       objectReference: {fileID: 0}
+    - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 667797413}
     - target: {fileID: 626831866, guid: 6698d73ab0a7f6642af072ff6fd42d5f, type: 3}
       propertyPath: m_Index
       value: 2
@@ -1101,6 +1096,11 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 667797413}
+    - target: {fileID: 4849879828886186048, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+        type: 3}
+      propertyPath: m_Text
+      value: Q U I T
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 626831866, guid: 6698d73ab0a7f6642af072ff6fd42d5f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6698d73ab0a7f6642af072ff6fd42d5f, type: 3}
@@ -1231,21 +1231,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-        type: 3}
-      propertyPath: controller
-      value: 
-      objectReference: {fileID: 667797413}
-    - target: {fileID: 4849879828886186048, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-        type: 3}
-      propertyPath: m_Text
-      value: C O N T I N U E
-      objectReference: {fileID: 0}
     - target: {fileID: 4849879828583514343, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 480
       objectReference: {fileID: 0}
+    - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 667797413}
     - target: {fileID: 626831866, guid: 6698d73ab0a7f6642af072ff6fd42d5f, type: 3}
       propertyPath: m_Index
       value: 1
@@ -1254,6 +1249,11 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 667797413}
+    - target: {fileID: 4849879828886186048, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+        type: 3}
+      propertyPath: m_Text
+      value: C O N T I N U E
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6698d73ab0a7f6642af072ff6fd42d5f, type: 3}
 --- !u!1001 &1503721184202889790
