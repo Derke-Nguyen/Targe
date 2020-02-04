@@ -21,12 +21,22 @@ public class Level4Manager : LevelManager
     // Update is called once per frame
     public override void Update()
     {
-        base.Update();
-
         if (m_Enemy.GetComponent<Stats>().IsDead())
         {
+            m_GUI.GetComponent<AudioSource>().Pause();
             victoryScreen.SetActive(true);
             victoryScreen.GetComponent<Animator>().SetBool("Win", true);
+            if (input.Menu())
+            {
+                Debug.Log("Quit");
+                Application.Quit();
+            }
         }
+        else
+        {
+            base.Update();
+        }
+
+
     }
 }

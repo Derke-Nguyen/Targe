@@ -44,6 +44,7 @@ public class GUIManager : MonoBehaviour
     {
         deathScreen.SetActive(true);
         deathScreen.GetComponent<Animator>().SetBool("dead", true);
+        gameObject.GetComponent<AudioSource>().Pause();
         GameOver = true;
     }
 

@@ -18,10 +18,10 @@ public class LevelManager : MonoBehaviour
     private GameObject m_Player;
 
     // gui manager
-    private GUIManager m_GUI;
+    public GUIManager m_GUI;
 
     // input manager
-    private InputController input;
+    public InputController input;
 
     // Start is called before the first frame update
     public virtual void Start()
