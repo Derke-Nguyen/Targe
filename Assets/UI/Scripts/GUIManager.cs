@@ -43,6 +43,7 @@ public class GUIManager : MonoBehaviour
     public void DeathScreen()
     {
         deathScreen.SetActive(true);
+        deathScreen.GetComponent<Animator>().SetBool("dead", true);
         GameOver = true;
     }
 

@@ -809,6 +809,21 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3958724113986912603, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3958724113986912603, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9090929237004439982, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c59c94b9d1896041a31f27285193db1, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a63b758dda04fa4ab5da63cf40231d7, type: 3}
 --- !u!1001 &587732967
@@ -1960,7 +1975,6 @@ MonoBehaviour:
   - {fileID: 207693108}
   - {fileID: 587732968}
   - {fileID: 1661877475}
-  m_Paused: 0
 --- !u!4 &1634498997
 Transform:
   m_ObjectHideFlags: 0
