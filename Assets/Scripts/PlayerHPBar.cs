@@ -31,9 +31,9 @@ public class PlayerHPBar : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (m_HPBarAfter.value != m_HPBar.value)
+        if (m_HPBarAfter.value > m_HPBar.value)
         {
-            m_HPBarAfter.value -= 0.01f;
+            m_HPBarAfter.value -= 0.2f;
         }
     }
 }

@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9528302, g: 0.5393697, b: 0.4179868, a: 1}
+  m_Color: {r: 0.8867924, g: 0.38065147, b: 0.40593326, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3217,16 +3217,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-        type: 3}
-      propertyPath: controller
-      value: 
-      objectReference: {fileID: 9090929237711772773}
     - target: {fileID: 4849879828583514343, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 250
       objectReference: {fileID: 0}
+    - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 9090929237711772773}
     - target: {fileID: 4849879828886186048, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
       propertyPath: m_Color.r
@@ -3411,16 +3411,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-        type: 3}
-      propertyPath: controller
-      value: 
-      objectReference: {fileID: 9090929237711772773}
     - target: {fileID: 4849879828583514343, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 350
       objectReference: {fileID: 0}
+    - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+        type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 9090929237711772773}
     - target: {fileID: 4849879828886186048, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
       propertyPath: m_Color.r

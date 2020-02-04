@@ -31,9 +31,9 @@ public class EnemyHPBar : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (m_HPBarAfter.value != m_HPBar.value)
+        if (m_HPBarAfter.value > m_HPBar.value)
         {
-            m_HPBarAfter.value -= 0.1f;
+            m_HPBarAfter.value -= 0.2f;
         }
     }
 

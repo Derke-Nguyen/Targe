@@ -8,6 +8,8 @@ public class Level4Manager : LevelManager
     [SerializeField]
     private GameObject m_Enemy;
 
+    public GameObject victoryScreen;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -23,7 +25,8 @@ public class Level4Manager : LevelManager
 
         if (m_Enemy.GetComponent<Stats>().IsDead())
         {
-            Debug.Log("Game Completed");
+            victoryScreen.SetActive(true);
+            victoryScreen.GetComponent<Animator>().SetBool("Win", true);
         }
     }
 }
