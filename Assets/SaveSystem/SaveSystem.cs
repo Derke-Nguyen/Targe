@@ -7,7 +7,7 @@ public static class SaveSystem
     public static void SaveLevel(LevelManager levelmanager)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.dataPath + "/level.save";
+        string path = Application.persistentDataPath + "/level.save";
         FileStream stream = new FileStream(path, FileMode.Create);
         Debug.Log(path);
         SaveData data = new SaveData(levelmanager);
@@ -18,7 +18,7 @@ public static class SaveSystem
     
     public static SaveData LoadSave()
     {
-        string path = Application.dataPath + "/level.save";
+        string path = Application.persistentDataPath + "/level.save";
         if(File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
