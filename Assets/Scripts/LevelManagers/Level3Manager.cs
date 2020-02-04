@@ -20,6 +20,8 @@ public class Level3Manager : LevelManager
     // Start is called before the first frame update
     public override void Start()
     {
+        base.Start();
+
         m_Gate = GameObject.Find("Gate");
         m_Gate.SetActive(false);
     }
@@ -27,6 +29,7 @@ public class Level3Manager : LevelManager
     // Update is called once per frame
     public override void Update()
     {
+        base.Update();
 
         switch (m_Stage)
         {

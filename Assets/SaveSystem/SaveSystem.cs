@@ -9,7 +9,7 @@ public static class SaveSystem
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.dataPath + "/level.save";
         FileStream stream = new FileStream(path, FileMode.Create);
-
+        Debug.Log(path);
         SaveData data = new SaveData(levelmanager);
 
         formatter.Serialize(stream, data);

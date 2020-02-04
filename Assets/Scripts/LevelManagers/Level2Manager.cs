@@ -14,6 +14,8 @@ public class Level2Manager : LevelManager
     // Start is called before the first frame update
     public override void Start()
     {
+        base.Start();
+
         m_Gate = GameObject.Find("Gate");
         m_Gate.SetActive(false);
         foreach (GameObject thing in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -25,8 +27,9 @@ public class Level2Manager : LevelManager
     // Update is called once per frame
     public override void Update()
     {
+        base.Update();
 
-        if(m_Enemies.Count == 0 && !base.IsCompleted())
+        if (m_Enemies.Count == 0 && !base.IsCompleted())
         {
             base.SetCompleted(true);
         }

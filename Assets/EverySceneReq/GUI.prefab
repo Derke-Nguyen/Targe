@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9090929236417869641}
   - component: {fileID: 9090929236417869644}
-  - component: {fileID: 9090929236417869643}
+  - component: {fileID: 48104463832696147}
   - component: {fileID: 9090929236417869642}
   m_Layer: 5
   m_Name: SaveButton
@@ -92,7 +92,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &9090929236417869643
+--- !u!114 &48104463832696147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9090929236417869640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 658abd6de8734b34fb3efef117245bcf, type: 3}
+  m_Script: {fileID: 11500000, guid: 13fe8212a4c0ddf409c1a8c2f896766a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 9090929238179751185}
@@ -1829,7 +1829,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 494.69995, y: 85.6001}
+  m_AnchoredPosition: {x: 494.69922, y: 85.59961}
   m_SizeDelta: {x: 817.4, y: 47.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9090929237580131473
@@ -2618,7 +2618,6 @@ GameObject:
   - component: {fileID: 9090929238179751213}
   - component: {fileID: 9090929238179751215}
   - component: {fileID: 9090929238179751214}
-  - component: {fileID: 9090929238179751184}
   - component: {fileID: 9090929238179751185}
   m_Layer: 5
   m_Name: Pause Menu
@@ -2687,18 +2686,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9090929238179751184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9090929238179751212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2003307f041851c49bfba3214604d3e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9090929238179751185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2922,6 +2909,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4849879828583514343, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
       propertyPath: controller
@@ -2946,11 +2938,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Q U I T
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849879828583514343, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 4849879828583514340, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
@@ -3116,6 +3103,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4849879828583514343, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 350
+      objectReference: {fileID: 0}
     - target: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
       propertyPath: controller
@@ -3140,11 +3132,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: R E T R Y
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849879828583514343, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 4849879828583514340, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
         type: 3}
