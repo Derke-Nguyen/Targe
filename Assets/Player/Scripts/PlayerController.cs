@@ -686,7 +686,10 @@ public class PlayerController : MonoBehaviour
 
     private void Hit()
     {
-
+        if(!m_AnimFlags.HitStatus())
+        {
+            SetState(State.idle);
+        }
     }
 
     /* When the lockon button is pressed, how it affects the player
@@ -743,8 +746,13 @@ public class PlayerController : MonoBehaviour
 
     public void GotHit(int t_Damage)
     {
-        SetState(State.hit);
         m_Stats.Damage(t_Damage);
+        if (m_Stats.IsDead())
+        {
+            return;
+        }
+        m_AnimFlags.HitStart();
+        SetState(State.hit);
     }
 
 }

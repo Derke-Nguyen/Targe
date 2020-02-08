@@ -15,7 +15,7 @@ public class PlayerHPBar : MonoBehaviour
         m_Health = GameObject.Find("player").GetComponent<Stats>();
         m_HPBar = GetComponent<Slider>();
         m_HPBarAfter = transform.Find("HealthBarAfterEffect").GetComponent<Slider>();
-        m_HPBar.maxValue = m_HPBar.maxValue;
+        m_HPBar.maxValue = m_Health.GetMaxHealth();
         m_HPBar.minValue = 0;
         m_HPBarAfter.maxValue = m_HPBar.maxValue;
         m_HPBarAfter.minValue = m_HPBar.minValue;

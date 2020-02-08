@@ -7,7 +7,7 @@ public class PlayerAnimationFlags : MonoBehaviour
     // Animation Flags
     [SerializeField]
     private bool m_Dodge = false;
-    private bool m_Combat = false;
+    private bool m_Combat = true;
     private bool m_CombatMove = false;
     private bool m_CombatHitBox = false;
     private bool m_Hit = false;
@@ -95,11 +95,11 @@ public class PlayerAnimationFlags : MonoBehaviour
 
     public void HitStart()
     {
-        m_Hit = false;
+        m_Hit = true;
     }
 
     public void HitEnded()
     {
-        m_Hit = true;
+        m_Hit = false;
     }
 }
