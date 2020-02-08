@@ -9,6 +9,7 @@ public class GUIManager : MonoBehaviour
     private bool GameOver = false;
     public GameObject pauseMenuUI;
     public GameObject deathScreen;
+    public GameObject m_Reticle;
 
     // Start is called before the first frame update
     void Start()
@@ -53,5 +54,15 @@ public class GUIManager : MonoBehaviour
         GameOver = false;
         deathScreen.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void AimOn()
+    {
+        m_Reticle.SetActive(true);
+    }
+
+    public void AimOff()
+    {
+        m_Reticle.SetActive(false);
     }
 }

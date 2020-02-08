@@ -27,6 +27,10 @@ public class BossHPBar : MonoBehaviour
     void Update()
     {
         m_HPBar.value = m_Health.GetHealth();
+        if(m_Health.IsDead())
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void FixedUpdate()

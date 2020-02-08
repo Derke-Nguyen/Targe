@@ -182,6 +182,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.throwing:
+                GameObject.Find("GUI").GetComponent<GUIManager>().AimOn();
                 m_Anim.SetTrigger("StartAim");
                 m_Anim.SetBool("Aim", true);
                 break;
@@ -200,6 +201,10 @@ public class PlayerController : MonoBehaviour
                 
             case State.block:
                 m_Anim.SetBool("Block", true);
+                break;
+
+            case State.hit:
+                m_Anim.SetTrigger("Hit");
                 break;
 
             default:
@@ -243,6 +248,10 @@ public class PlayerController : MonoBehaviour
 
             case State.block:
                 Block();
+                break;
+
+            case State.hit:
+                Hit();
                 break;
 
             default:
@@ -447,6 +456,7 @@ public class PlayerController : MonoBehaviour
         //cancel
         if (!input.Aim() || input.AimCancel())
         {
+            GameObject.Find("GUI").GetComponent<GUIManager>().AimOff();
             m_Anim.SetBool("Aim", false);
             m_Camera.GetComponent<ThirdPersonCamera>().AimOff();
 
@@ -473,6 +483,7 @@ public class PlayerController : MonoBehaviour
         //throw
         if (input.Melee())
         {
+            GameObject.Find("GUI").GetComponent<GUIManager>().AimOff();
             m_Anim.SetBool("Aim", false);
             m_Anim.SetTrigger("Throw");
             m_Shield = false;
@@ -600,11 +611,11 @@ public class PlayerController : MonoBehaviour
 
                 if(m_Shield)
                 {
-                    enemy.GetComponent<Stats>().Damage(SHIELD_DAMAGE);
+                    enemy.GetComponent<EnemyController>().GotHit(SHIELD_DAMAGE);
                 }
                 else
                 {
-                    enemy.GetComponent<Stats>().Damage(FIST_DAMAGE);
+                    enemy.GetComponent<EnemyController>().GotHit(FIST_DAMAGE);
                 }
                 m_AlreadyHit.Add(enemy.gameObject.name, enemy.gameObject);
             }
@@ -673,6 +684,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Hit()
+    {
+
+    }
+
     /* When the lockon button is pressed, how it affects the player
      * 
      * Will turn the player towards the locked on target
@@ -715,4 +731,20 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawWireSphere(m_Foot.position, ATTACK_RANGE);
         }
     }
+
+    public bool isAiming()
+    {
+        if(m_State == State.throwing)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void GotHit(int t_Damage)
+    {
+        SetState(State.hit);
+        m_Stats.Damage(t_Damage);
+    }
+
 }

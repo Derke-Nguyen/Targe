@@ -12,6 +12,8 @@ public class Level1Manager : LevelManager
     [SerializeField]
     private List<GameObject> m_Enemies = new List<GameObject>();
 
+    private bool m_Triggered;
+
 
     // Start is called before the first frame update
     public override void Start()
@@ -67,11 +69,33 @@ public class Level1Manager : LevelManager
         {
             if (other.tag == "Player")
             {
+                m_Triggered = true;
                 foreach (GameObject enemy in m_Enemies)
                 {
                     enemy.SetActive(true);
                 }
             }
         } 
+    }
+
+    public override void Pause()
+    {
+        base.Pause();
+        foreach (GameObject enemy in m_Enemies)
+        {
+            enemy.SetActive(false);
+        }
+    }
+
+    public override void Resume()
+    {
+        base.Resume();
+        if(m_Triggered)
+        {
+            foreach (GameObject enemy in m_Enemies)
+            {
+                enemy.SetActive(true);
+            }
+        }
     }
 }

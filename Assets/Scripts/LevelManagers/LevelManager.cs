@@ -41,17 +41,28 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        m_Paused = m_GUI.PauseStatus();
+        if(m_Paused != m_GUI.PauseStatus())
+        {
+            m_Paused = m_GUI.PauseStatus();
+            if(m_Paused)
+            {
+                Pause();
+            }
+            else
+            {
+                Resume();
+            }
+        }
 
         if (input.Menu())
         {
             if (m_Paused)
             {
-                m_GUI.Resume();
+                Resume();
             }
             else
             {
-                m_GUI.Pause();
+                Pause();
             }
         }
     }
@@ -69,5 +80,17 @@ public class LevelManager : MonoBehaviour
     public void SetCompleted(bool isCompleted)
     {
         m_Completed = isCompleted;
+    }
+
+    public virtual void Pause()
+    {
+        m_GUI.Pause();
+        m_Player.SetActive(false);
+    }
+
+    public virtual void Resume()
+    {
+        m_GUI.Resume();
+        m_Player.SetActive(true);
     }
 }
