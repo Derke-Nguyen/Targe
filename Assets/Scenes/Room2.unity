@@ -1290,7 +1290,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'D E M O v0.4
+  m_Text: 'D E M O v0.5
 
 '
 --- !u!222 &1213380675
@@ -2259,6 +2259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dee32f51d2cdbe4b9f08e0afc09f444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_GUI: {fileID: 0}
+  input: {fileID: 0}
   m_Enemies: []
 --- !u!65 &1764406380
 BoxCollider:

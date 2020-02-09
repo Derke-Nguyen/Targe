@@ -9,6 +9,7 @@ public class EnemyAnimationFlags : MonoBehaviour
     private bool m_Hit = false;
     private bool m_Combat = false;
     private bool m_HitboxActive = false;
+    private bool m_Fireball = false;
 
     public bool HitStatus()
     {
@@ -53,5 +54,20 @@ public class EnemyAnimationFlags : MonoBehaviour
     public void HitboxEnd()
     {
         m_HitboxActive = false;
+    }
+
+    public bool ThrowFireball()
+    {
+        return m_Fireball;
+    }
+
+    public void FireballCreate()
+    {
+        m_Fireball = true;
+    }
+
+    public void FireballThrown()
+    {
+        m_Fireball = false;
     }
 }

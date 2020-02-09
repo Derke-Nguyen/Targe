@@ -744,8 +744,16 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void GotHit(int t_Damage)
+    public void GotHit(int t_Damage, bool t_Blockable)
     {
+        if(m_State == State.dodge)
+        {
+            return;
+        }
+        else if (m_State == State.block && t_Blockable)
+        {
+            return;
+        }
         m_Stats.Damage(t_Damage);
         if (m_Stats.IsDead())
         {

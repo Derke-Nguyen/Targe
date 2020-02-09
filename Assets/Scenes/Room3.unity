@@ -1439,7 +1439,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D E M O v0.4
+  m_Text: D E M O v0.5
 --- !u!222 &1070288807
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1963,6 +1963,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2991b04bddeb04a8562d421e13ba5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_GUI: {fileID: 0}
+  input: {fileID: 0}
   m_Grunts:
   - {fileID: 1079083840}
   - {fileID: 800440268}

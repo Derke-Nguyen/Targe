@@ -102,4 +102,5 @@ public class PlayerAnimationFlags : MonoBehaviour
     {
         m_Hit = false;
     }
+
 }
