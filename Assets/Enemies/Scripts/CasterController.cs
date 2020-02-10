@@ -14,7 +14,7 @@ public class CasterController : EnemyController
         m_DetectRange = 20f;
         m_AttackRange = 10f;
         m_MoveSpeed = 3f;
-        m_TurnTime = 0.25f;
+        m_TurnTime = 0.4f;
         m_HitSphereRange = 0.0f;
 }
 
@@ -24,10 +24,8 @@ public class CasterController : EnemyController
         if(m_AnimFlags.ThrowFireball())
         {
             //Create a fireball
-            Vector3 direction = m_PlayerLocation.position - transform.position;
-            direction.Normalize();
             GameObject thing = Instantiate(m_Fireball, m_Attackpoint.position, Quaternion.identity);
-            thing.GetComponent<Rigidbody>().AddForce(direction * m_ThrowStrength, ForceMode.Impulse);
+            thing.GetComponent<Rigidbody>().AddForce(transform.forward * m_ThrowStrength, ForceMode.Impulse);
             m_AnimFlags.FireballThrown();
         }
     }

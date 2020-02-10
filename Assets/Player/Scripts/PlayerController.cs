@@ -611,11 +611,11 @@ public class PlayerController : MonoBehaviour
 
                 if(m_Shield)
                 {
-                    enemy.GetComponent<EnemyController>().GotHit(SHIELD_DAMAGE);
+                    enemy.GetComponent<EnemyController>().GotHit(SHIELD_DAMAGE, true);
                 }
                 else
                 {
-                    enemy.GetComponent<EnemyController>().GotHit(FIST_DAMAGE);
+                    enemy.GetComponent<EnemyController>().GotHit(FIST_DAMAGE, false);
                 }
                 m_AlreadyHit.Add(enemy.gameObject.name, enemy.gameObject);
             }

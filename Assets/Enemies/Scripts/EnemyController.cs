@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
 
     private Rigidbody m_RigidBody;
 
-    private Stats m_Stats;
+    protected Stats m_Stats;
 
     private BoxCollider m_BoxCollider;
 
@@ -25,8 +25,8 @@ public class EnemyController : MonoBehaviour
 
     public LayerMask m_PlayerLayer;
 
-    private int m_AttackDamage = 10;
-    private float m_Knockback = 0.5f;
+    protected int m_AttackDamage = 10;
+    protected float m_Knockback = 0.5f;
     protected float m_HitSphereRange = 0.2f;
 
     private Dictionary<string, GameObject> m_AlreadyHit = new Dictionary<string, GameObject>();
@@ -73,7 +73,7 @@ public class EnemyController : MonoBehaviour
         ExecuteState();
     }
 
-    private void SetState(State t_State)
+    protected void SetState(State t_State)
     {
         m_State = t_State;
 
@@ -137,12 +137,23 @@ public class EnemyController : MonoBehaviour
 
     public virtual void Idle()
     {
+        Vector3 target = m_PlayerLocation.position - transform.position;
+        target.Normalize();
+        float targetRot = Mathf.Acos(Vector3.Dot(target, transform.forward));
+        bool facing = (targetRot < 0.025) ? true : false;
+        Debug.Log(targetRot);
+        if(!facing)
+        {
+            Vector2 targetLocation = new Vector2(target.x, target.z);
+            float targetLook = Mathf.Atan2(targetLocation.x, targetLocation.y) * Mathf.Rad2Deg;
+            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetLook, ref m_TurnVel, m_TurnTime);
+        }
         float distance = Mathf.Abs(Vector3.Distance(m_PlayerLocation.position, transform.position));
         if (distance <= m_DetectRange && distance > m_AttackRange)
         {
             SetState(State.walking);
         }
-        else if(distance <= m_AttackRange)
+        else if(distance <= m_AttackRange && facing)
         {
             SetState(State.combat);
         }
@@ -202,7 +213,11 @@ public class EnemyController : MonoBehaviour
         {
             m_AlreadyHit.Clear();
             float distance = Mathf.Abs(Vector3.Distance(m_PlayerLocation.position, transform.position));
-            if (distance <= m_AttackRange)
+            Vector3 target = m_PlayerLocation.position - transform.position;
+            target.Normalize();
+            float targetRot = Mathf.Acos(Vector3.Dot(target,transform.forward)/(distance));
+            Debug.Log(targetRot);
+            if (distance <= m_AttackRange && targetRot == 0)
             {
                 SetState(State.combat);
             }
@@ -213,7 +228,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public virtual void GotHit(int t_damage)
+    public virtual void GotHit(int t_damage, bool m_unblockable = false)
     {
         SetState(State.hit);
         m_Stats.Damage(t_damage);
