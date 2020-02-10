@@ -18,7 +18,7 @@ public class CasterController : EnemyController
         m_HitSphereRange = 0.0f;
 }
 
-    public override void Combat()
+    protected override void Combat()
     {
         base.Combat();
         if(m_AnimFlags.ThrowFireball())
