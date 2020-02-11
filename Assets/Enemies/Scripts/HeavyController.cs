@@ -16,12 +16,12 @@ public class HeavyController : EnemyController
         m_HitSphereRange = 0.4f;
     }
 
-    public override void GotHit(int t_damage, bool m_unblockable)
+    public override void GotHit(int t_damage, bool m_unblockable = false)
     {
+        m_Stats.Damage(t_damage);
         if(m_unblockable)
         {
             SetState(State.hit);
         }
-        m_Stats.Damage(t_damage);
     }
 }

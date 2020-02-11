@@ -39,6 +39,8 @@ public class EnemyController : MonoBehaviour
     protected float m_TurnTime = 0.2f;
     protected float m_TurnVel;
 
+    protected float m_ViewRange = 0.025f;
+
     //private GameObject m_HealthBar;
 
     // Start is called before the first frame update
@@ -140,7 +142,7 @@ public class EnemyController : MonoBehaviour
         Vector3 target = m_PlayerLocation.position - transform.position;
         target.Normalize();
         float targetRot = Mathf.Acos(Vector3.Dot(target, transform.forward));
-        bool facing = (targetRot < 0.025) ? true : false;
+        bool facing = (targetRot < m_ViewRange) ? true : false;
         if(!facing)
         {
             Vector2 targetLocation = new Vector2(target.x, target.z);
@@ -229,7 +231,7 @@ public class EnemyController : MonoBehaviour
 
     public virtual void GotHit(int t_damage, bool m_unblockable = false)
     {
-        SetState(State.hit);
         m_Stats.Damage(t_damage);
+        SetState(State.hit);
     }
 }

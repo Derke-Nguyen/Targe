@@ -81,6 +81,11 @@ public class Stats : MonoBehaviour
         return m_maxhealth;
     }
 
+    public float GetPercentHealth()
+    {
+        return ((float)m_currhealth / (float)m_maxhealth);
+    }
+
     /* Damages the entity
     * 
     * t_damage : damage that will be dealt to enemy

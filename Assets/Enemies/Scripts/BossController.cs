@@ -4,34 +4,38 @@ using UnityEngine;
 
 public class BossController : EnemyController
 {
-    public enum BossState { idle, walking, hit, combat, dead };
+    public enum BossState { idle, walking, hit, combat, special, dead };
 
-    private BossState m_BossState = BossState.idle;
+    [SerializeField]private BossState m_BossState = BossState.idle;
 
     private float m_FootRange = 0.2f;
     private int m_FootDamage = 5;
     [SerializeField] private Transform m_Footpoint;
+    [SerializeField] private Transform m_Tip;
 
     private int m_HardDamage = 25;
-    private float m_HeavyKnockback = 2f;
+    private float m_HeavyKnockback = 1f;
 
     private bool m_Defeated;
 
     private Dictionary<string, GameObject> m_AlreadyHit = new Dictionary<string, GameObject>();
+
+    private bool m_Heavy = false;
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
         m_AttackDamage = 15;
-        m_Knockback = 1f;
-        m_HitSphereRange = 0.8f;
+        m_Knockback = 0.5f;
+        m_HitSphereRange = 0.35f;
 
 
         m_DetectRange = 30f;
         m_AttackRange = 2f;
         m_MoveSpeed = 2f;
         m_TurnTime = 0.2f;
+        m_ViewRange = 0.8f;
     }
 
     // Update is called once per frame
@@ -70,13 +74,23 @@ public class BossController : EnemyController
                 break;
 
             case BossState.combat:
-                m_Anim.SetTrigger("lattack");
+                float temp = Random.Range(0, 100);
+                m_Heavy = (temp >= 65f) ? true : false;
+                if (m_Heavy)
+                    m_Anim.SetTrigger("hattack");
+                else
+                    m_Anim.SetTrigger("lattack");
                 m_AnimFlags.CombatStart();
                 break;
 
             case BossState.hit:
                 m_Anim.SetTrigger("hit");
                 m_AnimFlags.HitStart();
+                break;
+
+            case BossState.special:
+                m_Anim.SetTrigger("sattack");
+                m_AnimFlags.CombatStart();
                 break;
 
             default:
@@ -97,7 +111,7 @@ public class BossController : EnemyController
                 break;
 
             case BossState.hit:
-                base.Hit();
+                Hit();
                 break;
 
             case BossState.dead:
@@ -105,6 +119,10 @@ public class BossController : EnemyController
 
             case BossState.combat:
                 Combat();
+                break;
+
+            case BossState.special:
+                Special();
                 break;
 
             default:
@@ -117,7 +135,7 @@ public class BossController : EnemyController
         Vector3 target = m_PlayerLocation.position - transform.position;
         target.Normalize();
         float targetRot = Mathf.Acos(Vector3.Dot(target, transform.forward));
-        bool facing = (targetRot < 0.3) ? true : false;
+        bool facing = (targetRot < m_ViewRange) ? true : false;
         if (!facing)
         {
             Vector2 targetLocation = new Vector2(target.x, target.z);
@@ -131,7 +149,18 @@ public class BossController : EnemyController
         }
         else if (distance <= m_AttackRange && facing)
         {
-            SetState(BossState.combat);
+            if(m_Stats.GetPercentHealth() <= 0.3)
+            {
+                float temp = Random.Range(0, 100);
+                if (temp > 70)
+                    SetState(BossState.special);
+                else
+                    SetState(BossState.combat);
+            }
+            else
+            {
+                SetState(BossState.combat);
+            }
         }
 
     }
@@ -155,6 +184,7 @@ public class BossController : EnemyController
 
     protected override void Hit()
     {
+        Debug.Log(m_AnimFlags.HitStatus());
         if (m_AnimFlags.HitStatus())
         {
             SetState(BossState.idle);
@@ -163,11 +193,12 @@ public class BossController : EnemyController
 
     protected override void Combat()
     {
+
         if (m_AnimFlags.CombatHitBox())
         {
             // Detect enemies in range
             List<Collider> hitPlayer = new List<Collider>();
-            hitPlayer.AddRange(Physics.OverlapSphere(m_Attackpoint.position, m_HitSphereRange, m_PlayerLayer));
+            hitPlayer.AddRange(Physics.OverlapCapsule(m_Attackpoint.position, m_Tip.position, m_HitSphereRange, m_PlayerLayer));
 
 
 
@@ -175,12 +206,15 @@ public class BossController : EnemyController
             foreach (Collider player in hitPlayer)
             {
                 player.GetComponent<Rigidbody>().AddForce(transform.forward * m_Knockback, ForceMode.Impulse);
+
                 if (m_AlreadyHit.ContainsKey(player.gameObject.name))
                 {
                     continue;
                 }
-
-                player.GetComponent<PlayerController>().GotHit(m_AttackDamage, true);
+                if (m_Heavy)
+                    player.GetComponent<PlayerController>().GotHit(m_HardDamage, true);
+                else
+                    player.GetComponent<PlayerController>().GotHit(m_AttackDamage, true);
 
                 m_AlreadyHit.Add(player.gameObject.name, player.gameObject);
             }
@@ -194,7 +228,18 @@ public class BossController : EnemyController
             float targetRot = Mathf.Acos(Vector3.Dot(target, transform.forward) / (distance));
             if (distance <= m_AttackRange && targetRot == 0)
             {
-                SetState(BossState.combat);
+                if (m_Stats.GetPercentHealth() < 0.3f)
+                {
+                    float temp = Random.Range(0, 100);
+                    if (temp > 85)
+                        SetState(BossState.special);
+                    else
+                        SetState(BossState.combat);
+                }
+                else
+                {
+                    SetState(BossState.combat);
+                }
             }
             else
             {
@@ -203,11 +248,50 @@ public class BossController : EnemyController
         }
     }
 
+    private void Special()
+    {
+        m_Anim.SetBool("block", true);
+        if (m_AnimFlags.CombatHitBox())
+        {
+            // Detect enemies in range
+            List<Collider> hitPlayer = new List<Collider>();
+            hitPlayer.AddRange(Physics.OverlapSphere(m_Attackpoint.position, m_HitSphereRange, m_PlayerLayer));
+
+
+
+            //Damage/effects enemies
+            foreach (Collider player in hitPlayer)
+            {
+                player.GetComponent<Rigidbody>().AddForce(transform.forward * m_Knockback, ForceMode.Impulse);
+
+                if (m_AlreadyHit.ContainsKey(player.gameObject.name))
+                {
+                    continue;
+                }
+                player.GetComponent<PlayerController>().GotHit(m_AttackDamage, true);
+
+                m_AlreadyHit.Add(player.gameObject.name, player.gameObject);
+            }
+        }
+        if (!m_AnimFlags.CombatStatus())
+        {
+            m_Stats.Heal(1);
+        }
+        if(m_Stats.GetPercentHealth() == 1)
+        {
+            SetState(BossState.idle);
+            m_Anim.SetBool("block", false);
+        }
+    }
+
     public override void GotHit(int t_damage, bool m_unblockable = false)
     {
-        base.GotHit(t_damage, m_unblockable);
-        SetState(State.hit);
         m_Stats.Damage(t_damage);
+        if (m_Heavy)
+        {
+            return;
+        }
+        SetState(BossState.hit);
     }
 
     private void OnDrawGizmosSelected()
@@ -217,7 +301,7 @@ public class BossController : EnemyController
             return;
         }
         Gizmos.DrawWireSphere(transform.position, m_AttackRange);
-        Gizmos.DrawWireSphere(m_Attackpoint.position, m_HitSphereRange);
+        //Gizmos.DrawWireSphere(m_Attackpoint.position, m_HitSphereRange);
         Gizmos.DrawWireSphere(m_Footpoint.position, m_FootRange);
     }
 }
