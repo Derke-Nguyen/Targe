@@ -39,4 +39,16 @@ public class Level4Manager : LevelManager
 
 
     }
+
+    public override void Pause()
+    {
+        base.Pause();
+        m_Enemy.SetActive(false);
+    }
+
+    public override void Resume()
+    {
+        base.Resume();
+        m_Enemy.SetActive(true);
+    }
 }

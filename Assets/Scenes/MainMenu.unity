@@ -845,6 +845,46 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1072345255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4849879829135460972, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4849879829751741338}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1072345256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072345255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658abd6de8734b34fb3efef117245bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 667797413}
+  anim: {fileID: 1072345258}
+  animfuncs: {fileID: 1072345257}
+  m_Index: 0
+--- !u!114 &1072345257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4849879829751741338}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072345255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb7d2c2c1815d3d42a823b2eb9b4f632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &1072345258 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 887702201391271099, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4849879829751741338}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1116667953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,6 +1138,11 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 667797413}
+    - target: {fileID: 4849879828886186048, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
+        type: 3}
+      propertyPath: m_Text
+      value: Q U I T
+      objectReference: {fileID: 0}
     - target: {fileID: 626831866, guid: 6698d73ab0a7f6642af072ff6fd42d5f, type: 3}
       propertyPath: m_Index
       value: 2
@@ -1106,11 +1151,6 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 667797413}
-    - target: {fileID: 4849879828886186048, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-        type: 3}
-      propertyPath: m_Text
-      value: Q U I T
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 626831866, guid: 6698d73ab0a7f6642af072ff6fd42d5f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6698d73ab0a7f6642af072ff6fd42d5f, type: 3}

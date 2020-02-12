@@ -20,7 +20,7 @@ public class BossHPBar : MonoBehaviour
         m_HPBarAfter.maxValue = m_HPBar.maxValue;
         m_HPBarAfter.minValue = 0;
         m_HPBar.value = m_Health.GetHealth();
-        m_HPBarAfter.value = m_HPBar.value;
+        m_HPBarAfter.value = 1000;
     }
 
     // Update is called once per frame

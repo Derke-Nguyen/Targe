@@ -15,6 +15,7 @@ public class BossController : EnemyController
 
     private int m_HardDamage = 25;
     private float m_HeavyKnockback = 1f;
+    private float m_Regen = 0f;
 
     private bool m_Defeated;
 
@@ -287,11 +288,10 @@ public class BossController : EnemyController
     public override void GotHit(int t_damage, bool m_unblockable = false)
     {
         m_Stats.Damage(t_damage);
-        if (m_Heavy)
+        if(m_BossState == BossState.special && m_unblockable)
         {
-            return;
+            SetState(BossState.hit);
         }
-        SetState(BossState.hit);
     }
 
     private void OnDrawGizmosSelected()
