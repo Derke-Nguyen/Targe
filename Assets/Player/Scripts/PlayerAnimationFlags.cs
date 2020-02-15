@@ -47,7 +47,7 @@ public class PlayerAnimationFlags : MonoBehaviour
         ShieldController shield = GameObject.Find("shield").GetComponent<ShieldController>();
         Vector3 direction = Camera.main.transform.forward;
         Camera.main.transform.GetComponent<ThirdPersonCamera>().AimOff();
-        shield.Thrown(direction);
+        shield.Thrown(direction.normalized);
     }
 
     public bool CombatMove()

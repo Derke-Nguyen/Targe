@@ -198,4 +198,22 @@ public class ThirdPersonCamera : MonoBehaviour
         m_Aim = false;
         m_DistanceFromTarget = m_DefaultDistance;
     }
+
+    public IEnumerator Shake(float t_Duration, float t_Magnitude)
+    {
+        Vector3 originalPos = transform.localPosition;
+        float elasped = 0.0f;
+        while(elasped < t_Duration)
+        {
+            float x = originalPos.x + Random.Range(-1f, 1f) * t_Magnitude;
+            float y = originalPos.y + Random.Range(-1f, 1f) * t_Magnitude;
+            float z = originalPos.z + Random.Range(-1f, 1f) * t_Magnitude;
+
+            transform.localPosition = new Vector3(x, y, z);
+
+            elasped += Time.deltaTime;
+            yield return null;
+        }
+        transform.localPosition = originalPos;
+    }
 }

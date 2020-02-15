@@ -66966,7 +66966,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.33333334
+  - time: 0.93333334
     functionName: CombatWindUpStart
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -66987,7 +66987,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.3833333
+  - time: 1.2166667
     functionName: CombatWindUpEnd
     data: 
     objectReferenceParameter: {fileID: 0}

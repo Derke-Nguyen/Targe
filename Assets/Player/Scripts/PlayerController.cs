@@ -67,9 +67,9 @@ public class PlayerController : MonoBehaviour
     public LayerMask m_EnemyLayer;
 
     private int FIST_DAMAGE = 10;
-    private float FIST_KNOCKBACK = 0.5f;
+    private float FIST_KNOCKBACK = 0.25f;
     private int SHIELD_DAMAGE = 20;
-    private float SHIELD_KNOCKBACK = 0.75f;
+    private float SHIELD_KNOCKBACK = 0.5f;
 
     private Dictionary<string, GameObject> m_AlreadyHit = new Dictionary<string, GameObject>();
     #endregion
@@ -203,6 +203,7 @@ public class PlayerController : MonoBehaviour
 
             case State.hit:
                 m_Anim.SetTrigger("Hit");
+                StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.05f, 0.05f));
                 break;
 
             default:
@@ -439,7 +440,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             float targetRot = Mathf.Atan2(m_DodgeDirection.x, m_DodgeDirection.z) * Mathf.Rad2Deg;
-            if(input.Hori() != 0 && input.Vert() != 0)
+            if(input.Hori() != 0 || input.Vert() != 0)
             {
                 targetRot += m_Camera.transform.eulerAngles.y;
             }
@@ -625,6 +626,7 @@ public class PlayerController : MonoBehaviour
                     enemy.GetComponent<EnemyController>().GotHit(FIST_DAMAGE, false);
                 }
                 m_AlreadyHit.Add(enemy.gameObject.name, enemy.gameObject);
+                StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.05f, 0.05f));
             }
         }
         else
@@ -762,6 +764,7 @@ public class PlayerController : MonoBehaviour
         else if (m_State == State.block && t_Blockable)
         {
             m_Stats.Damage(t_Damage/4);
+            return;
         }
         m_Stats.Damage(t_Damage);
         if (m_Stats.IsDead())

@@ -15,12 +15,12 @@ public class EnemyHPBar : MonoBehaviour
         m_Health = transform.parent.parent.GetComponent<Stats>();
         m_HPBar = GetComponent<Slider>();
         m_HPBarAfter = transform.Find("HealthBarAfterEffect").GetComponent<Slider>();
-        m_HPBar.maxValue = m_HPBar.maxValue;
-        m_HPBar.minValue = 0;
-        m_HPBarAfter.maxValue = m_HPBar.maxValue;
-        m_HPBarAfter.minValue = m_HPBar.minValue;
-        m_HPBar.value = m_Health.GetHealth();
-        m_HPBarAfter.value = m_HPBar.value;
+        //m_HPBar.maxValue = m_Health.GetHealth();
+        //m_HPBar.minValue = 0;
+        //m_HPBarAfter.maxValue = m_Health.GetHealth();
+        //m_HPBarAfter.minValue = 0;
+        //m_HPBar.value = m_Health.GetHealth();
+        //m_HPBarAfter.value = m_HPBar.value;
     }
 
     // Update is called once per frame

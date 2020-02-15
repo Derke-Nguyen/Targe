@@ -153,11 +153,18 @@ public class ShieldController : MonoBehaviour
         {
             return;
         }
-        else if(m_State == ShieldState.recalled && other.gameObject.tag == "Enemy")
+        else if(other.gameObject.tag == "Level")
         {
-            other.gameObject.GetComponent<EnemyController>().GotHit(m_Damage);
             return;
         }
+        else if (m_State == ShieldState.recalled)
+        {
+            if(other.gameObject.tag == "Enemy")
+            {
+                other.gameObject.GetComponent<EnemyController>().GotHit(m_Damage);
+            }
+            return;
+        }  
         else if(m_State == ShieldState.thrown && other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<EnemyController>().GotHit(m_Damage);
