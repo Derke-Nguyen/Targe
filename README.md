@@ -2,7 +2,7 @@
 This is a small tech demo of a game inspired by God of War(2018)
 
 ## Playable Demo
-[Download](https://www.dropbox.com/s/8pm5ael7tq65870/TARGEDEMO.zip?dl=0)
+[Download](https://www.dropbox.com/s/a567lbaijckmaal/TARGEDEMO.zip?dl=0)
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
