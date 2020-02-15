@@ -44,6 +44,8 @@ public class ThirdPersonCamera : MonoBehaviour
     private float m_AimDistance = 2.5f;
     private float m_AimDistanceLO = 0.5f;
 
+    private bool m_ScreenShake = false;
+
     /* What happesn on start frame
     * 
     * Gathers all components that are needed and initializes the object
@@ -95,7 +97,12 @@ public class ThirdPersonCamera : MonoBehaviour
             return;
         }
 
-        if(m_Aim)
+        if (m_ScreenShake)
+        {
+            return;
+        }
+
+        if (m_Aim)
         {
             m_Yaw += input.CamHori() * aim_sensitivity;
             m_Pitch += input.CamVert() * aim_sensitivity;
@@ -201,7 +208,9 @@ public class ThirdPersonCamera : MonoBehaviour
 
     public IEnumerator Shake(float t_Duration, float t_Magnitude)
     {
-        Vector3 originalPos = transform.localPosition;
+        Vector3 originalPos = transform.position;
+        m_ScreenShake = true;
+
         float elasped = 0.0f;
         while(elasped < t_Duration)
         {
@@ -209,11 +218,12 @@ public class ThirdPersonCamera : MonoBehaviour
             float y = originalPos.y + Random.Range(-1f, 1f) * t_Magnitude;
             float z = originalPos.z + Random.Range(-1f, 1f) * t_Magnitude;
 
-            transform.localPosition = new Vector3(x, y, z);
-
+            transform.position = new Vector3(x, y, z);
+            
             elasped += Time.deltaTime;
             yield return null;
         }
-        transform.localPosition = originalPos;
+        transform.position = originalPos;
+        m_ScreenShake = false;
     }
 }

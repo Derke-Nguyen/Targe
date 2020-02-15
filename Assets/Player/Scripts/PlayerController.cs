@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviour
 
             case State.hit:
                 m_Anim.SetTrigger("Hit");
-                StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.05f, 0.05f));
+                StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.1f, 0.1f));
                 break;
 
             default:
@@ -620,13 +620,15 @@ public class PlayerController : MonoBehaviour
                 if(m_Shield)
                 {
                     enemy.GetComponent<EnemyController>().GotHit(SHIELD_DAMAGE, true);
+                    StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.1f, 0.2f));
                 }
                 else
                 {
                     enemy.GetComponent<EnemyController>().GotHit(FIST_DAMAGE, false);
+                    StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.1f, 0.1f));
                 }
                 m_AlreadyHit.Add(enemy.gameObject.name, enemy.gameObject);
-                StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.05f, 0.05f));
+                
             }
         }
         else

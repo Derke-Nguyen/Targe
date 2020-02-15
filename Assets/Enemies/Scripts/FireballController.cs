@@ -24,6 +24,10 @@ public class FireballController : MonoBehaviour
         {
             other.gameObject.GetComponent<PlayerController>().GotHit(m_Damage, true);
         }
+        else if (other.gameObject.tag == "Level")
+        {
+            return;
+        }
         else if(other.gameObject.tag == "MainCamera")
         {
             return;
