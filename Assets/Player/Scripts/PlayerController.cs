@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
     #region Combat
     private float m_TimeBetweenCombo = 0f;
-    private const float DELAY_BETWEEN_COMBO = 0.5f;
+    private const float DELAY_BETWEEN_COMBO = 0.05f;
     private bool m_CombatBuffered = false;
     [SerializeField]
     private bool m_CombatSpecial = false;
@@ -361,6 +361,9 @@ public class PlayerController : MonoBehaviour
             float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
 
+            //If the analog stick is near the middle, turn off run
+            m_Run = ((input.Hori() < 0.25f && input.Hori() > -0.25f) && (input.Vert() < 0.25f && input.Vert() > -0.25f)) ? false : m_Run;
+
             if (input.Run())
                 m_Run = !m_Run;
 
@@ -404,17 +407,14 @@ public class PlayerController : MonoBehaviour
             {
                 SetState(State.recall);
             }
-            // Change to Idle/Movement
-            else if (input.Vert() == 0 && input.Hori() == 0)
+            // Change to Movement
+            else if (input.Vert() != 0 || input.Hori() != 0)
             {
-                SetState(State.idle);
+                SetState(State.walking);
             }
             else
             {
-                m_Anim.SetFloat("MovementSpeed", 0);
-                m_Anim.SetFloat("LockedOnHori", 0);
-                m_Anim.SetFloat("LockedOnVert", 0);
-                SetState(State.walking); 
+                SetState(State.idle);
             }
             return;
         }
@@ -632,19 +632,29 @@ public class PlayerController : MonoBehaviour
             m_CombatBuffered = true;
         }
 
+        //Animation Cancels
+        if (input.Dodge() || input.Block())
+        {
+            m_Anim.SetBool("Combat", false);
+            m_Anim.SetBool("CombatSpecial", false);
+            m_AnimFlags.ResetFlags();
+            if (input.Dodge())
+            {
+                SetState(State.dodge);
+                
+            }
+            else
+            {
+                SetState(State.block);
+            }
+            m_AlreadyHit.Clear();
+        }
+
         if (m_AnimFlags.CombatStatus())
         {
             m_Anim.SetBool("Combat", false);
             m_Anim.SetBool("CombatSpecial", false);
-            if (input.Dodge())
-            {
-                SetState(State.dodge);
-            }
-            else if(input.Block())
-            {
-                SetState(State.block);
-            }
-            else if (m_CombatBuffered)
+            if (m_CombatBuffered)
             {
                 SetState(State.combat);
             }

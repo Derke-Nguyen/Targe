@@ -71,7 +71,7 @@ public class BossController : EnemyController
             case BossState.dead:
                 m_Anim.SetTrigger("death");
                 m_RigidBody.isKinematic = true;
-                m_BoxCollider.enabled = false;
+                m_CapsuleCollider.enabled = false;
                 break;
 
             case BossState.combat:

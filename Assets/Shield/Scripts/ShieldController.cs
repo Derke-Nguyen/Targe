@@ -18,6 +18,8 @@ public class ShieldController : MonoBehaviour
     private bool m_InHand = false;
     private bool m_OnBack = false;
 
+    private int m_Damage = 10;
+
     //For Recall
     [SerializeField]
     private Transform m_CurvePoint;
@@ -145,15 +147,25 @@ public class ShieldController : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "MainCamera")
+        if (other.gameObject.tag == "MainCamera" || other.gameObject.tag == "Player")
         {
             return;
         }
-        if (m_State == ShieldState.thrown)
+        else if(m_State == ShieldState.thrown && other.gameObject.tag == "Enemy")
         {
-            SetState(ShieldState.stuck);
+            other.gameObject.GetComponent<EnemyController>().GotHit(m_Damage);
+            other.gameObject.GetComponent<EnemyController>().Frozen();
+        }
+        SetState(ShieldState.stuck);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            other.gameObject.GetComponent<EnemyController>().UnFrozen();
         }
     }
 

@@ -34,6 +34,7 @@ public class MenuButton : MonoBehaviour
         else
         {
             anim.SetBool("selected", false);
+            anim.SetBool("pressed", false);
         }
     }
 

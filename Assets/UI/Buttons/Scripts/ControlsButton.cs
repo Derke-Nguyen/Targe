@@ -8,6 +8,9 @@ public class ControlsButton : MenuButton
 
     public override void ButtonEffects()
     {
-        window.SetActive(true);
+        if(!window.activeSelf)
+        {
+            window.SetActive(true);
+        }
     }
 }

@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public enum State { idle, walking, hit, combat, dead };
+    public enum State { idle, walking, hit, combat, dead, frozen };
 
     private State m_State = State.idle;
+    private State m_PrevState = State.idle;
 
     // Enemy's animator
     protected Animator m_Anim;
@@ -17,7 +18,7 @@ public class EnemyController : MonoBehaviour
 
     protected Stats m_Stats;
 
-    protected BoxCollider m_BoxCollider;
+    protected CapsuleCollider m_CapsuleCollider;
 
     protected EnemyAnimationFlags m_AnimFlags;
 
@@ -50,7 +51,7 @@ public class EnemyController : MonoBehaviour
         m_AnimFlags = gameObject.GetComponentInChildren<EnemyAnimationFlags>();
         m_RigidBody = gameObject.GetComponent<Rigidbody>();
         m_Stats = GetComponent<Stats>();
-        m_BoxCollider = GetComponent<BoxCollider>();
+        m_CapsuleCollider = GetComponent<CapsuleCollider>();
         m_PlayerLocation = GameObject.Find("player").GetComponent<Transform>();
     }
 
@@ -77,6 +78,7 @@ public class EnemyController : MonoBehaviour
 
     protected void SetState(State t_State)
     {
+        m_PrevState = m_State;
         m_State = t_State;
 
         switch (m_State)
@@ -91,7 +93,7 @@ public class EnemyController : MonoBehaviour
             case State.dead:
                 m_Anim.SetTrigger("death");
                 m_RigidBody.isKinematic = true;
-                m_BoxCollider.enabled = false;
+                m_CapsuleCollider.enabled = false;
                 break;
 
             case State.combat:
@@ -102,6 +104,9 @@ public class EnemyController : MonoBehaviour
             case State.hit:
                 m_Anim.SetTrigger("hit");
                 m_AnimFlags.HitStart();
+                break;
+
+            case State.frozen:
                 break;
 
             default:
@@ -232,6 +237,25 @@ public class EnemyController : MonoBehaviour
     public virtual void GotHit(int t_damage, bool m_unblockable = false)
     {
         m_Stats.Damage(t_damage);
+        if(m_State == State.frozen)
+        {
+            return;
+        }
         SetState(State.hit);
+    }
+
+    public void Frozen()
+    {
+        SetState(State.frozen);
+        m_RigidBody.isKinematic = true;
+    }
+
+    public void UnFrozen()
+    {
+        if(m_State == State.frozen)
+        {
+            SetState(m_PrevState);
+        }
+        m_RigidBody.isKinematic = false;
     }
 }

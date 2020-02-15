@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerAnimationFlags : MonoBehaviour
 {
     // Animation Flags
-    [SerializeField]
     private bool m_Dodge = false;
     private bool m_Combat = true;
     private bool m_CombatMove = false;
@@ -103,4 +102,12 @@ public class PlayerAnimationFlags : MonoBehaviour
         m_Hit = false;
     }
 
+    public void ResetFlags()
+    {
+        m_Dodge = false;
+        m_Combat = true;
+        m_CombatMove = false;
+        m_CombatHitBox = false;
+        m_Hit = false;
+    }
 }
