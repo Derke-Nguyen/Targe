@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
     private const float DELAY_BETWEEN_COMBO = 0.05f;
     private bool m_CombatBuffered = false;
     [SerializeField]
-    private bool m_CombatSpecial = false;
     private Transform m_LeftFist;
     private Transform m_RightFist;
     private Transform m_Foot;
@@ -67,7 +66,6 @@ public class PlayerController : MonoBehaviour
     private float SHIELD_RANGE = 0.45f;
     public LayerMask m_EnemyLayer;
 
-    private int m_AttackDamage = 5;
     private int FIST_DAMAGE = 10;
     private float FIST_KNOCKBACK = 0.5f;
     private int SHIELD_DAMAGE = 20;
@@ -383,12 +381,17 @@ public class PlayerController : MonoBehaviour
      */
     private void Dodge()
     {
+        //Next states
+        if (input.Melee() && !m_CombatBuffered && Time.time - m_TimeBetweenCombo > DELAY_BETWEEN_COMBO)
+        {
+            m_CombatBuffered = true;
+        }
         if (m_AnimFlags.DodgeStatus())
         {
             m_Anim.SetBool("Dodge", false);
 
             // Change to Combat
-            if (input.Melee())
+            if (m_CombatBuffered)
             {
                 SetState(State.combat);
             }
@@ -435,7 +438,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            float targetRot = Mathf.Atan2(m_DodgeDirection.x, m_DodgeDirection.z) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
+            float targetRot = Mathf.Atan2(m_DodgeDirection.x, m_DodgeDirection.z) * Mathf.Rad2Deg;
+            if(input.Hori() != 0 && input.Vert() != 0)
+            {
+                targetRot += m_Camera.transform.eulerAngles.y;
+            }
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
             float speed = ROLL_SPEED * m_DodgeDirection.magnitude;
             if(m_Run)
@@ -633,20 +640,12 @@ public class PlayerController : MonoBehaviour
         }
 
         //Animation Cancels
-        if (input.Dodge() || input.Block())
+        if (input.Dodge())
         {
             m_Anim.SetBool("Combat", false);
             m_Anim.SetBool("CombatSpecial", false);
             m_AnimFlags.ResetFlags();
-            if (input.Dodge())
-            {
-                SetState(State.dodge);
-                
-            }
-            else
-            {
-                SetState(State.block);
-            }
+            SetState(State.dodge);
             m_AlreadyHit.Clear();
         }
 
@@ -762,7 +761,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (m_State == State.block && t_Blockable)
         {
-            return;
+            m_Stats.Damage(t_Damage/4);
         }
         m_Stats.Damage(t_Damage);
         if (m_Stats.IsDead())

@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour
     public LayerMask m_PlayerLayer;
 
     protected int m_AttackDamage = 10;
-    protected float m_Knockback = 0.4f;
+    protected float m_Knockback = 1.5f;
     protected float m_HitSphereRange = 0.2f;
 
     private Dictionary<string, GameObject> m_AlreadyHit = new Dictionary<string, GameObject>();
@@ -204,12 +204,11 @@ public class EnemyController : MonoBehaviour
             //Damage/effects enemies
             foreach (Collider player in hitPlayer)
             {
-                player.GetComponent<Rigidbody>().AddForce(transform.forward * m_Knockback, ForceMode.Impulse);
                 if (m_AlreadyHit.ContainsKey(player.gameObject.name))
                 {
                     continue;
                 }
-
+                player.GetComponent<Rigidbody>().AddForce(transform.forward * m_Knockback, ForceMode.Impulse);
                 player.GetComponent<PlayerController>().GotHit(m_AttackDamage, true);
 
                 m_AlreadyHit.Add(player.gameObject.name, player.gameObject);
@@ -222,7 +221,6 @@ public class EnemyController : MonoBehaviour
             Vector3 target = m_PlayerLocation.position - transform.position;
             target.Normalize();
             float targetRot = Mathf.Acos(Vector3.Dot(target,transform.forward)/(distance));
-            Debug.Log(targetRot);
             if (distance <= m_AttackRange && targetRot == 0)
             {
                 SetState(State.combat);

@@ -153,6 +153,11 @@ public class ShieldController : MonoBehaviour
         {
             return;
         }
+        else if(m_State == ShieldState.recalled && other.gameObject.tag == "Enemy")
+        {
+            other.gameObject.GetComponent<EnemyController>().GotHit(m_Damage);
+            return;
+        }
         else if(m_State == ShieldState.thrown && other.gameObject.tag == "Enemy")
         {
             other.gameObject.GetComponent<EnemyController>().GotHit(m_Damage);
@@ -165,6 +170,10 @@ public class ShieldController : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
+            if(m_State == ShieldState.stuck)
+            {
+                m_RigidBody.isKinematic = false;
+            }
             other.gameObject.GetComponent<EnemyController>().UnFrozen();
         }
     }

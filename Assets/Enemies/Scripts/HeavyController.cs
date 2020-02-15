@@ -9,7 +9,7 @@ public class HeavyController : EnemyController
     {
         base.Start();
         m_AttackDamage = 15;
-        m_Knockback = 1.2f;
+        m_Knockback = 2f;
         m_DetectRange = 10f;
         m_AttackRange = 1.75f;
         m_MoveSpeed = 3f;

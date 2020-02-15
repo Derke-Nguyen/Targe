@@ -112,5 +112,59 @@ public class Level3Manager : LevelManager
         }
     }
 
+    public override void Pause()
+    {
+        base.Pause();
+        switch (m_Stage)
+        {
+            case 0:
+                foreach (GameObject grunt in m_Grunts)
+                {
+                    grunt.SetActive(false);
+                }
+                break;
+            case 1:
+                foreach (GameObject caster in m_Casters)
+                {
+                    caster.SetActive(false);
+                }
+                break;
+            case 2:
+                foreach (GameObject heavy in m_Heavies)
+                {
+                    heavy.SetActive(false);
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
+    public override void Resume()
+    {
+        base.Resume();
+        switch (m_Stage)
+        {
+            case 0:
+                foreach (GameObject grunt in m_Grunts)
+                {
+                    grunt.SetActive(true);
+                }
+                break;
+            case 1:
+                foreach (GameObject caster in m_Casters)
+                {
+                    caster.SetActive(true);
+                }
+                break;
+            case 2:
+                foreach (GameObject heavy in m_Heavies)
+                {
+                    heavy.SetActive(true);
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

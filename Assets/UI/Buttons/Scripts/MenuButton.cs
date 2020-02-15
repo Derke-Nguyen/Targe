@@ -8,7 +8,7 @@ public class MenuButton : MonoBehaviour
     [SerializeField] private MenuButtonController controller;
     [SerializeField] private Animator anim;
     [SerializeField] private AnimatorFunctions animfuncs;
-    [SerializeField] private int m_Index;
+    [SerializeField] private int m_Index = 0;
 
     private bool m_Selected;
 

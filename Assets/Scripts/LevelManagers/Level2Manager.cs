@@ -54,5 +54,21 @@ public class Level2Manager : LevelManager
         }
     }
 
+    public override void Pause()
+    {
+        base.Pause();
+        foreach (GameObject enemy in m_Enemies)
+        {
+            enemy.SetActive(false);
+        }
+    }
 
+    public override void Resume()
+    {
+        base.Resume();
+        foreach (GameObject enemy in m_Enemies)
+        {
+            enemy.SetActive(true);
+        }
+    }
 }

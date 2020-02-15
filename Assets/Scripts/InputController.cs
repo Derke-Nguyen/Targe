@@ -179,7 +179,7 @@ public class InputController : MonoBehaviour
      */
     public bool BlockCancel()
     {
-        return m_Horizontal != 0f || m_Vertical != 0f || m_Dodge || m_Melee;
+        return m_Dodge || m_Melee;
     }
 
     /* Returns status of buttons that can cancel aim

@@ -14,8 +14,8 @@ public class BossController : EnemyController
     [SerializeField] private Transform m_Tip;
 
     private int m_HardDamage = 25;
-    private float m_HeavyKnockback = 1f;
-    private float m_Regen = 0f;
+    private float m_HeavyKnockback = 3f;
+    private int m_Regen = 1;
 
     private bool m_Defeated;
 
@@ -28,7 +28,7 @@ public class BossController : EnemyController
     {
         base.Start();
         m_AttackDamage = 15;
-        m_Knockback = 0.5f;
+        m_Knockback = 2;
         m_HitSphereRange = 0.35f;
 
 
@@ -206,17 +206,21 @@ public class BossController : EnemyController
             //Damage/effects enemies
             foreach (Collider player in hitPlayer)
             {
-                player.GetComponent<Rigidbody>().AddForce(transform.forward * m_Knockback, ForceMode.Impulse);
-
                 if (m_AlreadyHit.ContainsKey(player.gameObject.name))
                 {
                     continue;
                 }
+                player.GetComponent<Rigidbody>().AddForce(transform.forward * m_Knockback, ForceMode.Impulse);
                 if (m_Heavy)
+                {
                     player.GetComponent<PlayerController>().GotHit(m_HardDamage, true);
+                    player.GetComponent<Rigidbody>().AddForce(transform.forward * m_HeavyKnockback, ForceMode.Impulse);
+                }
                 else
+                {
                     player.GetComponent<PlayerController>().GotHit(m_AttackDamage, true);
-
+                    player.GetComponent<Rigidbody>().AddForce(transform.forward * m_Knockback, ForceMode.Impulse);
+                }
                 m_AlreadyHit.Add(player.gameObject.name, player.gameObject);
             }
         }
@@ -269,14 +273,14 @@ public class BossController : EnemyController
                 {
                     continue;
                 }
-                player.GetComponent<PlayerController>().GotHit(m_AttackDamage, true);
+                player.GetComponent<PlayerController>().GotHit(m_FootDamage, true);
 
                 m_AlreadyHit.Add(player.gameObject.name, player.gameObject);
             }
         }
         if (!m_AnimFlags.CombatStatus())
         {
-            m_Stats.Heal(1);
+            m_Stats.Heal(m_Regen);
         }
         if(m_Stats.GetPercentHealth() == 1)
         {

@@ -42,7 +42,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     // Camera distance when aiming
     private float m_AimDistance = 2.5f;
-    private float m_AimDistanceLO = 0.25f;
+    private float m_AimDistanceLO = 0.5f;
 
     /* What happesn on start frame
     * 
@@ -63,13 +63,15 @@ public class ThirdPersonCamera : MonoBehaviour
     private void FixedUpdate()
     {
         // If camera is locked on
-        if (m_LockOn)
+        if (m_LockOn && !m_Aim)
         {
             Vector3 lookdir = m_Focus.position - transform.position;
             lookdir.Normalize();
             lookdir.y = 0;
             transform.rotation = Quaternion.LookRotation(lookdir);
             transform.position = m_Target.position;
+            m_Yaw = transform.eulerAngles.y;
+            m_Pitch = transform.eulerAngles.x;
         }
     }
 
@@ -85,8 +87,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
         if(m_Focus == null && m_LockOn)
         {
-            m_LockOn = false;
-            m_Target = m_PlayerPosition;
+            LockOff();
         }
 
         if(m_LockOn && !m_Aim)
@@ -94,27 +95,18 @@ public class ThirdPersonCamera : MonoBehaviour
             return;
         }
 
-        Vector3 targetRotation = new Vector3();
-
         if(m_Aim)
         {
             m_Yaw += input.CamHori() * aim_sensitivity;
             m_Pitch += input.CamVert() * aim_sensitivity;
-            m_Pitch = Mathf.Clamp(m_Pitch, PITCH_MIN, PITCH_MAX);
-            if (m_LockOn)
-            {
-                m_Yaw = Mathf.Clamp(m_Yaw, YAW_MIN, YAW_MAX);
-            }
-            targetRotation = new Vector3(m_Pitch, m_Yaw);
         }
-
         else if(!m_LockOn)
         {
             m_Yaw += input.CamHori() * sensitivity;
             m_Pitch += input.CamVert() * sensitivity;
-            m_Pitch = Mathf.Clamp(m_Pitch, PITCH_MIN, PITCH_MAX);
-            targetRotation = new Vector3(m_Pitch, m_Yaw);
         }
+        m_Pitch = Mathf.Clamp(m_Pitch, PITCH_MIN, PITCH_MAX);
+        Vector3 targetRotation = new Vector3(m_Pitch, m_Yaw);
 
         // Set rotation and position
         transform.eulerAngles = targetRotation;

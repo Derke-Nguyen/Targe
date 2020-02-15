@@ -40,7 +40,6 @@ public class LevelChanger : MonoBehaviour
 
     public void ToQuit()
     {
-        Debug.Log("QUIT");
         Application.Quit();
     }
 

@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class GUIManager : MonoBehaviour
 {
     private bool GameIsPaused = false;
-    private bool GameOver = false;
     public GameObject pauseMenuUI;
     public GameObject deathScreen;
     public GameObject m_Reticle;
@@ -46,12 +45,10 @@ public class GUIManager : MonoBehaviour
         deathScreen.SetActive(true);
         deathScreen.GetComponent<Animator>().SetBool("dead", true);
         gameObject.GetComponent<AudioSource>().Pause();
-        GameOver = true;
     }
 
     private void Retry()
     {
-        GameOver = false;
         deathScreen.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
