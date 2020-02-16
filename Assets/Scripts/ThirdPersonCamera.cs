@@ -214,9 +214,9 @@ public class ThirdPersonCamera : MonoBehaviour
         float elasped = 0.0f;
         while(elasped < t_Duration)
         {
-            float x = originalPos.x + Random.Range(-1f, 1f) * t_Magnitude;
-            float y = originalPos.y + Random.Range(-1f, 1f) * t_Magnitude;
-            float z = originalPos.z + Random.Range(-1f, 1f) * t_Magnitude;
+            float x = originalPos.x + Random.Range(-0.5f, 0.5f) * t_Magnitude;
+            float y = originalPos.y + Random.Range(-0.5f, 0.5f) * t_Magnitude;
+            float z = originalPos.z + Random.Range(-0.5f, 0.5f) * t_Magnitude;
 
             transform.position = new Vector3(x, y, z);
             

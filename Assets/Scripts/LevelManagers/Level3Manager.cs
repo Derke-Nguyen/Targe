@@ -120,19 +120,19 @@ public class Level3Manager : LevelManager
             case 0:
                 foreach (GameObject grunt in m_Grunts)
                 {
-                    grunt.SetActive(false);
+                    grunt.GetComponent<EnemyController>().Pause();
                 }
                 break;
             case 1:
                 foreach (GameObject caster in m_Casters)
                 {
-                    caster.SetActive(false);
+                    caster.GetComponent<EnemyController>().Pause();
                 }
                 break;
             case 2:
                 foreach (GameObject heavy in m_Heavies)
                 {
-                    heavy.SetActive(false);
+                    heavy.GetComponent<EnemyController>().Pause();
                 }
                 break;
             default:
@@ -148,19 +148,19 @@ public class Level3Manager : LevelManager
             case 0:
                 foreach (GameObject grunt in m_Grunts)
                 {
-                    grunt.SetActive(true);
+                    grunt.GetComponent<EnemyController>().Resume();
                 }
                 break;
             case 1:
                 foreach (GameObject caster in m_Casters)
                 {
-                    caster.SetActive(true);
+                    caster.GetComponent<EnemyController>().Resume();
                 }
                 break;
             case 2:
                 foreach (GameObject heavy in m_Heavies)
                 {
-                    heavy.SetActive(true);
+                    heavy.GetComponent<EnemyController>().Resume();
                 }
                 break;
             default:

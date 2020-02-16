@@ -43,12 +43,12 @@ public class Level4Manager : LevelManager
     public override void Pause()
     {
         base.Pause();
-        m_Enemy.SetActive(false);
+        m_Enemy.GetComponent<EnemyController>().Pause();
     }
 
     public override void Resume()
     {
         base.Resume();
-        m_Enemy.SetActive(true);
+        m_Enemy.GetComponent<EnemyController>().Resume();
     }
 }

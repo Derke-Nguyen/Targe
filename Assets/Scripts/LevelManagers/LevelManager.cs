@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
     private bool m_Paused = false;
 
     // GameObject that is the player
-    private GameObject m_Player;
+    private PlayerController m_Player;
 
     // gui manager
     public GUIManager m_GUI;
@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        m_Player = GameObject.Find("player");
+        m_Player = GameObject.Find("player").GetComponent<PlayerController>();
         m_GUI = GameObject.Find("GUI").GetComponent<GUIManager>();
         input = GameObject.Find("InputController").GetComponent<InputController>();
         m_LevelNumber = SceneManager.GetActiveScene().buildIndex;
@@ -85,12 +85,12 @@ public class LevelManager : MonoBehaviour
     public virtual void Pause()
     {
         m_GUI.Pause();
-        m_Player.SetActive(false);
+        m_Player.Pause();
     }
 
     public virtual void Resume()
     {
         m_GUI.Resume();
-        m_Player.SetActive(true);
+        m_Player.Resume();
     }
 }

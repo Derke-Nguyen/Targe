@@ -42,6 +42,11 @@ public class BossController : EnemyController
     // Update is called once per frame
     void Update()
     {
+        if(m_Pause)
+        {
+            return;
+        }
+
         //No character control if player is already dead
         if (m_Defeated)
             return;

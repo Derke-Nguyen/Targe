@@ -83,7 +83,7 @@ public class Level1Manager : LevelManager
         base.Pause();
         foreach (GameObject enemy in m_Enemies)
         {
-            enemy.SetActive(false);
+            enemy.GetComponent<EnemyController>().Pause();
         }
     }
 
@@ -94,7 +94,7 @@ public class Level1Manager : LevelManager
         {
             foreach (GameObject enemy in m_Enemies)
             {
-                enemy.SetActive(true);
+                enemy.GetComponent<EnemyController>().Resume();
             }
         }
     }

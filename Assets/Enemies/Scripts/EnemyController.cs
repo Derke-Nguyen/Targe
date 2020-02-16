@@ -42,6 +42,8 @@ public class EnemyController : MonoBehaviour
 
     protected float m_ViewRange = 0.025f;
 
+    protected bool m_Pause = false;
+
     //private GameObject m_HealthBar;
 
     // Start is called before the first frame update
@@ -58,6 +60,10 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (m_Pause)
+        {
+            return;
+        }
         //No character control if player is already dead
         if (m_Dead)
             return;
@@ -73,6 +79,10 @@ public class EnemyController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(m_Pause)
+        {
+            return;
+        }
         ExecuteState();
     }
 
@@ -255,5 +265,15 @@ public class EnemyController : MonoBehaviour
             SetState(m_PrevState);
         }
         m_RigidBody.isKinematic = false;
+    }
+
+    public void Pause()
+    {
+        m_Pause = true;
+    }
+
+    public void Resume()
+    {
+        m_Pause = false;
     }
 }

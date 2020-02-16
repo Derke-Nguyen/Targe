@@ -391,7 +391,7 @@ Transform:
   m_GameObject: {fileID: 565014885}
   m_LocalRotation: {x: 0.0045410064, y: 0.7926636, z: -0.0036526965, w: 0.60963154}
   m_LocalPosition: {x: -5.54, y: 3.5, z: 29.93}
-  m_LocalScale: {x: 15.000012, y: 8, z: 1}
+  m_LocalScale: {x: 16, y: 8, z: 1}
   m_Children: []
   m_Father: {fileID: 1287092541}
   m_RootOrder: 6
@@ -2122,6 +2122,31 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 2c59c94b9d1896041a31f27285193db1, type: 3}
+    - target: {fileID: 9090929236526836581, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9090929236997330191, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9090929237688015948, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9090929236671215469, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242029623904611062, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a63b758dda04fa4ab5da63cf40231d7, type: 3}
 --- !u!1001 &2136199310

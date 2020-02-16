@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private const float WALK_SPEED = 2;
     private const float RUN_SPEED = 6;
     private const float LOCK_SPEED = 2f;
-    private const float TURN_TIME = 0.2f;
+    private const float TURN_TIME = 0.4f;
     private bool m_Run = false;
     private float m_TurnVel;
     private bool m_LockedOn;
@@ -74,6 +74,8 @@ public class PlayerController : MonoBehaviour
     private Dictionary<string, GameObject> m_AlreadyHit = new Dictionary<string, GameObject>();
     #endregion
 
+    private bool m_Paused = false;
+
     /* What happesn on start frame
      * 
      * Gathers all components that are needed and initializes the object
@@ -101,6 +103,10 @@ public class PlayerController : MonoBehaviour
      */
     private void Update()
     {
+        if(m_Paused)
+        {
+            return;
+        }
         //No character control if player is already dead
         if (m_Dead)
             return;
@@ -136,6 +142,10 @@ public class PlayerController : MonoBehaviour
      */
     private void FixedUpdate()
     {
+        if(m_Paused)
+        {
+            return;
+        }
         if (m_LockedOn)
         {
             // Sets the camera in its lockon position
@@ -191,7 +201,9 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.combat:
+                transform.eulerAngles = new Vector3(0, m_Camera.transform.eulerAngles.y, 0);
                 m_Anim.SetTrigger("Attack");
+                m_Anim.SetBool("Combat", true);
                 m_TimeBetweenCombo = Time.time;
                 m_CombatBuffered = false;
                 m_AnimFlags.ResetCombat();
@@ -203,7 +215,7 @@ public class PlayerController : MonoBehaviour
 
             case State.hit:
                 m_Anim.SetTrigger("Hit");
-                StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.1f, 0.1f));
+                StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.05f, 0.005f));
                 break;
 
             default:
@@ -440,7 +452,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             float targetRot = Mathf.Atan2(m_DodgeDirection.x, m_DodgeDirection.z) * Mathf.Rad2Deg;
-            if(input.Hori() != 0 || input.Vert() != 0)
+            if(m_DodgeDirection.x != 0 || m_DodgeDirection.z != 0)
             {
                 targetRot += m_Camera.transform.eulerAngles.y;
             }
@@ -559,17 +571,16 @@ public class PlayerController : MonoBehaviour
     */
     private void Combat()
     {
-        m_Anim.SetBool("Combat", true);
         if (m_AnimFlags.CombatMove())
         {
-            float speed = 1f;
+            float speed = 1.5f;
             if(m_Run)
             {
                 speed = 2f;
             }
             else if(m_PrevState == State.idle)
             {
-                speed = 0.5f;
+                speed = 1f;
             }
             transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         }
@@ -620,12 +631,12 @@ public class PlayerController : MonoBehaviour
                 if(m_Shield)
                 {
                     enemy.GetComponent<EnemyController>().GotHit(SHIELD_DAMAGE, true);
-                    StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.1f, 0.2f));
+                    StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.05f, 0.01f));
                 }
                 else
                 {
                     enemy.GetComponent<EnemyController>().GotHit(FIST_DAMAGE, false);
-                    StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.1f, 0.1f));
+                    StartCoroutine(m_Camera.GetComponent<ThirdPersonCamera>().Shake(0.05f, 0.005f));
                 }
                 m_AlreadyHit.Add(enemy.gameObject.name, enemy.gameObject);
                 
@@ -651,6 +662,7 @@ public class PlayerController : MonoBehaviour
             m_AnimFlags.ResetFlags();
             SetState(State.dodge);
             m_AlreadyHit.Clear();
+            return;
         }
 
         if (m_AnimFlags.CombatStatus())
@@ -775,6 +787,16 @@ public class PlayerController : MonoBehaviour
         }
         m_AnimFlags.HitStart();
         SetState(State.hit);
+    }
+
+    public void Pause()
+    {
+        m_Paused = true;
+    }
+
+    public void Resume()
+    {
+        m_Paused = false;
     }
 
 }
