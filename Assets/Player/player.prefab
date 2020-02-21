@@ -180,36 +180,6 @@ Transform:
   m_Father: {fileID: 6222725615646062034}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1339442109
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1339442110}
-  m_Layer: 10
-  m_Name: SheathPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1339442110
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339442109}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: -0.042056434, z: -0.08751199}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7581059489075519578}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
 --- !u!1 &1798956931
 GameObject:
   m_ObjectHideFlags: 0
@@ -1798,7 +1768,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45f8c2c6c298f242b8ca0ee05560e6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Dodge: 0
 --- !u!1 &4898378902570206043
 GameObject:
   m_ObjectHideFlags: 0
@@ -2454,7 +2423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_State: 0
   m_Shield: 0
-  m_CombatSpecial: 0
+  m_LeftFist: {fileID: 0}
   m_EnemyLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -2470,8 +2439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0cf58529f2618428b9f381b8531923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxhealth: 100
-  m_dead: 0
+  m_MaxHealth: 100
+  m_Dead: 0
 --- !u!1 &7710673249424793632
 GameObject:
   m_ObjectHideFlags: 0
@@ -2691,7 +2660,6 @@ Transform:
   - {fileID: 2564404627724442824}
   - {fileID: 7271150154936849594}
   - {fileID: 3444249808806420525}
-  - {fileID: 1339442110}
   m_Father: {fileID: 5073595072351902335}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.27711645, y: -13.37867, z: 12.255312}

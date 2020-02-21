@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/**
+ * File: Level3Manager.cs 
+ * Author: Derek Nguyen
+ * 
+ * Override for LevelManager
+ * LevelManager for level 3
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +14,7 @@ public class Level3Manager : LevelManager
     // GameObject that is the portal
     private GameObject m_Gate;
 
-    // List of all the enemies
+    // Lists of all the enemies
     [SerializeField]
     private List<GameObject> m_Grunts = new List<GameObject>();
     [SerializeField]
@@ -15,9 +22,14 @@ public class Level3Manager : LevelManager
     [SerializeField]
     private List<GameObject> m_Heavies = new List<GameObject>();
 
+    // Current stage of the level
     private int m_Stage = 0;
 
-    // Start is called before the first frame update
+    /**
+     * What happesn on start frame
+     * 
+     * Gathers all components that are needed and initializes the object
+     */
     public override void Start()
     {
         base.Start();
@@ -26,49 +38,14 @@ public class Level3Manager : LevelManager
         m_Gate.SetActive(false);
     }
 
-    // Update is called once per frame
-    public override void Update()
-    {
-        base.Update();
-
-        switch (m_Stage)
-        {
-            case 0:
-                if(m_Grunts.Count == 0)
-                {
-                    m_Stage++;
-                    foreach(GameObject caster in m_Casters)
-                    {
-                        caster.SetActive(true);
-                    }
-                }
-                break;
-            case 1:
-                if (m_Casters.Count == 0)
-                {
-                    foreach (GameObject heavy in m_Heavies)
-                    {
-                        heavy.SetActive(true);
-                    }
-                    m_Stage++;
-                }
-                break;
-            case 2:
-                if (m_Heavies.Count == 0)
-                {
-                    m_Stage++;
-                    base.SetCompleted(true);
-                }
-                break;
-            default:
-                base.SetCompleted(true);
-                break;
-        }
-    }
-
+    /**
+     * What happens every fixed amount of frames
+     * 
+     * If enemy is dead, remove from list of enemies
+     */
     private void FixedUpdate()
     {
-        if(base.IsCompleted())
+        if(m_Completed)
         {
             m_Gate.SetActive(true);
         }
@@ -85,6 +62,15 @@ public class Level3Manager : LevelManager
                             break;
                         }
                     }
+                    // If there are no more grunts, move onto next stage
+                    if (m_Grunts.Count == 0)
+                    {
+                        m_Stage++;
+                        foreach (GameObject caster in m_Casters)
+                        {
+                            caster.SetActive(true);
+                        }
+                    }
                     break;
                 case 1:
                     foreach (GameObject caster in m_Casters)
@@ -94,6 +80,15 @@ public class Level3Manager : LevelManager
                             m_Casters.Remove(caster);
                             break;
                         }
+                    }
+                    // If there are no more casters, move onto next stage
+                    if (m_Casters.Count == 0)
+                    {
+                        foreach (GameObject heavy in m_Heavies)
+                        {
+                            heavy.SetActive(true);
+                        }
+                        m_Stage++;
                     }
                     break;
                 case 2:
@@ -105,6 +100,12 @@ public class Level3Manager : LevelManager
                             break;
                         }
                     }
+                    // If there are no more heavies, unlock portal
+                    if (m_Heavies.Count == 0)
+                    {
+                        m_Stage++;
+                        m_Completed = true;
+                    }
                     break;
                 default:
                     break;
@@ -112,6 +113,9 @@ public class Level3Manager : LevelManager
         }
     }
 
+    /**
+     * If the level is paused, pause all enemies
+     */
     public override void Pause()
     {
         base.Pause();
@@ -140,6 +144,9 @@ public class Level3Manager : LevelManager
         }
     }
 
+    /**
+     * If the level is unpaused, activate all enemies
+     */
     public override void Resume()
     {
         base.Resume();

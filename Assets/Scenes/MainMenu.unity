@@ -327,7 +327,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9c29c61fceddd8b42a315401b6dab4d8, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -786,27 +786,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 667797413}
-  anim: {fileID: 1072345258}
-  animfuncs: {fileID: 1072345257}
+  m_Anim: {fileID: 0}
+  m_AnimFuncs: {fileID: 0}
   m_Index: 0
---- !u!114 &1072345257 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4849879829751741338}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1072345255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb7d2c2c1815d3d42a823b2eb9b4f632, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &1072345258 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 887702201391271099, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-    type: 3}
-  m_PrefabInstance: {fileID: 4849879829751741338}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1116667953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,8 +802,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 667797413}
-  anim: {fileID: 887702200023037314}
-  animfuncs: {fileID: 1931628719871630620}
+  m_Anim: {fileID: 0}
+  m_AnimFuncs: {fileID: 0}
   m_Index: 1
 --- !u!1 &1219071318 stripped
 GameObject:
@@ -842,27 +824,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 667797413}
-  anim: {fileID: 1219071321}
-  animfuncs: {fileID: 1219071320}
+  m_Anim: {fileID: 0}
+  m_AnimFuncs: {fileID: 0}
   m_Index: 2
---- !u!114 &1219071320 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1931628720629670949, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1503140580}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219071318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb7d2c2c1815d3d42a823b2eb9b4f632, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &1219071321 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 887702201391271099, guid: 6698d73ab0a7f6642af072ff6fd42d5f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1503140580}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1283162398
 GameObject:
   m_ObjectHideFlags: 0

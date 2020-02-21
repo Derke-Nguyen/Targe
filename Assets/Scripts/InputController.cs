@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿/**
+ * File: InputController.cs 
+ * Author: Derek Nguyen
+ * 
+ * Manages input from unity Input system
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/* Input Controller
- * Takes in Input and sets variables to their current active or inactive states
- * Every Scene Should have this */
 public class InputController : MonoBehaviour
 {
     // Direction left joystick tilted horizontally
@@ -41,7 +44,8 @@ public class InputController : MonoBehaviour
     // Menu button is pressed
     private bool m_Menu = false;
 
-    /* What happens every frame
+    /**
+     * What happens every frame
      * 
      * Sets variables based on which buttons are being pressed
      */
@@ -65,7 +69,8 @@ public class InputController : MonoBehaviour
         m_Menu = Input.GetButtonDown("Menu");
     }
 
-    /* Returns status of left joystick tilted vertically
+    /**
+     * Returns status of left joystick tilted vertically
      * 
      * return : true if left joystick tilted vertically, else false
      */
@@ -74,7 +79,8 @@ public class InputController : MonoBehaviour
         return m_Vertical;
     }
 
-    /* Returns status of left joystick tilted horizontally
+    /**
+     * Returns status of left joystick tilted horizontally
      * 
      * return : true if left joystick tilted horizontally, else false
      */
@@ -83,7 +89,8 @@ public class InputController : MonoBehaviour
         return m_Horizontal;
     }
 
-    /* Returns status of right joystick tilted vertically
+    /**
+     * Returns status of right joystick tilted vertically
      * 
      * return : true if right joystick tilted vertically, else false
      */
@@ -92,7 +99,8 @@ public class InputController : MonoBehaviour
         return m_CameraVertical;
     }
 
-    /* Returns status of right joystick tilted horizontally
+    /**
+     * Returns status of right joystick tilted horizontally
      * 
      * return : true if right joystick tilted horizontally, else false
      */
@@ -101,7 +109,8 @@ public class InputController : MonoBehaviour
         return m_CameraHorizontal;
     }
 
-    /* Returns status of melee button
+    /**
+     * Returns status of melee button
      * 
      * return : true if melee button is pressed, else false
      */
@@ -119,7 +128,8 @@ public class InputController : MonoBehaviour
         return m_Block;
     }
 
-    /* Returns status of dodge button
+    /**
+     * Returns status of dodge button
      * 
      * return : true if dodge button is pressed, else false
      */
@@ -128,7 +138,8 @@ public class InputController : MonoBehaviour
         return m_Dodge;
     }
 
-    /* Returns status of aim button
+    /**
+     * Returns status of aim button
      *  
      * return : true if aim button is pressed, else false
      */
@@ -137,7 +148,8 @@ public class InputController : MonoBehaviour
         return m_Aim;
     }
 
-    /* Returns status of recall button
+    /**
+     * Returns status of recall button
      * 
      * return : true if recall button is pressed, else false
      */
@@ -146,7 +158,8 @@ public class InputController : MonoBehaviour
         return m_Recall;
     }
 
-    /* Returns status of lock on button
+    /**
+     * Returns status of lock on button
      * 
      * return : true if lock on button is pressed, else false
      */
@@ -155,7 +168,8 @@ public class InputController : MonoBehaviour
         return m_LockOn;
     }
 
-    /* Returns status of run button
+    /**
+     * Returns status of run button
      * 
      * return : true if run button is pressed, else false
      */
@@ -164,7 +178,8 @@ public class InputController : MonoBehaviour
         return m_Run;
     }
 
-    /* Returns status of menu button
+    /**
+     * Returns status of menu button
      * 
      * return : true if menu button is pressed, else false
      */
@@ -173,7 +188,8 @@ public class InputController : MonoBehaviour
         return m_Menu;
     }
 
-    /* Returns status of buttons that can cancel block
+    /**
+     * Returns status of buttons that can cancel block
      * 
      * return : true if a block cancel button is pressed, else false
      */
@@ -182,7 +198,8 @@ public class InputController : MonoBehaviour
         return m_Dodge || m_Melee;
     }
 
-    /* Returns status of buttons that can cancel aim
+    /**
+     * Returns status of buttons that can cancel aim
      * 
      * return : true if an aim cancel button is pressed, else false
      */

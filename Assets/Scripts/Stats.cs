@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * File: Stats.cs 
+ * Author: Derek Nguyen
+ * 
+ * Class that holds all health and statuses
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,140 +12,133 @@ public class Stats : MonoBehaviour
 {
     // Maximum Health of this Entity
     [SerializeField]
-    private int m_maxhealth = 100;
+    private int m_MaxHealth = 100;
     
     // Current Health of this Entity
-    private int m_currhealth = 100;
+    private int m_CurrHealth = 100;
     
     // If this entity is current dead
-    [SerializeField]private bool m_dead = false;
+    [SerializeField]private bool m_Dead = false;
 
-    // If this entity is invincible
-    private bool m_invincible = false;
-
+    /** 
+     * What happesn on start frame
+     * 
+     * Sets current health as max health
+     */
     private void Start()
     {
-        m_currhealth = m_maxhealth;
+        m_CurrHealth = m_MaxHealth;
     }
 
-    /* Sets the current health of the entity
+    /**
+     * Sets the current health of the entity
      * 
-     * t_health : int that the current health will be set at
+     * t_Health : int that the current health will be set at
      */
-    public void SetCurrHealth(int t_health)
+    public void SetCurrHealth(int t_Health)
     {
-        if(t_health < 0)
+        if(t_Health < 0)
         {
-            Debug.Log("Invalid Health: " + t_health);
+            Debug.Log("Invalid Health: " + t_Health);
             return;
         }
-        m_currhealth = t_health;
-        if (m_currhealth <= 0)
+        m_CurrHealth = t_Health;
+        if (m_CurrHealth <= 0)
         {
-            m_dead = true;
-            m_currhealth = 0;
+            m_Dead = true;
+            m_CurrHealth = 0;
         }
-        if (m_currhealth > m_maxhealth)
+        if (m_CurrHealth > m_MaxHealth)
         {
-            m_currhealth = m_maxhealth;
+            m_CurrHealth = m_MaxHealth;
         }
     }
 
-    /* Sets the max health of the entity
+    /**
+     * Sets the max health of the entity
      * 
-     * t_health : int that the max health will be set at
+     * t_Health : int that the max health will be set at
      */
-    public void SetMaxHealth(int t_health)
+    public void SetMaxHealth(int t_Health)
     {
-        if (t_health < 0)
+        if (t_Health < 0)
         {
-            Debug.Log("Invalid Health: " + t_health);
+            Debug.Log("Invalid Health: " + t_Health);
             return;
         }
-        m_maxhealth = t_health;
-        if (m_currhealth > m_maxhealth)
+        m_MaxHealth = t_Health;
+        if (m_CurrHealth > m_MaxHealth)
         {
-            m_currhealth = m_maxhealth;
+            m_CurrHealth = m_MaxHealth;
         }
     }
 
-    /* Returns the entity's current health
+    /**
+     * Returns the entity's current health
      * 
      * returns : current entity's health
      */
     public int GetHealth()
     {
-        return m_currhealth;
+        return m_CurrHealth;
     }
 
-    /* Returns the entity's max health
+    /**
+     * Returns the entity's max health
      * 
      * returns : entity's max health
      */
     public int GetMaxHealth()
     {
-        return m_maxhealth;
+        return m_MaxHealth;
     }
 
+    /**
+     * Returns the entity's percent health
+     * 
+     * returns : entity's percent health
+     */
     public float GetPercentHealth()
     {
-        return ((float)m_currhealth / (float)m_maxhealth);
+        return ((float)m_CurrHealth / (float)m_MaxHealth);
     }
 
-    /* Damages the entity
-    * 
-    * t_damage : damage that will be dealt to enemy
-    */
-    public void Damage(int t_damage)
-    {
-        if (m_invincible)
-            return;
-
-        m_currhealth -= t_damage;
-        if(m_currhealth <= 0)
-        {
-            m_dead = true;
-            m_currhealth = 0;
-        }
-    }
-
-    /* Heals the entity
+    /**
+     * Damages the entity
      * 
-     * t_health : amount that current health will be increased by
+     * t_Damage : damage that will be dealt to enemy
      */
-    public void Heal(int t_health)
+    public void Damage(int t_Damage)
     {
-        m_currhealth += t_health;
-        if (m_currhealth > m_maxhealth)
+        m_CurrHealth -= t_Damage;
+        if(m_CurrHealth <= 0)
         {
-            m_currhealth = m_maxhealth;
+            m_Dead = true;
+            m_CurrHealth = 0;
         }
     }
 
-    /* Tells other scripts if entity is dead
+    /**
+     * Heals the entity
+     * 
+     * t_Health : amount that current health will be increased by
+     */
+    public void Heal(int t_Health)
+    {
+        m_CurrHealth += t_Health;
+        if (m_CurrHealth > m_MaxHealth)
+        {
+            m_CurrHealth = m_MaxHealth;
+        }
+    }
+
+    /**
+     * Tells other scripts if entity is dead
      * 
      * return : if the entity is dead
      */
     public bool IsDead()
     {
-        return m_dead;
-    }
-
-    /* Sets if the entity has an iframe
-     * 
-     * sets iframe to true
-     */
-    public void EnableIFrame()
-    {
-        m_invincible = true;
-    }
-
-    /* Disable the entity's iframe 
-     * 
-     * sets iframe to false
-     */
-    public void DisableIFrame()
-    {
-        m_invincible = false;
+        return m_Dead;
     }
 }

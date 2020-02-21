@@ -5,59 +5,74 @@ using UnityEngine.SceneManagement;
 
 public class GUIManager : MonoBehaviour
 {
-    private bool GameIsPaused = false;
-    public GameObject pauseMenuUI;
-    public GameObject deathScreen;
+    // If the game is paused
+    private bool m_GamePaused = false;
+
+    // The pause menu
+    public GameObject m_PauseMenu;
+    // The death menu
+    public GameObject m_DeathScreen;
+    // Reticle for aiming
     public GameObject m_Reticle;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    /**
+     * If game is unpaused
+     */
     public void Resume()
     {
-        pauseMenuUI.SetActive(false);
-        //Time.timeScale = 1f;
-        GameIsPaused = false;
+        m_PauseMenu.SetActive(false);
+        m_GamePaused = false;
     }
 
+    /**
+     * If game is paused
+     */
     public void Pause()
     {
-        pauseMenuUI.SetActive(true);
-        //Time.timeScale = 0f;
-        GameIsPaused = true;
+        m_PauseMenu.SetActive(true);
+        m_GamePaused = true;
     }
 
+    /**
+     * If game is paused 
+     * 
+     * return: if game is paused, true
+     */
     public bool PauseStatus()
     {
-        return GameIsPaused;
+        return m_GamePaused;
     }
 
+    /**
+     * If player has died, set death screen
+     */
     public void DeathScreen()
     {
-        deathScreen.SetActive(true);
-        deathScreen.GetComponent<Animator>().SetBool("dead", true);
+        m_DeathScreen.SetActive(true);
+        m_DeathScreen.GetComponent<Animator>().SetBool("dead", true);
         gameObject.GetComponent<AudioSource>().Pause();
     }
 
+    /**
+     * If game is paused
+     */
     private void Retry()
     {
-        deathScreen.SetActive(false);
+        m_DeathScreen.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    /**
+     * If player is aiming shield
+     */
     public void AimOn()
     {
         m_Reticle.SetActive(true);
     }
 
+    /**
+     * If player is no longer aiming shield
+     */
     public void AimOff()
     {
         m_Reticle.SetActive(false);

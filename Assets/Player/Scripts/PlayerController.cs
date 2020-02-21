@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * File: PlayerController.cs 
+ * Author: Derek Nguyen
+ * 
+ * Child class for a MenuButton
+ */
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +17,7 @@ public class PlayerController : MonoBehaviour
     // Player's current state
     [SerializeField]
     private State m_State = State.idle;
+    // Player's previous state
     private State m_PrevState = State.idle;
 
     // Player's animator
@@ -40,7 +47,9 @@ public class PlayerController : MonoBehaviour
 
     #region Dodge
     private Vector3 m_DodgeDirection = Vector3.zero;
+    // player's roll speed
     private const float ROLL_SPEED = 8f;
+    // player's dodge speed when locked on
     private const float JUKE_SPEED = 6f;
     #endregion
 
@@ -76,7 +85,8 @@ public class PlayerController : MonoBehaviour
 
     private bool m_Paused = false;
 
-    /* What happesn on start frame
+    /**
+     *What happens on start frame
      * 
      * Gathers all components that are needed and initializes the object
      */
@@ -84,7 +94,6 @@ public class PlayerController : MonoBehaviour
     {
         input = GameObject.Find("InputController").GetComponent<InputController>();
         m_AnimFlags = gameObject.GetComponentInChildren<PlayerAnimationFlags>();
-
         m_Anim = gameObject.GetComponentInChildren<Animator>();
         m_Camera = Camera.main;
         m_Stats = GetComponent<Stats>();
@@ -119,6 +128,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        // Makes sure animator knows that player has shield equipped
         m_Anim.SetBool("Shield", m_Shield);
 
         // If the lockon button is pressed, set lock_on operations
@@ -127,6 +137,7 @@ public class PlayerController : MonoBehaviour
             m_LockedOn = true;
             m_Anim.SetBool("LockedOn", m_LockedOn);
         }
+        // unlock player
         else if(input.LockOn() && m_LockedOn)
         {
             m_LockedOn = false;
@@ -136,7 +147,8 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    /* What happens every fixed amount of frames
+    /**
+     * What happens every fixed amount of frames
      * 
      * Executes the state that the player is in
      */
@@ -154,14 +166,15 @@ public class PlayerController : MonoBehaviour
         ExecuteState();
     }
 
-    /* Sets the player's state
+    /** 
+     * Sets the player's state
      * 
-     * t_state : the state that they player will be set as
+     * t_State : the state that they player will be set as
      */
-    private void SetState(State t_state)
+    private void SetState(State t_State)
     {
         m_PrevState = m_State;
-        m_State = t_state;
+        m_State = t_State;
 
         switch (m_State)
         {
@@ -201,12 +214,14 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.combat:
-                transform.eulerAngles = new Vector3(0, m_Camera.transform.eulerAngles.y, 0);
+                if(!m_LockedOn)
+                    transform.eulerAngles = new Vector3(0, m_Camera.transform.eulerAngles.y, 0);
                 m_Anim.SetTrigger("Attack");
                 m_Anim.SetBool("Combat", true);
                 m_TimeBetweenCombo = Time.time;
                 m_CombatBuffered = false;
                 m_AnimFlags.ResetCombat();
+                m_AnimFlags.CombatStart();
                 break;
                 
             case State.block:
@@ -223,8 +238,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /* Executes player instructions based on what state the player is in
-     * 
+    /**
+     * Executes player instructions based on what state the player is in
      */
     private void ExecuteState()
     {
@@ -270,7 +285,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /* Player actions for when they are idle
+    /**
+     * Player actions for when they are idle
      * 
      * states that can be transitioned to : Dodge, Combat, Block, Aim, Recall, Movement
      */
@@ -309,7 +325,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /* Player actions for when they are walking/running
+    /**
+     * Player actions for when they are walking/running
      * 
      * states that can be transitioned to : Dodge, Combat, Block, Aim, Recall, Idle
      */
@@ -368,6 +385,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            //Get target direction
             Vector2 inputDir = new Vector2(input.Hori(), input.Vert());
             float targetRot = Mathf.Atan2(inputDir.x, inputDir.y) * Mathf.Rad2Deg + m_Camera.transform.eulerAngles.y;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
@@ -388,17 +406,19 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    /* What the player does when they are dodging
+    /**
+     * What the player does when they are dodging
      * 
      * states that can be transitioned to : Combat, Aim, Block, Recall, Previous
      */
     private void Dodge()
     {
-        //Next states
+        // Buffer attack for after dodge attack
         if (input.Melee() && !m_CombatBuffered && Time.time - m_TimeBetweenCombo > DELAY_BETWEEN_COMBO)
         {
             m_CombatBuffered = true;
         }
+        // Next states after roll ends
         if (m_AnimFlags.DodgeStatus())
         {
             m_Anim.SetBool("Dodge", false);
@@ -428,6 +448,7 @@ public class PlayerController : MonoBehaviour
             {
                 SetState(State.walking);
             }
+            // Change to Idle
             else
             {
                 SetState(State.idle);
@@ -451,11 +472,14 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // Gets target direction from initial direction
             float targetRot = Mathf.Atan2(m_DodgeDirection.x, m_DodgeDirection.z) * Mathf.Rad2Deg;
+            // If a direction is inputted, move relative to camera
             if(m_DodgeDirection.x != 0 || m_DodgeDirection.z != 0)
             {
                 targetRot += m_Camera.transform.eulerAngles.y;
             }
+            // Rotates towards dirction
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref m_TurnVel, TURN_TIME);
             float speed = ROLL_SPEED * m_DodgeDirection.magnitude;
             if(m_Run)
@@ -467,13 +491,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /* What the player does when they are Aim/Throwing
-    * 
-    * states that can be transitioned to : Dodge, Block, Previous
-    */
+    /**
+     * What the player does when they are Aim/Throwing
+     * 
+     * states that can be transitioned to : Dodge, Block, Previous
+     */
     private void Throwing()
     {
-        //cancel
+        //cancel aiming
         if (!input.Aim() || input.AimCancel())
         {
             GameObject.Find("GUI").GetComponent<GUIManager>().AimOff();
@@ -516,6 +541,7 @@ public class PlayerController : MonoBehaviour
                 SetState(m_PrevState);
             return;
         }
+        //Rotate and move around when aiming
         else
         {
             m_Camera.GetComponent<ThirdPersonCamera>().AimOn();
@@ -536,10 +562,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    /* What the player does when they are recalling the shield
-    * 
-    * states that can be transitioned to : Dodge, Block, Combat, Previous
-    */
+    /**
+     * What the player does when they are recalling the shield
+     * 
+     * states that can be transitioned to : Dodge, Block, Combat, Previous
+     */
     private void Recall()
     {
         // If the shield has been caught
@@ -555,22 +582,20 @@ public class PlayerController : MonoBehaviour
             else if (input.Melee())
                 SetState(State.combat);
             else if (input.Vert() == 0 && input.Hori() == 0)
-            {
                 SetState(State.idle);
-            }
             else
-            {
                 SetState(State.walking);
-            }
         }
     }
 
-    /* What the player does when they are in combat
-    * 
-    * states that can be transitioned to : Dodge, Block, Combat, Previous
-    */
+    /**
+     * What the player does when they are in combat
+     * 
+     * states that can be transitioned to : Dodge, Block, Combat, Previous
+     */
     private void Combat()
     {
+        //slide on attack frames to make attacks feel natural
         if (m_AnimFlags.CombatMove())
         {
             float speed = 1.5f;
@@ -585,6 +610,7 @@ public class PlayerController : MonoBehaviour
             transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
         }
 
+        // if hitbox is active, check combat
         if(m_AnimFlags.CombatHitboxActive())
         {
             // Detect enemies in range
@@ -600,16 +626,9 @@ public class PlayerController : MonoBehaviour
                 hitEnemies.AddRange(Physics.OverlapSphere(m_Foot.position, ATTACK_RANGE, m_EnemyLayer));
             }
 
+            // List of all enemies hit and are distinct
             List<Collider> distinct = hitEnemies.Distinct().ToList();
 
-            if(distinct.Count == 0)
-            {
-                Time.timeScale = 1f;
-            }
-            else
-            {
-                //Time.timeScale = 0.55f;
-            }
             //Damage/effects enemies
             foreach (Collider enemy in distinct)
             {
@@ -623,6 +642,7 @@ public class PlayerController : MonoBehaviour
                     enemy.GetComponent<Rigidbody>().AddForce(transform.forward * FIST_KNOCKBACK, ForceMode.Impulse);
                 }
 
+                // skip if enemy has already been damaged
                 if (m_AlreadyHit.ContainsKey(enemy.gameObject.name))
                 {
                     continue;
@@ -641,14 +661,9 @@ public class PlayerController : MonoBehaviour
                 m_AlreadyHit.Add(enemy.gameObject.name, enemy.gameObject);
                 
             }
-        }
-        else
-        {
-            Time.timeScale = 1f;
-        }
-        
+        }        
 
-        //Next states
+        //Buffers next hit
         if (input.Melee() && !m_CombatBuffered && Time.time - m_TimeBetweenCombo > DELAY_BETWEEN_COMBO )
         {
             m_CombatBuffered = true;
@@ -665,10 +680,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (m_AnimFlags.CombatStatus())
+        // Sets up next state after attack is over
+        if (!m_AnimFlags.CombatStatus())
         {
             m_Anim.SetBool("Combat", false);
-            m_Anim.SetBool("CombatSpecial", false);
             if (m_CombatBuffered)
             {
                 SetState(State.combat);
@@ -685,10 +700,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /* What the player does when they are blocking
-    * 
-    * states that can be transitioned to : Dodge, Combat, Previous
-    */
+    /**
+     * What the player does when they are blocking
+     * 
+     * states that can be transitioned to : Dodge, Combat, Previous
+     */
     private void Block()
     {
         if(!input.Block() || input.BlockCancel())
@@ -709,6 +725,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /**
+     * What the player does when they are hit
+     * 
+     * states that can be transitioned to : Idle
+     */
     private void Hit()
     {
         if(!m_AnimFlags.HitStatus())
@@ -717,13 +738,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /* When the lockon button is pressed, how it affects the player
+    /**
+     * When the lockon button is pressed, how it affects the player
      * 
      * Will turn the player towards the locked on target
      */
     private void LockedOn()
     {
+        // get focus that should be faced towards
         Transform thing = m_Camera.GetComponent<ThirdPersonCamera>().GetLockedOnTarget();
+        // Unlock if target is dead
         if (thing == null || thing.GetComponent<Stats>().IsDead())
         {
             m_LockedOn = false;
@@ -731,6 +755,7 @@ public class PlayerController : MonoBehaviour
             m_Camera.GetComponent<ThirdPersonCamera>().LockOff();
             return;
         }
+        //Rotates towards target
         Vector3 lookdir = thing.position - transform.position;
         lookdir.Normalize();
         lookdir.y = 0;
@@ -738,11 +763,12 @@ public class PlayerController : MonoBehaviour
         m_Anim.SetBool("LockedOn", m_LockedOn);
     }
 
-    /* Draws Gizmos when object is selected 
+    /**
+     * Draws Gizmos when object is selected 
      * 
-     * Draw the hit box
+     * Draw the hit boxes
      */
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if(m_LeftFist == null || m_RightFist == null || m_Foot == null)
         {
@@ -760,6 +786,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /**
+     * Status if player is aiming
+     * 
+     * return : if player is aiming or not
+     */
     public bool isAiming()
     {
         if(m_State == State.throwing)
@@ -769,31 +800,48 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void GotHit(int t_Damage, bool t_Blockable)
+    /**
+     * Status if player has gotten hit
+     * 
+     * t_Damage : damage that will be dealt
+     * t_Stagger : If player will be staggered
+     */
+    public void GotHit(int t_Damage, bool t_Stagger = false)
     {
-        if(m_State == State.dodge)
+        // If in dodge, nothing to worry about
+        if(m_State == State.dodge && m_AnimFlags.DodgeStatus())
         {
             return;
         }
-        else if (m_State == State.block && t_Blockable)
+
+        // If attack is not staggerable and blocking
+        else if (m_State == State.block && !t_Stagger)
         {
             m_Stats.Damage(t_Damage/4);
             return;
         }
         m_Stats.Damage(t_Damage);
+        // If dead after damage don't do anything
         if (m_Stats.IsDead())
         {
             return;
         }
+        // Sets stagger
         m_AnimFlags.HitStart();
         SetState(State.hit);
     }
 
+    /**
+     * Set player to pause
+     */
     public void Pause()
     {
         m_Paused = true;
     }
 
+    /**
+     * Set player to unpause
+     */
     public void Resume()
     {
         m_Paused = false;

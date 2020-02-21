@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/**
+ * File: EnemyController.cs 
+ * Author: Derek Nguyen
+ * 
+ * Child Class for EnemyController
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +14,12 @@ public class CasterController : EnemyController
     public GameObject m_Fireball;
     private float m_ThrowStrength = 20f;
 
+    /**
+     * What happesn on start frame
+     * 
+     * Gathers all components that are needed and initializes the object
+     * Sets stats specific for casters
+     */
     public override void Start()
     {
         base.Start();
@@ -18,6 +30,12 @@ public class CasterController : EnemyController
         m_HitSphereRange = 0.0f;
 }
 
+    /**
+      * Player actions for when they are in combat phase
+      * 
+      * override for base Combat
+      * throw fireball during specific frame
+      */
     protected override void Combat()
     {
         base.Combat();

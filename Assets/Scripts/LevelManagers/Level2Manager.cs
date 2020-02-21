@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/**
+ * File: Level2Manager.cs 
+ * Author: Derek Nguyen
+ * 
+ * Override for LevelManager
+ * LevelManager for level 2
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +18,11 @@ public class Level2Manager : LevelManager
     [SerializeField]
     private List<GameObject> m_Enemies = new List<GameObject>();
 
-    // Start is called before the first frame update
+    /**
+     * What happesn on start frame
+     * 
+     * Gathers all components that are needed and initializes the object
+     */
     public override void Start()
     {
         base.Start();
@@ -24,24 +35,30 @@ public class Level2Manager : LevelManager
         }
     }
 
-    // Update is called once per frame
+    /**
+     * What happens every frame
+     * 
+     * If no enemies, set the level to completed
+     */
     public override void Update()
     {
         base.Update();
 
-        if (m_Enemies.Count == 0 && !base.IsCompleted())
+        if (m_Enemies.Count == 0 && !m_Completed)
         {
-            base.SetCompleted(true);
+            m_Completed = true;
+            m_Gate.SetActive(true);
         }
     }
 
+    /**
+     * What happens every fixed amount of frames
+     * 
+     * If enemy is dead, remove from list of enemies
+     */
     private void FixedUpdate()
     {
-        if(base.IsCompleted())
-        {
-            m_Gate.SetActive(true);
-        }
-        else
+        if(!m_Completed)
         {
             foreach (GameObject enemy in m_Enemies)
             {
@@ -54,6 +71,9 @@ public class Level2Manager : LevelManager
         }
     }
 
+    /**
+     * If the level is paused, pause all enemies
+     */
     public override void Pause()
     {
         base.Pause();
@@ -63,6 +83,9 @@ public class Level2Manager : LevelManager
         }
     }
 
+    /**
+     * If the level is unpaused, activate all enemies
+     */
     public override void Resume()
     {
         base.Resume();

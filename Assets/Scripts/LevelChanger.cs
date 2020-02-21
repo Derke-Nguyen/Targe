@@ -1,50 +1,74 @@
-﻿using System.Collections;
+﻿/**
+ * File: PlayerController.cs 
+ * Author: Derek Nguyen
+ * 
+ * Class responsible for changing the level
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelChanger : MonoBehaviour
 {
-    public Animator anim;
-    private int levelToLoad;
+    // animator to handle scene transitions
+    public Animator m_Anim;
+    private int m_LevelToLoad;
 
-    // Start is called before the first frame update
+    /**
+     * What happesn on start frame
+     * 
+     * Gathers all components that are needed and initializes the object
+     */
     void Start()
     {
-        anim = GetComponent<Animator>();
+        m_Anim = GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
- 
-    }
-
+    /**
+     * Fades screen to next level
+     * 
+     * Gets current build index and goes one up
+     */
     public void FadeToNextLevel()
     {
         FadeToLevel(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void FadeToLevel(int levelIndex, bool completed = false)
+    /**
+     * Fades screen to chosen level
+     * 
+     * t_LevelIndex : the level to load
+     */
+    public void FadeToLevel(int t_LevelIndex)
     {
-        levelToLoad = levelIndex;
-        anim.SetTrigger("FadeOut");
+        m_LevelToLoad = t_LevelIndex;
+        m_Anim.SetTrigger("FadeOut");
     }
 
+    /**
+     * When fade finishes, move to next level
+     */
     public void OnFadeComplete()
     {
-        SceneManager.LoadScene(levelToLoad);
+        SceneManager.LoadScene(m_LevelToLoad);
     }
 
+    /**
+     * When quitting application
+     */
     public void ToQuit()
     {
         Application.Quit();
     }
 
+    /**
+     * when resetting level, just load current level
+     */
     public void Reset()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        FadeToLevel(SceneManager.GetActiveScene().buildIndex);
     }
 }

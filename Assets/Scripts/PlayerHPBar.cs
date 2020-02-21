@@ -1,15 +1,27 @@
-﻿using System.Collections;
+﻿/**
+ * File: PlayerHPBar.cs 
+ * Author: Derek Nguyen
+ * 
+ * Manager for player health bar
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHPBar : MonoBehaviour
 {
+    // The main health bar that is drawn
     public Slider m_HPBar;
+    // The aftereffect that follows the main healthbar
     public Slider m_HPBarAfter;
+    // The Boss's health status
     public Stats m_Health;
-    
-    // Start is called before the first frame update
+
+    /* What happesn on start frame
+     * 
+     * Gathers all components that are needed and initializes the object
+     */
     void Start()
     {
         m_Health = GameObject.Find("player").GetComponent<Stats>();
@@ -23,12 +35,19 @@ public class PlayerHPBar : MonoBehaviour
         m_HPBarAfter.value = m_HPBar.value;
     }
 
-    // Update is called once per frame
+    /* What happens every frame
+     * 
+     * Sets health bar's value as actual heatlh
+     */
     void Update()
     {
         m_HPBar.value = m_Health.GetHealth();
     }
 
+    /* What happens every fixed amount of frames
+     * 
+     * Makes aftereffect follow actual healthbar
+     */
     private void FixedUpdate()
     {
         if (m_HPBarAfter.value > m_HPBar.value)

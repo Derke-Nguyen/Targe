@@ -583,7 +583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GUI: {fileID: 0}
   input: {fileID: 0}
-  m_Enemy: {fileID: 0}
+  m_Boss: {fileID: 0}
   victoryScreen: {fileID: 318442704}
 --- !u!4 &535488484
 Transform:
@@ -1334,6 +1334,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9090929237004439982, guid: 9a63b758dda04fa4ab5da63cf40231d7,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a63b758dda04fa4ab5da63cf40231d7, type: 3}
 --- !u!1001 &1392592431
@@ -1818,6 +1823,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d668fced955c6994893b11b5fb3121f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_HPBar: {fileID: 0}
+  m_HPBarAfter: {fileID: 0}
   m_Health: {fileID: 2056637254}
 --- !u!1 &1815634323
 GameObject:
